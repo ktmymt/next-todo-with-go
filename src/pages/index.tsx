@@ -8,7 +8,6 @@ interface Props {
 }
 
 const Home: NextPage<Props> = props => {
-  console.log(props);
   return (
     <div>
       <p>{props.data.title}</p>
@@ -18,12 +17,12 @@ const Home: NextPage<Props> = props => {
 }
 
 Home.getInitialProps = async () => {
-  const res = await fetch('http://localhost:8000/todo');
+  const res = await fetch('http://localhost:8000/todos');
   const json = await res.json();
   return {
     data: {
       title: json.title,
-      description: json.descritpion
+      description: json.description,
     }
   };
 }
