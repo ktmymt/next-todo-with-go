@@ -14,11 +14,11 @@ const Home: NextPage<Props> = props => {
   return (
     <div>
       <ul>
-        {props.todos.map(todo => {
+        {props.todos.map((todo, index) => {
           return (
-            <li key={todo.id}>
-              {todo.title}
-              {todo.description}
+            <li key={index}>
+              <p>{todo.title}</p>
+              <p>{todo.description}</p>
             </li>
           )
         })}
