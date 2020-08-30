@@ -4,10 +4,10 @@ const TodoList = props => {
   return(
     <div>
       <ul>
-       { props.todos.todos.map((todo, index) => {
+       { Object.values(props.todos).map((todo: Todo, index) => {
           return (
             <li key={index}>
-              <Todo title={todo.title} description={todo.description} isDone={todo.isDone}/>
+              <Todo title={todo.title} isDone={todo.isDone}/>
             </li>
           )
         }) }   
