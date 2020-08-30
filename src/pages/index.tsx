@@ -1,36 +1,17 @@
-import { NextPage } from 'next'
+import TodoList from '../components/TodoList'
 
- interface Props {
-  todos: Todo[]
-}
-
-type Todo = {
-  id: string;
-  title: string;
-  description: string;
-}
-
-const Home: NextPage<Props> = props => {
+const Home = todos => {
   return (
     <div>
-      <ul>
-        {props.todos.map((todo, index) => {
-          return (
-            <li key={index}>
-              <p>{todo.title}</p>
-              <p>{todo.description}</p>
-            </li>
-          )
-        })}
-      </ul>
+      <TodoList todos={todos}/>
     </div>
   )
 }
 
 Home.getInitialProps = async () => {
-  const res = await fetch('http://localhost:8000/todos');
+  const res = await fetch("http://localhost:8000/todos");
   const json = await res.json();
-  return { todos: json.data.map(todo => todo) };
+  return { todos: json.data.map(todo => todo )};
 }
 
 export default Home;
