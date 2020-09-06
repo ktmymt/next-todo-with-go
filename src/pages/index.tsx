@@ -1,11 +1,15 @@
 import TodoInput from '../components/TodoInput';
-import TodoList from '../components/TodoList'
+import TodoList from '../components/TodoList';
+import BaseText from '../components/BaseText';
 
 const Home = todos => {
   return (
     <div>
       <TodoInput />
-      <TodoList todos={todos}/>
+      <BaseText text="Today" className="today" />
+      <TodoList todos={todos} />
+      <BaseText text="Upcoming" className="upcoming" />
+      <TodoList todos={todos} />
     </div>
   )
 }
