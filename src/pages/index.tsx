@@ -3,7 +3,7 @@ import TodoSide from '../components/TodoSide';
 
 const Home = todos => {
   return (
-    <div>
+    <div className="flex">
       <ProjectSide />
       <TodoSide todos={todos} /> 
     </div>
