@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-interface Todo {
+type Todo = {
   title: string;
   isDone: boolean;
 }

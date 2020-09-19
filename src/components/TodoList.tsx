@@ -1,6 +1,12 @@
+import React, { FC } from 'react';
+
 import Todo from "./Todo";
 
-const TodoList = props => {
+type Props = {
+  todos: Todo[];
+}
+
+const TodoList: FC<Props> = props => {
   return(
     <div>
       <ul>
