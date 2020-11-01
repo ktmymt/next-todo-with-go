@@ -1,26 +1,24 @@
-import { FC, useState } from 'react';
-import TodoList from './TodoList';
+import { FC, useState } from "react"
+import TodoList from "./TodoList"
 
 const TodoInput: FC = () => {
+  const [inputTodo, setInputTodo] = useState("")
 
-  
-  const [inputTodo, setInputTodo] = useState("");
-
-  const handleInput = e => {
-    setInputTodo(e.target.value);
+  const handleInput = (e) => {
+    setInputTodo(e.target.value)
   }
 
   const addTodo = () => {
-    fetch('http://localhost:8000/api/todo', {
-      method: 'POST',
+    fetch("http://localhost:8000/api/todo", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: inputTodo
-      })
-    }).then(res => {
-      console.log(res);
+        title: inputTodo,
+      }),
+    }).then((res) => {
+      console.log(res)
     })
   }
 
@@ -32,4 +30,4 @@ const TodoInput: FC = () => {
   )
 }
 
-export default TodoInput;
+export default TodoInput

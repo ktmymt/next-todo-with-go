@@ -1,19 +1,31 @@
-import ProjectSide from '../components/ProjectSide';
-import TodoSide from '../components/TodoSide';
+import { NextPage } from "next"
+import ProjectSide from "../components/ProjectSide"
+import TodoSide from "../components/TodoSide"
 
-const Home = todos => {
+// styles
+import styled from "styled-components"
+const AppContainer = styled.div`
+  display: flex;
+`
+
+interface ITodo {
+  title: string
+  isDone: boolean
+}
+
+const Home: NextPage<ITodo> = (todos: ITodo) => {
   return (
-    <div className="flex">
+    <AppContainer>
       <ProjectSide />
-      <TodoSide todos={todos} /> 
-    </div>
+      <TodoSide todos={todos} />
+    </AppContainer>
   )
 }
 
 Home.getInitialProps = async () => {
-  const res = await fetch("http://localhost:8000/api/todos");
-  const json = await res.json();
-  return json.data.map(todo => todo );
+  const res = await fetch("http://localhost:8000/api/todos")
+  const json = await res.json()
+  return json.data.map((todo) => todo)
 }
 
-export default Home;
+export default Home

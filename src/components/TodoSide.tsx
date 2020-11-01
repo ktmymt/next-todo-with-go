@@ -1,9 +1,12 @@
-import React, { FC } from 'react';
+import { NextPage } from 'next';
 import TodoInput from '../components/TodoInput';
 import TodoList from '../components/TodoList';
-import BaseText from '../components/BaseText';
+import BaseText from './atoms/BaseText';
 
-const TodoSide = todos => {
+// styles
+import { TodoSideContainer } from '../../styles/TodoSide.styles';
+
+const TodoSide: NextPage = (todos) => {
   return (
     <div>
       <TodoInput />
@@ -11,14 +14,14 @@ const TodoSide = todos => {
       <TodoList todos={todos} />
       <BaseText text="Upcoming" className="upcoming" />
       <TodoList todos={todos} />
-    </div> 
-  )
-}
+    </div>
+  );
+};
 
 TodoSide.getInitialProps = async () => {
-  const res = await fetch("http://localhost:8000/api/todos");
+  const res = await fetch('http://localhost:8000/api/todos');
   const json = await res.json();
-  return json.data.map(todo => todo);
-}
+  return json.data.map((todo) => todo);
+};
 
 export default TodoSide;

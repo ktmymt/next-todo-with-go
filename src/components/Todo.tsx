@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC } from "react"
 
 type Todo = {
-  title: string;
-  isDone: boolean;
+  title: string
+  isDone: boolean
 }
 
-const Todo: FC<Todo>= ({ title, isDone }) => {
+const Todo: FC<Todo> = ({ title, isDone }) => {
   return (
     <div>
       <p>{title}</p>
@@ -14,4 +14,4 @@ const Todo: FC<Todo>= ({ title, isDone }) => {
   )
 }
 
-export default Todo;
+export default Todo

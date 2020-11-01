@@ -1,25 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC } from "react"
 
-import Todo from "./Todo";
+import Todo from "./Todo"
 
 type Props = {
-  todos: Todo[];
+  todos: Todo[]
 }
 
-const TodoList: FC<Props> = props => {
-  return(
+const TodoList: FC<Props> = (props) => {
+  return (
     <div>
       <ul>
-       { Object.values(props.todos).map((todo: Todo, index) => {
+        {Object.values(props.todos).map((todo: Todo, index) => {
           return (
             <li key={index}>
-              <Todo title={todo.title} isDone={todo.isDone}/>
+              <Todo title={todo.title} isDone={todo.isDone} />
             </li>
           )
-        }) }   
+        })}
       </ul>
     </div>
   )
 }
 
-export default TodoList;
+export default TodoList
