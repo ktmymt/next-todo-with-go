@@ -3,8 +3,8 @@ import ProjectSide from "../components/ProjectSide"
 import TodoSide from "../components/TodoSide"
 
 // styles
-import styled from "styled-components"
-const AppContainer = styled.div`
+import { css } from "@emotion/react"
+const appContainer = css`
   display: flex;
 `
 
@@ -15,10 +15,10 @@ interface ITodo {
 
 const Home: NextPage<ITodo> = (todos: ITodo) => {
   return (
-    <AppContainer>
+    <div css={appContainer}>
       <ProjectSide />
       <TodoSide todos={todos} />
-    </AppContainer>
+    </div>
   )
 }
 

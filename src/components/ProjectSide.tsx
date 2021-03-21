@@ -1,11 +1,15 @@
-import React, { FC } from "react"
+import { FC } from "react"
+import { css } from "@emotion/react"
 
 // styles
-import { ProjectSideContainer } from "../../styles/ProjectSide.styles"
+const projectSideStyle = css`
+  background-color: #262a40;
+  color: #3c3f53;
+`
 
 const ProjectSide: FC = () => {
   return (
-    <ProjectSideContainer>
+    <div css={projectSideStyle}>
       <h2 className="text-4xl text-white">Hi Kota.</h2>
       <p className="text-gray-700">Welcome back to the workspace. We missed you!</p>
       <input
@@ -13,7 +17,7 @@ const ProjectSide: FC = () => {
         className="bg-gray-700 text-gray-500 rounded"
         placeholder="Search Task or Project..."
       />
-    </ProjectSideContainer>
+    </div>
   )
 }
 
