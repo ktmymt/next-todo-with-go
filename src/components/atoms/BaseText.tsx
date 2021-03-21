@@ -1,13 +1,12 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
+import { FC } from "react"
 
 type Props = {
-  text: string;
-  className: string;
-};
+  text: string
+  className: string
+}
 
 const BaseText: FC<Props> = (props) => {
-  return <p className={props.className}>{props.text}</p>;
-};
+  return <p className={props.className}>{props.text}</p>
+}
 
-export default BaseText;
+export default BaseText
