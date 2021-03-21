@@ -1,13 +1,14 @@
+import React from "react"
 import { AppProps } from "next/app"
-import Head from "next/head"
+import { CacheProvider } from "@emotion/react"
+import { cache } from "@emotion/css"
 
-const App = ({ Component, pageProps }: AppProps) => (
-  <>
-    <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1k" />
-    </Head>
-    <Component {...pageProps} />
-  </>
-)
+const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+  return (
+    <CacheProvider value={cache}>
+      <Component {...pageProps} />
+    </CacheProvider>
+  )
+}
 
-export default App
+export default MyApp
