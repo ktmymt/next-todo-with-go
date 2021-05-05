@@ -31,8 +31,8 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
-        <h2 className="text-4xl text-white">Hi Kota.</h2>
-        <p className="text-gray-700">Welcome back to the workspace. We missed you!</p>
+        <BaseText text="Hi Jack." styles="sizeM white bold" />
+        <BaseText text="Welcome back to the workspace. We missed you!" styles="sizeS lightGray" />
         <input
           type="text"
           className="bg-gray-700 text-gray-500 rounded"
@@ -41,9 +41,9 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
       </div>
       <div css={todoSideStyle}>
         <TodoInput />
-        <BaseText text="Today" className="today" />
-        <TodoList todos={todos} />
-        <BaseText text="Upcoming" className="upcoming" />
+        {/* <BaseText text="Today" className="today" /> */}
+        {/* <TodoList todos={todos} /> */}
+        {/* <BaseText text="Upcoming" className="upcoming" /> */}
         <TodoList todos={todos} />
       </div>
     </div>
