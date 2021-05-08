@@ -16,10 +16,18 @@ const projectSideStyle = css`
   height: 100vh;
 `
 
+const projectSideContainerStyle = css`
+  padding: 100px;
+`
+
 const todoSideStyle = css`
   background-color: #ffffff;
   width: 50vw;
   height: 100vh;
+`
+
+const todoSideContainerStyle = css`
+  padding: 60px;
 `
 
 interface ITodo {
@@ -31,20 +39,24 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
-        <BaseText text="Hi Jack." styles="sizeM white bold" />
-        <BaseText text="Welcome back to the workspace. We missed you!" styles="sizeS lightGray" />
-        <input
-          type="text"
-          className="bg-gray-700 text-gray-500 rounded"
-          placeholder="Search Task or Project..."
-        />
+        <div css={projectSideContainerStyle}>
+          <BaseText text="Hi Jack." styles="sizeM white bold" />
+          <BaseText text="Welcome back to the workspace. We missed you!" styles="sizeS lightGray" />
+          <input
+            type="text"
+            className="bg-gray-700 text-gray-500 rounded"
+            placeholder="Search Task or Project..."
+          />
+        </div>
       </div>
       <div css={todoSideStyle}>
-        <TodoInput />
-        {/* <BaseText text="Today" className="today" /> */}
-        {/* <TodoList todos={todos} /> */}
-        {/* <BaseText text="Upcoming" className="upcoming" /> */}
-        <TodoList todos={todos} />
+        <div css={todoSideContainerStyle}>
+          <TodoInput />
+          {/* <BaseText text="Today" className="today" /> */}
+          {/* <TodoList todos={todos} /> */}
+          {/* <BaseText text="Upcoming" className="upcoming" /> */}
+          <TodoList todos={todos} />
+        </div>
       </div>
     </div>
   )
