@@ -1,9 +1,11 @@
-import { NextPage } from "next"
+import { NextPage, GetServerSideProps } from "next"
 import { css } from "@emotion/react"
 
 // components
 import TodoInput from "../components/TodoInput"
+import ProjectCardList from "../components/organisms/Project/ProjectCardList"
 import BaseText from "../components/atoms/BaseText"
+import BaseInput from "../components/atoms/BaseInput"
 import TodoList from "../components/TodoList"
 
 // styles
@@ -40,13 +42,10 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
     <div css={appStyle}>
       <div css={projectSideStyle}>
         <div css={projectSideContainerStyle}>
-          <BaseText text="Hi Jack." styles="sizeM white bold" />
+          <BaseText text="Hi Jack." styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace. We missed you!" styles="sizeS lightGray" />
-          <input
-            type="text"
-            className="bg-gray-700 text-gray-500 rounded"
-            placeholder="Search Task or Project..."
-          />
+          <BaseInput className="" placeholder="Search Task or Project..." />
+          <ProjectCardList />
         </div>
       </div>
       <div css={todoSideStyle}>
@@ -62,10 +61,10 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
   )
 }
 
-Home.getInitialProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch("http://localhost:8000/api/todos")
-  const json = await res.json()
-  return json.data.map((todo) => todo)
+  const todos = await res.json()
+  return { props: { todos } }
 }
 
 export default Home
