@@ -9,6 +9,7 @@ type Props = {
 const baseStyle = css`
   font-size: 1.2rem;
   padding: 0;
+  margin: 0;
 `
 
 const optionalStyles = {
