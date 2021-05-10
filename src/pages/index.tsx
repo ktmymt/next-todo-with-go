@@ -19,7 +19,12 @@ const projectSideStyle = css`
 `
 
 const projectSideContainerStyle = css`
-  padding: 100px;
+  padding: 200px;
+  width: 50%;
+
+  p:nth-child(2) {
+    margin: 15px 0 40px 0;
+  }
 `
 
 const todoSideStyle = css`
@@ -43,7 +48,7 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
       <div css={projectSideStyle}>
         <div css={projectSideContainerStyle}>
           <BaseText text="Hi Jack." styles="sizeL white bold" />
-          <BaseText text="Welcome back to the workspace. We missed you!" styles="sizeS lightGray" />
+          <BaseText text="Welcome back to the workspace. We missed you!" styles=" lightGray" />
           <BaseInput className="" placeholder="Search Task or Project..." />
           <ProjectCardList />
         </div>

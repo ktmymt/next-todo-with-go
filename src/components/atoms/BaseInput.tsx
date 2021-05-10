@@ -8,10 +8,12 @@ type Props = {
 
 const inputStyle = css`
   background-color: #3d3f53;
-  width: 80%;
+  width: 75%;
   padding: 20px;
   border: none;
   border-radius: 15px;
+  outline: 0;
+  color: white;
 
   &::placeholder {
     color: #caccd1;
