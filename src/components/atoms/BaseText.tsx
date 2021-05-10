@@ -17,7 +17,7 @@ const optionalStyles = {
     font-weight: bold;
   `,
   sizeL: css`
-    font-size: 2.4rem;
+    font-size: 2.8rem;
   `,
   sizeM: css`
     font-size: 1.8rem;
@@ -28,11 +28,17 @@ const optionalStyles = {
   white: css`
     color: #fff;
   `,
+  veryLightGray: css`
+    color: #d1d4d8;
+  `,
   lightGray: css`
     color: #696c7b;
   `,
   darkGray: css`
     color: #24273e;
+  `,
+  textCenter: css`
+    text-align: center;
   `,
 }
 
