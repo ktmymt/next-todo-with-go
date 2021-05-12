@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { css } from "@emotion/react"
+import { Colors } from "../../styles/colors"
 
 type Props = {
   text: string
@@ -26,19 +27,23 @@ const optionalStyles = {
     font-size: 1rem;
   `,
   white: css`
-    color: #fff;
+    color: ${Colors.white};
   `,
   veryLightGray: css`
-    color: #d1d4d8;
+    color: ${Colors.veryLightGray};
   `,
   lightGray: css`
-    color: #696c7b;
+    color: ${Colors.lightGray};
   `,
   darkGray: css`
-    color: #24273e;
+    color: ${Colors.darkGray};
   `,
   textCenter: css`
     text-align: center;
+  `,
+  underbar: css`
+    border-bottom: 1px solid;
+    padding-bottom: 20px;
   `,
 }
 

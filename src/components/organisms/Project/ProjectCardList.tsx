@@ -2,8 +2,13 @@ import { FC } from "react"
 import BaseText from "../../atoms/BaseText"
 import ProjectCard from "./ProjectCard"
 
-import { projects, IProject } from "../../../types/Project"
+import { IProject } from "../../../types/Project"
 import { css } from "@emotion/react"
+import { Colors } from "../../../styles/colors"
+
+interface Props {
+  projects: IProject[]
+}
 
 const projectCardListContainerStyle = css`
   margin-top: 100px;
@@ -18,7 +23,7 @@ const projectCardListHeaderStyle = css`
   }
 
   span {
-    color: #696c7b;
+    color: ${Colors.lightGray};
   }
 `
 
@@ -27,7 +32,7 @@ const projectCardListContentStyle = css`
   justify-content: space-between;
 `
 
-const ProjectCardList: FC = () => {
+const ProjectCardList: FC<Props> = (props) => {
   return (
     <div css={projectCardListContainerStyle}>
       <div css={projectCardListHeaderStyle}>
@@ -36,7 +41,7 @@ const ProjectCardList: FC = () => {
       </div>
 
       <div css={projectCardListContentStyle}>
-        {projects.map((project: IProject) => {
+        {props.projects.map((project: IProject) => {
           return <ProjectCard key={project.id} project={project} />
         })}
       </div>
