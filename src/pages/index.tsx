@@ -2,18 +2,21 @@ import { NextPage, GetServerSideProps } from "next"
 import { css } from "@emotion/react"
 
 // components
-import TodoInput from "../components/TodoInput"
+import TodoInput from "../components/organisms/Todo/TodoInput"
 import ProjectCardList from "../components/organisms/Project/ProjectCardList"
 import BaseText from "../components/atoms/BaseText"
 import BaseInput from "../components/atoms/BaseInput"
-import TodoList from "../components/TodoList"
+import TodoList from "../components/organisms/Todo/TodoList"
+import { projects } from "../types/Project"
 
 // styles
+import { Colors } from "../styles/colors"
+
 const appStyle = css`
   display: flex;
 `
 const projectSideStyle = css`
-  background-color: #272a41;
+  background-color: ${Colors.mainColor};
   width: 50vw;
   height: 100vh;
 `
@@ -28,21 +31,26 @@ const projectSideContainerStyle = css`
 `
 
 const todoSideStyle = css`
-  background-color: #ffffff;
+  background-color: ${Colors.white};
   width: 50vw;
   height: 100vh;
 `
 
 const todoSideContainerStyle = css`
-  padding: 60px;
+  padding: 100px;
 `
-
 interface ITodo {
   title: string
   isDone: boolean
 }
 
 const Home: NextPage<ITodo> = (todos: ITodo) => {
+  const selectedProject = projects.filter((project) => {
+    if (project.selected) {
+      return project
+    }
+  })
+
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
@@ -50,16 +58,18 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
           <BaseText text="Hi Jack." styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace. We missed you!" styles=" lightGray" />
           <BaseInput className="" placeholder="Search Task or Project..." />
-          <ProjectCardList />
+          <ProjectCardList projects={projects} />
         </div>
       </div>
       <div css={todoSideStyle}>
         <div css={todoSideContainerStyle}>
+          <BaseText text={selectedProject[0].name} styles="sizeM" />
+          <BaseText text={selectedProject[0].outline} styles="sizeS lightGray" />
           <TodoInput />
-          {/* <BaseText text="Today" className="today" /> */}
-          {/* <TodoList todos={todos} /> */}
-          {/* <BaseText text="Upcoming" className="upcoming" /> */}
-          <TodoList todos={todos} />
+          <div>
+            <TodoList title="Today" todos={todos} />
+            <TodoList title="Upcoming" todos={todos} />
+          </div>
         </div>
       </div>
     </div>
