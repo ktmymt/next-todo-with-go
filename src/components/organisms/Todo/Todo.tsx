@@ -1,15 +1,18 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 
-type Todo = {
-  title: string
-  isDone: boolean
+// components
+import { BaseText } from "../../atoms"
+
+// types
+import { ITodo } from "../../../types/Todo"
+interface Props {
+  todo: ITodo
 }
 
-const Todo: FC<Todo> = ({ title, isDone }) => {
+const Todo: FC<Props> = (props) => {
   return (
     <div>
-      <p>{title}</p>
-      <input type="checkbox" checked={isDone} />
+      <BaseText text={props.todo.title} styles="" />
     </div>
   )
 }
