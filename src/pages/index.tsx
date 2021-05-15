@@ -2,11 +2,12 @@ import { NextPage, GetServerSideProps } from "next"
 import { css } from "@emotion/react"
 
 // components
-import TodoInput from "../components/organisms/Todo/TodoInput"
-import ProjectCardList from "../components/organisms/Project/ProjectCardList"
-import BaseText from "../components/atoms/BaseText"
-import BaseInput from "../components/atoms/BaseInput"
-import TodoList from "../components/organisms/Todo/TodoList"
+import { ProjectCardList } from "../components/organisms/Project"
+import { TodoInput, TodoList } from "../components/organisms/Todo"
+import { DotSquare } from "../components/organisms/Common"
+import { BaseText, BaseInput } from "../components/atoms"
+
+// types
 import { projects } from "../types/Project"
 
 // styles
@@ -54,6 +55,7 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
+        {/* <DotSquare /> */}
         <div css={projectSideContainerStyle}>
           <BaseText text="Hi Jack." styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace. We missed you!" styles=" lightGray" />
