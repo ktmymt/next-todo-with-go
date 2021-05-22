@@ -2,13 +2,14 @@ import { NextPage, GetServerSideProps } from "next"
 import { css } from "@emotion/react"
 
 // components
-import { ProjectCardList } from "../components/organisms/Project"
-import { TodoInput, TodoList } from "../components/organisms/Todo"
+import { ProjectCardList, ProjectInfo } from "../components/organisms/Project"
+import { Todo, TodoList } from "../components/organisms/Todo"
 import { DotSquare } from "../components/organisms/Common"
 import { BaseText, BaseInput } from "../components/atoms"
 
 // types
 import { projects } from "../types/Project"
+import { todos } from "../types/Todo"
 
 // styles
 import { Colors } from "../styles/colors"
@@ -40,12 +41,8 @@ const todoSideStyle = css`
 const todoSideContainerStyle = css`
   padding: 100px;
 `
-interface ITodo {
-  title: string
-  isDone: boolean
-}
 
-const Home: NextPage<ITodo> = (todos: ITodo) => {
+const Home: NextPage = () => {
   const selectedProject = projects.filter((project) => {
     if (project.selected) {
       return project
@@ -65,9 +62,7 @@ const Home: NextPage<ITodo> = (todos: ITodo) => {
       </div>
       <div css={todoSideStyle}>
         <div css={todoSideContainerStyle}>
-          <BaseText text={selectedProject[0].name} styles="sizeM" />
-          <BaseText text={selectedProject[0].outline} styles="sizeS lightGray" />
-          <TodoInput />
+          <ProjectInfo project={selectedProject[0]} />
           <div>
             <TodoList title="Today" todos={todos} />
             <TodoList title="Upcoming" todos={todos} />

@@ -3,25 +3,31 @@ import BaseText from "../../atoms/BaseText"
 import { css } from "@emotion/react"
 
 import Todo from "./Todo"
+import { ITodo } from "../../../types/Todo"
 
-type Props = {
+interface Props {
   title: string
-  todos: Todo[]
+  todos: ITodo[]
 }
 
 const todoListContainerStyle = css`
   margin-top: 70px;
 `
 
+const todoListStyle = css`
+  list-style: none;
+  padding: 0;
+`
+
 const TodoList: FC<Props> = (props) => {
   return (
     <div css={todoListContainerStyle}>
       <BaseText text={props.title} styles="sizeM underbar" />
-      <ul>
-        {Object.values(props.todos).map((todo: Todo, index) => {
+      <ul css={todoListStyle}>
+        {Object.values(props.todos).map((todo: ITodo, index) => {
           return (
             <li key={index}>
-              <Todo title={todo.title} isDone={todo.isDone} />
+              <Todo todo={todo} />
             </li>
           )
         })}
