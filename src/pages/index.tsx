@@ -3,7 +3,7 @@ import { css } from "@emotion/react"
 
 // components
 import { ProjectCardList, ProjectInfo } from "../components/organisms/Project"
-import { Todo, TodoList } from "../components/organisms/Todo"
+import { TodoList } from "../components/organisms/Todo"
 import { DotSquare } from "../components/organisms/Common"
 import { BaseText, BaseInput } from "../components/atoms"
 
@@ -16,9 +16,9 @@ import { Colors } from "../styles/colors"
 
 const appStyle = css`
   display: flex;
+  background-color: ${Colors.mainColor};
 `
 const projectSideStyle = css`
-  background-color: ${Colors.mainColor};
   width: 50vw;
   height: 100vh;
 `
@@ -35,7 +35,9 @@ const projectSideContainerStyle = css`
 const todoSideStyle = css`
   background-color: ${Colors.white};
   width: 50vw;
-  height: 100vh;
+  height: 96vh;
+  margin: 22px;
+  border-radius: 20px;
 `
 
 const todoSideContainerStyle = css`
@@ -55,7 +57,7 @@ const Home: NextPage = () => {
         {/* <DotSquare /> */}
         <div css={projectSideContainerStyle}>
           <BaseText text="Hi Jack." styles="sizeL white bold" />
-          <BaseText text="Welcome back to the workspace. We missed you!" styles=" lightGray" />
+          <BaseText text="Welcome back to the workspace" styles=" lightGray" />
           <BaseInput className="" placeholder="Search Task or Project..." />
           <ProjectCardList projects={projects} />
         </div>
