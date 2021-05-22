@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, useState } from "react"
 import { css } from "@emotion/css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-regular-svg-icons"
@@ -19,23 +19,29 @@ const todoContainer = css`
   display: flex;
 `
 
-const checkIconStyle: React.CSSProperties = {
-  padding: 10,
-  fontSize: 30,
-  color: Colors.lightGreen,
-}
+const iconStyle = css`
+  padding: 10;
+  font-size: 2rem;
+  margin-right: 30px;
+`
 
-const circleIconStyle: React.CSSProperties = {
-  padding: 10,
-  fontSize: 30,
-  color: Colors.veryLightGray,
-}
+const checkIconStyle = (isDone: boolean) => css`
+  ${iconStyle}
+  color: ${Colors.lightGreen};
+  display: ${isDone ? "block" : "none"};
+`
+
+const circleIconStyle = (isDone: boolean) => css`
+  ${iconStyle}
+  color: ${Colors.veryLightGray};
+  display: ${isDone ? "none" : "block"};
+`
 
 const Todo: FC<Props> = (props) => {
   return (
     <div css={todoContainer}>
-      <FontAwesomeIcon icon={faCheckCircle} style={checkIconStyle} />
-      <FontAwesomeIcon icon={faCircle} style={circleIconStyle} />
+      <FontAwesomeIcon icon={faCheckCircle} css={checkIconStyle(props.todo.isDone)} />
+      <FontAwesomeIcon icon={faCircle} css={circleIconStyle(props.todo.isDone)} />
       <BaseText text={props.todo.title} styles="" />
     </div>
   )
