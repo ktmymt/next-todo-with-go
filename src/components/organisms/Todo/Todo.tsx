@@ -17,31 +17,30 @@ interface Props {
 // styles
 const todoContainer = css`
   display: flex;
+  line-height: 2.2;
 `
 
-const iconStyle = css`
-  padding: 10;
-  font-size: 2rem;
-  margin-right: 30px;
-`
-
-const checkIconStyle = (isDone: boolean) => css`
-  ${iconStyle}
-  color: ${Colors.lightGreen};
-  display: ${isDone ? "block" : "none"};
-`
-
-const circleIconStyle = (isDone: boolean) => css`
-  ${iconStyle}
-  color: ${Colors.veryLightGray};
-  display: ${isDone ? "none" : "block"};
+const iconStyle = (isDone: boolean) => css`
+  padding: 10px;
+  font-size: 1.8rem;
+  margin-right: 20px;
+  color: ${isDone ? Colors.lightGreen : Colors.veryLightGray};
 `
 
 const Todo: FC<Props> = (props) => {
+  const [isDone, setIsDone] = useState(false)
+
+  const onClickToggleCheck = () => {
+    setIsDone(!isDone)
+  }
+
   return (
     <div css={todoContainer}>
-      <FontAwesomeIcon icon={faCheckCircle} css={checkIconStyle(props.todo.isDone)} />
-      <FontAwesomeIcon icon={faCircle} css={circleIconStyle(props.todo.isDone)} />
+      <FontAwesomeIcon
+        icon={isDone ? faCheckCircle : faCircle}
+        css={iconStyle(isDone)}
+        onClick={onClickToggleCheck}
+      />
       <BaseText text={props.todo.title} styles="" />
     </div>
   )

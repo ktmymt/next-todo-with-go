@@ -16,6 +16,7 @@ const todoListContainerStyle = css`
 
 const todoListStyle = css`
   list-style: none;
+  padding: 0;
 `
 
 const TodoList: FC<Props> = (props) => {
