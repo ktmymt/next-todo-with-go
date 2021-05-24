@@ -4,6 +4,8 @@ import { css } from "@emotion/react"
 import { IProject } from "../../../types/Project"
 import BaseText from "../../atoms/BaseText"
 
+import { Colors } from "../../../styles/colors"
+
 interface Props {
   project: IProject
 }
@@ -11,7 +13,7 @@ interface Props {
 const projectCardStyle = css`
   width: 120px;
   height: 120px;
-  background-color: #fa36aa;
+  background-color: ${Colors.projectCards.pink};
   border-radius: 23px;
   text-align: center;
   position: relative;
@@ -21,7 +23,7 @@ const projectCardStyle = css`
     position: absolute;
     left: 45px;
     top: 15px;
-    color: white;
+    color: ${Colors.white};
   }
 `
 
