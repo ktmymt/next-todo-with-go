@@ -1,7 +1,7 @@
 export interface IProject {
   id: number
   name: string
-  outline: string
+  description: string
   selected: boolean
   active_at: Date
   created_at: Date
@@ -12,7 +12,7 @@ export const projects: IProject[] = [
   {
     id: 1,
     name: "project 1",
-    outline: "This is a project 1",
+    description: "This is a project 1",
     selected: true,
     active_at: new Date("2021, 1, 31"),
     created_at: new Date("2021, 1, 31"),
@@ -21,7 +21,7 @@ export const projects: IProject[] = [
   {
     id: 2,
     name: "project 2",
-    outline: "This is a project 2",
+    description: "This is a project 2",
     selected: false,
     active_at: new Date("2021, 5, 31"),
     created_at: new Date("2021, 5, 31"),
@@ -30,7 +30,7 @@ export const projects: IProject[] = [
   {
     id: 3,
     name: "project 3",
-    outline: "This is a project 3",
+    description: "This is a project 3",
     selected: false,
     active_at: new Date("2021, 3, 31"),
     created_at: new Date("2021, 3, 31"),
