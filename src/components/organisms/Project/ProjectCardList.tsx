@@ -33,10 +33,6 @@ const projectCardListContentStyle = css`
 `
 
 const ProjectCardList: FC<Props> = (props) => {
-  const recentActiveProjects = props.projects.sort((a, b) => {
-    return a.active_at > b.active_at ? 1 : -1
-  })
-
   return (
     <div css={projectCardListContainerStyle}>
       <div css={projectCardListHeaderStyle}>
@@ -45,7 +41,7 @@ const ProjectCardList: FC<Props> = (props) => {
       </div>
 
       <div css={projectCardListContentStyle}>
-        {recentActiveProjects.map((project: IProject) => {
+        {props.projects.map((project: IProject) => {
           return <ProjectCard key={project.id} project={project} />
         })}
       </div>

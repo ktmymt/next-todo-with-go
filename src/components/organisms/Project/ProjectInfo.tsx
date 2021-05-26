@@ -17,7 +17,7 @@ const ProjectInfo: FC<Props> = (props) => {
   return (
     <div css={projectInfoContainerStyle}>
       <BaseText text={props.project.name} styles="sizeM" />
-      <BaseText text={props.project.outline} styles="sizeS lightGray" />
+      <BaseText text={props.project.description} styles="sizeS lightGray" />
     </div>
   )
 }

@@ -28,19 +28,21 @@ const projectCardStyle = css`
 `
 
 const ProjectCard: FC<Props> = (props) => {
-  const splitName = props.project.name.split(" ")
-
-  let displayProjectName = ""
-  if (splitName.length > 1) {
-    displayProjectName = splitName[0][0].toUpperCase() + splitName[1][0].toUpperCase()
-  } else {
-    displayProjectName = splitName[0][0].toUpperCase() + splitName[0][1].toUpperCase()
+  const getShortHandProjectName = (textArray: string[]) => {
+    if (textArray.length > 1) {
+      return textArray[0][0].toUpperCase() + textArray[1][0].toUpperCase()
+    } else {
+      return textArray[0].toUpperCase() + textArray[0].toUpperCase()
+    }
   }
+
+  const splitName = props.project.name.split(" ")
+  const projectName = getShortHandProjectName(splitName)
 
   return (
     <div>
       <div css={projectCardStyle}>
-        <p>{displayProjectName}</p>
+        <p>{projectName}</p>
       </div>
       <BaseText text={props.project.name} styles="veryLightGray sizeS textCenter" />
     </div>

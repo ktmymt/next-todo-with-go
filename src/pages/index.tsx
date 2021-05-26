@@ -8,11 +8,17 @@ import { DotSquare } from "../components/organisms/Common"
 import { BaseText, BaseInput } from "../components/atoms"
 
 // types
-import { projects } from "../types/Project"
+// import { projects } from "../types/Project"
 import { todos } from "../types/Todo"
+import { IProject } from "../types/Project"
+
+interface Props {
+  projects: IProject[]
+}
 
 // styles
 import { Colors } from "../styles/colors"
+import { useState } from "react"
 
 const appStyle = css`
   display: flex;
@@ -44,12 +50,8 @@ const todoSideContainerStyle = css`
   padding: 100px;
 `
 
-const Home: NextPage = () => {
-  const selectedProject = projects.filter((project) => {
-    if (project.selected) {
-      return project
-    }
-  })
+const Home: NextPage<Props> = ({ projects }) => {
+  const [projectSelected, setProjectSelected] = useState(projects[0])
 
   return (
     <div css={appStyle}>
@@ -64,7 +66,7 @@ const Home: NextPage = () => {
       </div>
       <div css={todoSideStyle}>
         <div css={todoSideContainerStyle}>
-          <ProjectInfo project={selectedProject[0]} />
+          <ProjectInfo project={projectSelected} />
           <div>
             <TodoList title="Today" todos={todos} />
             <TodoList title="Upcoming" todos={todos} />
@@ -76,9 +78,9 @@ const Home: NextPage = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:8000/api/todos")
-  const todos = await res.json()
-  return { props: { todos } }
+  const res = await fetch("http://localhost:8000/api/projects")
+  const projects = await res.json()
+  return { props: { projects: projects.data } }
 }
 
 export default Home
