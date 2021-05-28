@@ -10,6 +10,12 @@ interface Props {
   project: IProject
 }
 
+const projectCardContainerStyle = css`
+  p:last-child {
+    margin-top: 30px;
+  }
+`
+
 const projectCardStyle = css`
   width: 120px;
   height: 120px;
@@ -17,6 +23,17 @@ const projectCardStyle = css`
   border-radius: 23px;
   text-align: center;
   position: relative;
+
+  ::after {
+    content: "";
+    width: 135px;
+    height: 135px;
+    border: 5px solid ${Colors.projectCards.pink};
+    border-radius: 23px;
+    position: absolute;
+    top: -13px;
+    left: -13px;
+  }
 
   p {
     font-size: 1.7rem;
@@ -40,7 +57,7 @@ const ProjectCard: FC<Props> = (props) => {
   const projectName = getShortHandProjectName(splitName)
 
   return (
-    <div>
+    <div css={projectCardContainerStyle}>
       <div css={projectCardStyle}>
         <p>{projectName}</p>
       </div>
