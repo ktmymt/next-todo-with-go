@@ -27,6 +27,7 @@ const appStyle = css`
 const projectSideStyle = css`
   width: 50vw;
   height: 100vh;
+  position: relative;
 `
 
 const projectSideContainerStyle = css`
@@ -51,18 +52,32 @@ const todoSideContainerStyle = css`
 `
 
 const Home: NextPage<Props> = ({ projects }) => {
+  const [allProjects, setAllProjects] = useState(projects)
   const [projectSelected, setProjectSelected] = useState(projects[0])
+
+  const onChangeSearchProject = (text: string) => {
+    const projectsAfterSearch = projects.filter((project) => {
+      if (project.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
+        return project
+      }
+    })
+    setAllProjects(projectsAfterSearch)
+  }
 
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
-        {/* <DotSquare /> */}
+        <DotSquare />
         <div css={projectSideContainerStyle}>
           <BaseText text="Hi Jack." styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace" styles=" lightGray" />
-          <BaseInput className="" placeholder="Search Task or Project..." />
+          <BaseInput
+            className=""
+            placeholder="Search Task or Project..."
+            onChangeText={onChangeSearchProject}
+          />
           <ProjectCardList
-            projects={projects}
+            projects={allProjects}
             projectSelected={projectSelected}
             onClickProject={setProjectSelected}
           />
