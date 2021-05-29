@@ -5,6 +5,7 @@ import { Colors } from "../../styles/colors"
 type Props = {
   className: string
   placeholder?: string
+  onChangeText: (text: string) => void
 }
 
 const inputStyle = css`
@@ -22,7 +23,14 @@ const inputStyle = css`
 `
 
 const BaseInput: FC<Props> = (props) => {
-  return <input css={inputStyle} className={props.className} placeholder={props.placeholder} />
+  return (
+    <input
+      css={inputStyle}
+      className={props.className}
+      placeholder={props.placeholder}
+      onChange={(e) => props.onChangeText(e.target.value)}
+    />
+  )
 }
 
 export default BaseInput
