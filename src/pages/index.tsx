@@ -8,17 +8,16 @@ import { DotSquare } from "../components/organisms/Common"
 import { BaseText, BaseInput } from "../components/atoms"
 
 // types
-// import { projects } from "../types/Project"
 import { todos } from "../types/Todo"
 import { IProject } from "../types/Project"
-
+import { Greeting } from "../const/greeting"
 interface Props {
   projects: IProject[]
 }
 
 // styles
 import { Colors } from "../styles/colors"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const appStyle = css`
   display: flex;
@@ -54,7 +53,9 @@ const todoSideContainerStyle = css`
 const Home: NextPage<Props> = ({ projects }) => {
   const [allProjects, setAllProjects] = useState(projects)
   const [projectSelected, setProjectSelected] = useState(projects[0])
+  const [greeting, setGreeting] = useState("")
 
+  // get text from input box, and filter projects
   const onChangeSearchProject = (text: string) => {
     const projectsAfterSearch = projects.filter((project) => {
       if (project.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
@@ -64,12 +65,36 @@ const Home: NextPage<Props> = ({ projects }) => {
     setAllProjects(projectsAfterSearch)
   }
 
+  // set greeting to show on top
+  const getGreeting = () => {
+    const date = new Date()
+    const hour = date.getHours()
+    switch (true) {
+      case hour >= 5 && hour <= 10:
+        setGreeting(Greeting.MORNING)
+        break
+      case hour >= 11 && hour <= 16:
+        setGreeting(Greeting.HELLO)
+        break
+      case hour >= 17 && hour <= 20:
+        setGreeting(Greeting.EVENING)
+        break
+      case hour >= 21 && hour <= 4:
+        setGreeting(Greeting.NIGHT)
+        break
+    }
+  }
+
+  useEffect(() => {
+    getGreeting()
+  })
+
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
         <DotSquare />
         <div css={projectSideContainerStyle}>
-          <BaseText text="Hi Jack." styles="sizeL white bold" />
+          <BaseText text={greeting} styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace" styles=" lightGray" />
           <BaseInput
             className=""
