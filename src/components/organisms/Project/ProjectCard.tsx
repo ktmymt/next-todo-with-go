@@ -8,6 +8,8 @@ import { Colors } from "../../../styles/colors"
 
 interface Props {
   project: IProject
+  isSelected: boolean
+  onClickProject: (project: IProject) => void
 }
 
 const projectCardContainerStyle = css`
@@ -24,6 +26,17 @@ const projectCardStyle = css`
   text-align: center;
   position: relative;
 
+  p {
+    font-size: 1.7rem;
+    position: absolute;
+    left: 45px;
+    top: 15px;
+    color: ${Colors.white};
+  }
+`
+
+const selectedProjectStyle = css`
+  ${projectCardStyle}
   ::after {
     content: "";
     width: 135px;
@@ -33,14 +46,6 @@ const projectCardStyle = css`
     position: absolute;
     top: -13px;
     left: -13px;
-  }
-
-  p {
-    font-size: 1.7rem;
-    position: absolute;
-    left: 45px;
-    top: 15px;
-    color: ${Colors.white};
   }
 `
 
@@ -57,8 +62,8 @@ const ProjectCard: FC<Props> = (props) => {
   const projectName = getShortHandProjectName(splitName)
 
   return (
-    <div css={projectCardContainerStyle}>
-      <div css={projectCardStyle}>
+    <div css={projectCardContainerStyle} onClick={() => props.onClickProject(props.project)}>
+      <div css={props.isSelected ? selectedProjectStyle : projectCardStyle}>
         <p>{projectName}</p>
       </div>
       <BaseText text={props.project.name} styles="veryLightGray sizeS textCenter" />

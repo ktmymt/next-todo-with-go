@@ -8,6 +8,8 @@ import { Colors } from "../../../styles/colors"
 
 interface Props {
   projects: IProject[]
+  projectSelected: IProject
+  onClickProject: (project: IProject) => void
 }
 
 const projectCardListContainerStyle = css`
@@ -42,7 +44,14 @@ const ProjectCardList: FC<Props> = (props) => {
 
       <div css={projectCardListContentStyle}>
         {props.projects.map((project: IProject) => {
-          return <ProjectCard key={project.id} project={project} />
+          return (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onClickProject={props.onClickProject}
+              isSelected={project == props.projectSelected}
+            />
+          )
         })}
       </div>
     </div>

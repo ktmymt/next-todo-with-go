@@ -61,7 +61,11 @@ const Home: NextPage<Props> = ({ projects }) => {
           <BaseText text="Hi Jack." styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace" styles=" lightGray" />
           <BaseInput className="" placeholder="Search Task or Project..." />
-          <ProjectCardList projects={projects} />
+          <ProjectCardList
+            projects={projects}
+            projectSelected={projectSelected}
+            onClickProject={setProjectSelected}
+          />
         </div>
       </div>
       <div css={todoSideStyle}>
