@@ -1,4 +1,5 @@
 import { NextPage, GetServerSideProps } from "next"
+import Modal from "react-modal"
 import { css } from "@emotion/react"
 
 // components
@@ -49,6 +50,8 @@ const todoSideStyle = css`
 const todoSideContainerStyle = css`
   padding: 100px;
 `
+
+Modal.setAppElement("#__next")
 
 const Home: NextPage<Props> = ({ projects }) => {
   const [allProjects, setAllProjects] = useState(projects)
