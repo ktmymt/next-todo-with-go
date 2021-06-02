@@ -1,6 +1,6 @@
 import { FC, useState } from "react"
 import Modal from "react-modal"
-import { BaseButton } from "../../atoms"
+import { BaseButton, BaseInput, BaseTextArea } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 
 // スタイリング
@@ -27,34 +27,33 @@ const customStyles = {
 const ProjectCreateModal: FC = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
 
-  // モーダルを開く処理
   const openModal = () => {
     setIsOpen(true)
   }
 
-  const afterOpenModal = () => {
-    // モーダルが開いた後の処理
-  }
-
-  // モーダルを閉じる処理
   const closeModal = () => {
     setIsOpen(false)
+  }
+
+  const onChangeInput = (text: string) => {
+    console.log(text)
+  }
+
+  const onClickButton = () => {
+    console.log("hi")
   }
   return (
     <>
       <BaseButton text="+" color={Colors.purple} onClickButton={openModal} />
-      <Modal
-        // isOpenがtrueならモダールが起動する
-        isOpen={modalIsOpen}
-        // モーダルが開いた後の処理を定義
-        onAfterOpen={afterOpenModal}
-        // モーダルを閉じる処理を定義
-        onRequestClose={closeModal}
-        // スタイリングを定義
-        style={customStyles}
-      >
-        <h2>Hello</h2>
-        <button onClick={closeModal}>close</button>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
+        <h2>Create a Workspace</h2>
+        <BaseInput type="text" onChangeText={onChangeInput} />
+        <BaseTextArea
+          placeholder="Write some description for your workspace"
+          onChangeText={onChangeInput}
+        />
+        <BaseButton text="Create" color={Colors.purple} onClickButton={onClickButton} />
+        <BaseButton text="Close" color={Colors.white} onClickButton={closeModal} />
       </Modal>
     </>
   )
