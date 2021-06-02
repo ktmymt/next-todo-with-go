@@ -8,16 +8,15 @@ type Props = {
 }
 
 const inputStyle = css`
-  background-color: ${Colors.darkBlueGray};
-  width: 75%;
+  background-color: ${Colors.veryDarkGray};
+  width: 80%;
   padding: 20px;
   border: none;
-  border-radius: 15px;
   outline: 0;
   color: ${Colors.white};
 
   &::placeholder {
-    color: ${Colors.offWhite};
+    color: ${Colors.lightGray};
   }
 `
 

@@ -49,7 +49,7 @@ const ProjectCardList: FC<Props> = (props) => {
   return (
     <div css={projectCardListContainerStyle}>
       <div css={projectCardListHeaderStyle}>
-        <BaseText text="Projects" styles="white sizeM" />
+        <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
         <span>({props.projects.length})</span>
         <ProjectCreateModal />
       </div>

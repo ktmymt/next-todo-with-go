@@ -1,16 +1,19 @@
 import { FC } from "react"
 import { css } from "@emotion/react"
-import { Colors } from "../../styles/colors"
 
-type Props = {
+interface Props {
   text: string
-  styles: string
+  color?: string
+  size?: string
+  optionStyles?: string
 }
 
-const baseStyle = css`
+const baseStyle = (color: string, size: string) => css`
   font-size: 1.2rem;
   padding: 0;
   margin: 0;
+  color: ${color};
+  font-size: ${size};
 `
 
 const optionalStyles = {
@@ -26,18 +29,6 @@ const optionalStyles = {
   sizeS: css`
     font-size: 1rem;
   `,
-  white: css`
-    color: ${Colors.white};
-  `,
-  veryLightGray: css`
-    color: ${Colors.veryLightGray};
-  `,
-  lightGray: css`
-    color: ${Colors.lightGray};
-  `,
-  darkGray: css`
-    color: ${Colors.darkGray};
-  `,
   textCenter: css`
     text-align: center;
   `,
@@ -48,11 +39,13 @@ const optionalStyles = {
 }
 
 const BaseText: FC<Props> = (props) => {
-  const styles = props.styles.split(" ").map((name) => {
-    if (optionalStyles[name]) return optionalStyles[name]
-  })
+  const styles =
+    props.optionStyles &&
+    props.optionStyles.split(" ").map((name) => {
+      if (optionalStyles[name]) return optionalStyles[name]
+    })
 
-  return <p css={[baseStyle, styles]}>{props.text}</p>
+  return <p css={[baseStyle(props.color, props.size), styles]}>{props.text}</p>
 }
 
 export default BaseText

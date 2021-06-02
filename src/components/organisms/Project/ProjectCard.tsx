@@ -66,7 +66,11 @@ const ProjectCard: FC<Props> = (props) => {
       <div css={props.isSelected ? selectedProjectStyle : projectCardStyle}>
         <p>{projectName}</p>
       </div>
-      <BaseText text={props.project.name} styles="veryLightGray sizeS textCenter" />
+      <BaseText
+        text={props.project.name}
+        color={Colors.veryLightGray}
+        optionStyles="sizeS textCenter"
+      />
     </div>
   )
 }

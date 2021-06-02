@@ -1,9 +1,10 @@
 import { FC, useState } from "react"
 import Modal from "react-modal"
-import { BaseButton, BaseInput, BaseTextArea } from "../../atoms"
+import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
+import { css } from "@emotion/react"
 
-// スタイリング
+// for modal
 const customStyles = {
   overlay: {
     position: "fixed",
@@ -18,11 +19,26 @@ const customStyles = {
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
-    width: "500px",
-    height: "300px",
+    width: "400px",
+    height: "500px",
+    backgroundColor: "#3D3D40",
+    borderStyle: "none",
+    borderRadius: "20px",
+    color: "#fff",
     transform: "translate(-50%, -50%)",
   },
 }
+
+const buttonStyle = css`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+
+  button {
+    width: 40%;
+    border-radius: 20px;
+  }
+`
 
 const ProjectCreateModal: FC = () => {
   const [modalIsOpen, setIsOpen] = useState(false)
@@ -44,16 +60,26 @@ const ProjectCreateModal: FC = () => {
   }
   return (
     <>
-      <BaseButton text="+" color={Colors.purple} onClickButton={openModal} />
+      <BaseButton text="+" bgColor={Colors.purple} onClickButton={openModal} />
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
         <h2>Create a Workspace</h2>
-        <BaseInput type="text" onChangeText={onChangeInput} />
-        <BaseTextArea
-          placeholder="Write some description for your workspace"
-          onChangeText={onChangeInput}
-        />
-        <BaseButton text="Create" color={Colors.purple} onClickButton={onClickButton} />
-        <BaseButton text="Close" color={Colors.white} onClickButton={closeModal} />
+        <div>
+          <BaseInput type="text" hasLabel={true} onChangeText={onChangeInput} />
+          <p>color</p>
+          <BaseTextArea
+            placeholder="Write some description for your workspace"
+            onChangeText={onChangeInput}
+          />
+        </div>
+        <div css={buttonStyle}>
+          <BaseButton text="Close" bgColor={Colors.white} onClickButton={closeModal} />
+          <BaseButton
+            text="Create"
+            bgColor={Colors.purple}
+            textColor={Colors.white}
+            onClickButton={onClickButton}
+          />
+        </div>
       </Modal>
     </>
   )

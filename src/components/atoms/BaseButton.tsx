@@ -4,12 +4,14 @@ import { Colors } from "../../styles/colors"
 
 interface Props {
   text: string
-  color: string
+  bgColor: string
+  textColor?: string
   onClickButton: () => void
 }
 
-const buttonStyle = (color: string) => css`
-  background-color: ${color};
+const buttonStyle = (bgColor: string, textColor?: string) => css`
+  background-color: ${bgColor};
+  color: ${textColor};
   padding: 10px;
   margin: 0;
   box-shadow: 1px 1px 8px ${Colors.darkBlueGray};
@@ -18,7 +20,7 @@ const buttonStyle = (color: string) => css`
 
 const BaseButton: FC<Props> = (props) => {
   return (
-    <button css={buttonStyle(props.color)} onClick={props.onClickButton}>
+    <button css={buttonStyle(props.bgColor, props.textColor)} onClick={props.onClickButton}>
       {props.text}
     </button>
   )

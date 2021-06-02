@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { css } from "@emotion/react"
+import { Colors } from "../../../styles/colors"
 
 // components
 import { BaseText } from "../../atoms"
@@ -16,8 +17,8 @@ interface Props {
 const ProjectInfo: FC<Props> = (props) => {
   return (
     <div css={projectInfoContainerStyle}>
-      <BaseText text={props.project.name} styles="sizeM" />
-      <BaseText text={props.project.description} styles="sizeS lightGray" />
+      <BaseText text={props.project.name} optionStyles="sizeM" />
+      <BaseText text={props.project.description} color={Colors.lightGray} optionStyles="sizeS" />
     </div>
   )
 }

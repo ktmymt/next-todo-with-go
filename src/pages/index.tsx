@@ -97,8 +97,8 @@ const Home: NextPage<Props> = ({ projects }) => {
       <div css={projectSideStyle}>
         <DotSquare />
         <div css={projectSideContainerStyle}>
-          <BaseText text={greeting} styles="sizeL white bold" />
-          <BaseText text="Welcome back to the workspace" styles=" lightGray" />
+          <BaseText text={greeting} color={Colors.white} optionStyles="sizeL white bold" />
+          <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />
           <BaseInput
             type="text"
             placeholder="Search Task or Project..."
