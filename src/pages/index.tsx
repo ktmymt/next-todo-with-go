@@ -82,7 +82,7 @@ const Home: NextPage<Props> = ({ projects }) => {
       case hour >= 17 && hour <= 20:
         setGreeting(Greeting.EVENING)
         break
-      case hour >= 21 && hour <= 4:
+      case hour >= 21 || hour <= 4:
         setGreeting(Greeting.NIGHT)
         break
     }
@@ -100,7 +100,7 @@ const Home: NextPage<Props> = ({ projects }) => {
           <BaseText text={greeting} styles="sizeL white bold" />
           <BaseText text="Welcome back to the workspace" styles=" lightGray" />
           <BaseInput
-            className=""
+            type="text"
             placeholder="Search Task or Project..."
             onChangeText={onChangeSearchProject}
           />

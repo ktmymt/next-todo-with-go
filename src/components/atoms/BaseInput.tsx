@@ -3,7 +3,7 @@ import { css } from "@emotion/react"
 import { Colors } from "../../styles/colors"
 
 type Props = {
-  className: string
+  type: string
   placeholder?: string
   onChangeText: (text: string) => void
 }
@@ -25,8 +25,8 @@ const inputStyle = css`
 const BaseInput: FC<Props> = (props) => {
   return (
     <input
+      type={props.type}
       css={inputStyle}
-      className={props.className}
       placeholder={props.placeholder}
       onChange={(e) => props.onChangeText(e.target.value)}
     />
