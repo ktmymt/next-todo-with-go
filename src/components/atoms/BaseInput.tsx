@@ -25,8 +25,8 @@ const inputStyle = css`
 
 const labelInputStyle = css`
   position: relative;
-  width: 80%;
-  margin: 40px 3%;
+  width: 90%;
+  margin: 40px 0;
 
   input {
     font: 15px/24px sans-serif;

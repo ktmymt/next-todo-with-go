@@ -10,6 +10,7 @@ type Props = {
 const inputStyle = css`
   background-color: ${Colors.veryDarkGray};
   width: 80%;
+  height: 100px;
   padding: 20px;
   border: none;
   outline: 0;

@@ -26,30 +26,48 @@ const customStyles = {
     borderRadius: "20px",
     color: "#fff",
     transform: "translate(-50%, -50%)",
+    transitionProperty: "background-color, width, height",
+    transitionDuration: "500ms",
+    transitionTimingFunction: "ease-in-out",
   },
 }
+
+const inputAreaStyle = css`
+  width: 100%;
+  margin-left: 10px;
+  textarea {
+    margin-top: 45px;
+  }
+`
+
+const colorButtonContainerStyle = css`
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  line-height: 2;
+`
+
+const colorButtonStyle = (color: string) => css`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: ${color};
+`
 
 const buttonStyle = css`
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
+  margin-top: 40px;
 
   button {
-    width: 40%;
+    width: 35%;
+    height: 50px;
     border-radius: 20px;
   }
 `
 
 const ProjectCreateModal: FC = () => {
-  const [modalIsOpen, setIsOpen] = useState(false)
-
-  const openModal = () => {
-    setIsOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsOpen(false)
-  }
+  const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const onChangeInput = (text: string) => {
     console.log(text)
@@ -60,19 +78,28 @@ const ProjectCreateModal: FC = () => {
   }
   return (
     <>
-      <BaseButton text="+" bgColor={Colors.purple} onClickButton={openModal} />
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={customStyles}>
-        <h2>Create a Workspace</h2>
-        <div>
+      <BaseButton text="+" bgColor={Colors.purple} onClickButton={() => setModalIsOpen(true)} />
+      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
+        <div css={inputAreaStyle}>
+          <h2>Create a Workspace</h2>
           <BaseInput type="text" hasLabel={true} onChangeText={onChangeInput} />
-          <p>color</p>
+          <div css={colorButtonContainerStyle}>
+            <BaseText text="Color" size="1.0rem" color={Colors.lightGray} />
+            {Object.entries(Colors.projectCards).map((color, index) => {
+              return <span key={index} css={colorButtonStyle(color[0])}></span>
+            })}
+          </div>
           <BaseTextArea
             placeholder="Write some description for your workspace"
             onChangeText={onChangeInput}
           />
         </div>
         <div css={buttonStyle}>
-          <BaseButton text="Close" bgColor={Colors.white} onClickButton={closeModal} />
+          <BaseButton
+            text="Close"
+            bgColor={Colors.white}
+            onClickButton={() => setModalIsOpen(false)}
+          />
           <BaseButton
             text="Create"
             bgColor={Colors.purple}
