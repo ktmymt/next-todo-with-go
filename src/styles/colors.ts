@@ -13,5 +13,9 @@ export const Colors = {
 
   projectCards: {
     pink: "#fa36aa",
+    green: "#30B1BB",
+    purple: "#9856CB",
+    blue: "#488EF1",
+    orange: "#F18567",
   },
 }
