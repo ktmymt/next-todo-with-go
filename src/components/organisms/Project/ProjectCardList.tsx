@@ -1,5 +1,6 @@
 import { FC } from "react"
-import BaseText from "../../atoms/BaseText"
+import { BaseText } from "../../atoms"
+import ProjectCreateModal from "./ProjectCreateModal"
 import ProjectCard from "./ProjectCard"
 
 import { IProject } from "../../../types/Project"
@@ -27,6 +28,16 @@ const projectCardListHeaderStyle = css`
   span {
     color: ${Colors.lightGray};
   }
+
+  button {
+    margin-right: auto;
+    color: ${Colors.white};
+    height: 50px;
+    width: 50px;
+    font-size: 1.6rem;
+    border-radius: 15px;
+    margin: 0 0 0 auto;
+  }
 `
 
 const projectCardListContentStyle = css`
@@ -38,8 +49,9 @@ const ProjectCardList: FC<Props> = (props) => {
   return (
     <div css={projectCardListContainerStyle}>
       <div css={projectCardListHeaderStyle}>
-        <BaseText text="Projects" styles="white sizeM" />
+        <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
         <span>({props.projects.length})</span>
+        <ProjectCreateModal />
       </div>
 
       <div css={projectCardListContentStyle}>

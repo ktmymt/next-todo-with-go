@@ -1,4 +1,5 @@
 import { NextPage, GetServerSideProps } from "next"
+import Modal from "react-modal"
 import { css } from "@emotion/react"
 
 // components
@@ -50,6 +51,8 @@ const todoSideContainerStyle = css`
   padding: 100px;
 `
 
+Modal.setAppElement("#__next")
+
 const Home: NextPage<Props> = ({ projects }) => {
   const [allProjects, setAllProjects] = useState(projects)
   const [projectSelected, setProjectSelected] = useState(projects[0])
@@ -79,7 +82,7 @@ const Home: NextPage<Props> = ({ projects }) => {
       case hour >= 17 && hour <= 20:
         setGreeting(Greeting.EVENING)
         break
-      case hour >= 21 && hour <= 4:
+      case hour >= 21 || hour <= 4:
         setGreeting(Greeting.NIGHT)
         break
     }
@@ -94,10 +97,10 @@ const Home: NextPage<Props> = ({ projects }) => {
       <div css={projectSideStyle}>
         <DotSquare />
         <div css={projectSideContainerStyle}>
-          <BaseText text={greeting} styles="sizeL white bold" />
-          <BaseText text="Welcome back to the workspace" styles=" lightGray" />
+          <BaseText text={greeting} color={Colors.white} optionStyles="sizeL white bold" />
+          <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />
           <BaseInput
-            className=""
+            type="text"
             placeholder="Search Task or Project..."
             onChangeText={onChangeSearchProject}
           />
