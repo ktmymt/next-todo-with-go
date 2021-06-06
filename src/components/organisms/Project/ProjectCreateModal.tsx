@@ -68,30 +68,39 @@ const buttonStyle = css`
 
 const ProjectCreateModal: FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
-
-  const onChangeInput = (text: string) => {
-    console.log(text)
-  }
+  const [projectTitle, setProjectTitle] = useState("")
+  const [projectDescription, setProjectDescription] = useState("")
+  const [projectColor, setProjectColor] = useState("")
 
   const onClickButton = () => {
     console.log("hi")
+    console.log(projectTitle)
+    console.log(projectDescription)
+    console.log(projectColor)
   }
+
   return (
     <>
       <BaseButton text="+" bgColor={Colors.purple} onClickButton={() => setModalIsOpen(true)} />
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
         <div css={inputAreaStyle}>
           <h2>Create a Workspace</h2>
-          <BaseInput type="text" hasLabel={true} onChangeText={onChangeInput} />
+          <BaseInput type="text" hasLabel={true} onChangeText={setProjectTitle} />
           <div css={colorButtonContainerStyle}>
             <BaseText text="Color" size="1.0rem" color={Colors.lightGray} />
             {Object.entries(Colors.projectCards).map((color, index) => {
-              return <span key={index} css={colorButtonStyle(color[0])}></span>
+              return (
+                <span
+                  key={index}
+                  css={colorButtonStyle(color[1])}
+                  onClick={() => setProjectColor(color[0])}
+                ></span>
+              )
             })}
           </div>
           <BaseTextArea
             placeholder="Write some description for your workspace"
-            onChangeText={onChangeInput}
+            onChangeText={setProjectDescription}
           />
         </div>
         <div css={buttonStyle}>

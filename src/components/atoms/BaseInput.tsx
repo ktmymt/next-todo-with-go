@@ -52,7 +52,11 @@ const BaseInput: FC<Props> = (props) => {
       {props.hasLabel && (
         <div css={labelInputStyle}>
           <label>
-            <input type="text" placeholder="Workspace Name" />
+            <input
+              type="text"
+              placeholder="Workspace Name"
+              onChange={(e) => props.onChangeText(e.target.value)}
+            />
           </label>
         </div>
       )}
