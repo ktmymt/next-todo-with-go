@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { css } from "@emotion/react"
+import { Colors } from "../../styles/colors"
 
 interface Props {
   text: string
@@ -33,7 +34,7 @@ const optionalStyles = {
     text-align: center;
   `,
   underbar: css`
-    border-bottom: 1px solid;
+    border-bottom: 1px solid ${Colors.offWhite};
     padding-bottom: 20px;
   `,
 }

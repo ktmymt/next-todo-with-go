@@ -41,7 +41,7 @@ const Todo: FC<Props> = (props) => {
         css={iconStyle(isDone)}
         onClick={onClickToggleCheck}
       />
-      <BaseText text={props.todo.title} />
+      <BaseText text={props.todo.title} size="1.2rem" color={Colors.veryDarkGray} />
     </div>
   )
 }

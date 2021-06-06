@@ -22,7 +22,7 @@ const todoListStyle = css`
 const TodoList: FC<Props> = (props) => {
   return (
     <div css={todoListContainerStyle}>
-      <BaseText text={props.title} optionStyles="sizeM underbar" />
+      <BaseText text={props.title} size="1.4rem" optionStyles="underbar" />
       <ul css={todoListStyle}>
         {Object.values(props.todos).map((todo: ITodo, index) => {
           return (

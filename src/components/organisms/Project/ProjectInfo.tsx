@@ -17,7 +17,7 @@ interface Props {
 const ProjectInfo: FC<Props> = (props) => {
   return (
     <div css={projectInfoContainerStyle}>
-      <BaseText text={props.project.name} optionStyles="sizeM" />
+      <BaseText text={props.project.name} optionStyles="sizeM bold" />
       <BaseText text={props.project.description} color={Colors.lightGray} optionStyles="sizeS" />
     </div>
   )
