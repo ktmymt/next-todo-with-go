@@ -40,9 +40,10 @@ const projectCardListHeaderStyle = css`
   }
 `
 
-const projectCardListContentStyle = css`
+const projectCardListStyle = css`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 `
 
 const ProjectCardList: FC<Props> = (props) => {
@@ -54,7 +55,7 @@ const ProjectCardList: FC<Props> = (props) => {
         <ProjectCreateModal />
       </div>
 
-      <div css={projectCardListContentStyle}>
+      <div css={projectCardListStyle}>
         {props.projects.map((project: IProject) => {
           return (
             <ProjectCard

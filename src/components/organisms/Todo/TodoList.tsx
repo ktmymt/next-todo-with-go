@@ -1,5 +1,6 @@
 import { FC } from "react"
 import BaseText from "../../atoms/BaseText"
+import TodoCreateModal from "./TodoCreateModal"
 import { css } from "@emotion/react"
 
 import Todo from "./Todo"
@@ -23,6 +24,7 @@ const TodoList: FC<Props> = (props) => {
   return (
     <div css={todoListContainerStyle}>
       <BaseText text={props.title} size="1.4rem" optionStyles="underbar" />
+      <TodoCreateModal />
       <ul css={todoListStyle}>
         {Object.values(props.todos).map((todo: ITodo, index) => {
           return (

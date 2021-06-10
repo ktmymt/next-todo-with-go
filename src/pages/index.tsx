@@ -31,12 +31,15 @@ const projectSideStyle = css`
 `
 
 const projectSideContainerStyle = css`
-  padding: 200px;
+  padding: 0 200px 0 200px;
   width: 50%;
 
-  p:nth-child(2) {
+  p:nth-of-type(2) {
     margin: 15px 0 40px 0;
   }
+`
+const greetingAreaStyle = css`
+  padding-top: 200px;
 `
 
 const todoSideStyle = css`
@@ -95,15 +98,16 @@ const Home: NextPage<Props> = ({ projects }) => {
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
-        <DotSquare />
         <div css={projectSideContainerStyle}>
-          <BaseText text={greeting} color={Colors.white} optionStyles="sizeL white bold" />
-          <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />
-          <BaseInput
-            type="text"
-            placeholder="Search Task or Project..."
-            onChangeText={onChangeSearchProject}
-          />
+          <div css={greetingAreaStyle}>
+            <BaseText text={greeting} color={Colors.white} optionStyles="sizeL white bold" />
+            <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />
+            <BaseInput
+              type="text"
+              placeholder="Search Task or Project..."
+              onChangeText={onChangeSearchProject}
+            />
+          </div>
           <ProjectCardList
             projects={allProjects}
             projectSelected={projectSelected}
