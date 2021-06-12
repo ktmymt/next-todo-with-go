@@ -3,6 +3,7 @@ import Modal from "react-modal"
 import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
+import { getRequestInstance } from "../../../modules/request"
 
 // for modal
 const customStyles = {
@@ -71,16 +72,28 @@ const buttonStyle = css`
   }
 `
 
-const ProjectCreateModal: FC = () => {
+const CreateProjectModal: FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [projectTitle, setProjectTitle] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
   const [projectColor, setProjectColor] = useState("")
 
-  const onClickButton = () => {
+  const onClickButton = async () => {
     console.log(projectTitle)
     console.log(projectDescription)
     console.log(projectColor)
+
+    const request = getRequestInstance()
+
+    const res = await request.post("/project", {
+      name: projectTitle,
+      description: projectDescription,
+      todo: [],
+      color: projectColor,
+      // updatedAt: Date.now(),
+    })
+
+    console.log(res)
   }
 
   return (
@@ -130,4 +143,4 @@ const ProjectCreateModal: FC = () => {
   )
 }
 
-export default ProjectCreateModal
+export default CreateProjectModal

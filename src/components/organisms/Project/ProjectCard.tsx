@@ -18,10 +18,10 @@ const projectCardContainerStyle = css`
   }
 `
 
-const projectCardStyle = css`
+const projectCardStyle = (color: string) => css`
   width: 120px;
   height: 120px;
-  background-color: ${Colors.projectCards.pink};
+  background-color: ${Colors.projectCards[color]};
   border-radius: 23px;
   text-align: center;
   position: relative;
@@ -35,13 +35,13 @@ const projectCardStyle = css`
   }
 `
 
-const selectedProjectStyle = css`
-  ${projectCardStyle}
+const selectedProjectStyle = (color: string) => css`
+  ${projectCardStyle(color)}
   ::after {
     content: "";
     width: 135px;
     height: 135px;
-    border: 5px solid ${Colors.projectCards.pink};
+    border: 5px solid ${Colors.projectCards[color]};
     border-radius: 23px;
     position: absolute;
     top: -13px;
@@ -54,7 +54,7 @@ const ProjectCard: FC<Props> = (props) => {
     if (textArray.length > 1) {
       return textArray[0][0].toUpperCase() + textArray[1][0].toUpperCase()
     } else {
-      return textArray[0].toUpperCase() + textArray[0].toUpperCase()
+      return textArray[0][0].toUpperCase() + textArray[0][1].toUpperCase()
     }
   }
 
@@ -63,7 +63,13 @@ const ProjectCard: FC<Props> = (props) => {
 
   return (
     <div css={projectCardContainerStyle} onClick={() => props.onClickProject(props.project)}>
-      <div css={props.isSelected ? selectedProjectStyle : projectCardStyle}>
+      <div
+        css={
+          props.isSelected
+            ? selectedProjectStyle(props.project.color)
+            : projectCardStyle(props.project.color)
+        }
+      >
         <p>{projectName}</p>
       </div>
       <BaseText

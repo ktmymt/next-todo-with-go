@@ -1,6 +1,7 @@
 import { FC } from "react"
 import { BaseText } from "../../atoms"
-import ProjectCreateModal from "./ProjectCreateModal"
+import CreateProjectModal from "./CreateProjectModal"
+import MoreProjectsModal from "./MoreProjectsModal"
 import ProjectCard from "./ProjectCard"
 
 import { IProject } from "../../../types/Project"
@@ -42,8 +43,12 @@ const projectCardListHeaderStyle = css`
 
 const projectCardListStyle = css`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
+`
+
+const projectCardContainerStyle = css`
+  margin: 10px 21px;
 `
 
 const ProjectCardList: FC<Props> = (props) => {
@@ -52,20 +57,28 @@ const ProjectCardList: FC<Props> = (props) => {
       <div css={projectCardListHeaderStyle}>
         <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
         <span>({props.projects.length})</span>
-        <ProjectCreateModal />
+        <CreateProjectModal />
       </div>
 
       <div css={projectCardListStyle}>
-        {props.projects.map((project: IProject) => {
+        {props.projects.slice(0, 5).map((project: IProject) => {
           return (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onClickProject={props.onClickProject}
-              isSelected={project == props.projectSelected}
-            />
+            <div css={projectCardContainerStyle} key={project.id}>
+              <ProjectCard
+                project={project}
+                onClickProject={props.onClickProject}
+                isSelected={project == props.projectSelected}
+              />
+            </div>
           )
         })}
+        {props.projects.length >= 5 && (
+          <MoreProjectsModal
+            num={props.projects.length - 5}
+            projects={props.projects}
+            onClickProject={props.onClickProject}
+          />
+        )}
       </div>
     </div>
   )

@@ -32,7 +32,7 @@ const projectSideStyle = css`
 
 const projectSideContainerStyle = css`
   padding: 0 200px 0 200px;
-  width: 50%;
+  width: 55%;
 
   p:nth-of-type(2) {
     margin: 15px 0 40px 0;
@@ -40,6 +40,10 @@ const projectSideContainerStyle = css`
 `
 const greetingAreaStyle = css`
   padding-top: 200px;
+
+  input {
+    width: 90%;
+  }
 `
 
 const todoSideStyle = css`
