@@ -35,6 +35,10 @@ const customStyles = {
 const inputAreaStyle = css`
   width: 100%;
   margin-left: 10px;
+
+  input {
+    margin-top: 30px;
+  }
   textarea {
     margin-top: 45px;
   }
@@ -45,6 +49,7 @@ const colorButtonContainerStyle = css`
   justify-content: space-between;
   width: 90%;
   line-height: 2;
+  margin-top: 30px;
 `
 
 const colorButtonStyle = (color: string) => css`
@@ -73,7 +78,6 @@ const ProjectCreateModal: FC = () => {
   const [projectColor, setProjectColor] = useState("")
 
   const onClickButton = () => {
-    console.log("hi")
     console.log(projectTitle)
     console.log(projectDescription)
     console.log(projectColor)
@@ -85,7 +89,12 @@ const ProjectCreateModal: FC = () => {
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
         <div css={inputAreaStyle}>
           <h2>Create a Workspace</h2>
-          <BaseInput type="text" hasLabel={true} onChangeText={setProjectTitle} />
+          <BaseInput
+            type="text"
+            placeholder="Workspace Name"
+            hasLabel={true}
+            onChangeText={setProjectTitle}
+          />
           <div css={colorButtonContainerStyle}>
             <BaseText text="Color" size="1.0rem" color={Colors.lightGray} />
             {Object.entries(Colors.projectCards).map((color, index) => {

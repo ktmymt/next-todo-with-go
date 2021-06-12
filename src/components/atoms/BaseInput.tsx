@@ -6,7 +6,8 @@ interface Props {
   type: string
   placeholder?: string
   hasLabel?: boolean
-  onChangeText: (text: string) => void
+  onChangeText?: (text: string) => void
+  onPressEnter?: (key: string) => void
 }
 
 const inputStyle = css`
@@ -26,7 +27,7 @@ const inputStyle = css`
 const labelInputStyle = css`
   position: relative;
   width: 90%;
-  margin: 40px 0;
+  margin: 20px 0;
 
   input {
     font: 15px/24px sans-serif;
@@ -54,8 +55,9 @@ const BaseInput: FC<Props> = (props) => {
           <label>
             <input
               type="text"
-              placeholder="Workspace Name"
-              onChange={(e) => props.onChangeText(e.target.value)}
+              placeholder={props.placeholder}
+              onChange={(e) => props.onChangeText && props.onChangeText(e.target.value)}
+              onKeyPress={(e) => props.onPressEnter && props.onPressEnter(e.key)}
             />
           </label>
         </div>
