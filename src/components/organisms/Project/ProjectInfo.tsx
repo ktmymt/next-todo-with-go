@@ -1,24 +1,28 @@
 import { FC } from "react"
 import { css } from "@emotion/react"
 import { Colors } from "../../../styles/colors"
+import { useProjectContext } from "../../../contexts/ProjectContext"
 
 // components
 import { BaseText } from "../../atoms"
 
 const projectInfoContainerStyle = css``
 
-// types
-import { IProject } from "../../../types/Project"
+const ProjectInfo: FC = () => {
+  const { selectedProject } = useProjectContext()
 
-interface Props {
-  project: IProject
-}
-
-const ProjectInfo: FC<Props> = (props) => {
   return (
     <div css={projectInfoContainerStyle}>
-      <BaseText text={props.project.name} optionStyles="sizeM bold" />
-      <BaseText text={props.project.description} color={Colors.lightGray} optionStyles="sizeS" />
+      {selectedProject && (
+        <>
+          <BaseText text={selectedProject.name} optionStyles="sizeM bold" />
+          <BaseText
+            text={selectedProject.description}
+            color={Colors.lightGray}
+            optionStyles="sizeS"
+          />
+        </>
+      )}
     </div>
   )
 }

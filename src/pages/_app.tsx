@@ -3,12 +3,15 @@ import { AppProps } from "next/app"
 import { CacheProvider } from "@emotion/react"
 import { cache } from "@emotion/css"
 import "../styles/global.css"
+import { ProjectProvider } from "../contexts/ProjectContext"
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <CacheProvider value={cache}>
-      <Component {...pageProps} />
-    </CacheProvider>
+    <ProjectProvider>
+      <CacheProvider value={cache}>
+        <Component {...pageProps} />
+      </CacheProvider>
+    </ProjectProvider>
   )
 }
 

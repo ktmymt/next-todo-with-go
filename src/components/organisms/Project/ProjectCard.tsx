@@ -1,15 +1,16 @@
-import { FC } from "react"
+import { FC, useEffect, useState } from "react"
 import { css } from "@emotion/react"
 
 import { IProject } from "../../../types/Project"
 import BaseText from "../../atoms/BaseText"
 
 import { Colors } from "../../../styles/colors"
+import { useProjectContext } from "../../../contexts/ProjectContext"
 
 interface Props {
   project: IProject
   isSelected: boolean
-  onClickProject: (project: IProject) => void
+  projectIndex?: number
 }
 
 const projectCardContainerStyle = css`
@@ -50,19 +51,35 @@ const selectedProjectStyle = (color: string) => css`
 `
 
 const ProjectCard: FC<Props> = (props) => {
-  const getShortHandProjectName = (textArray: string[]) => {
-    if (textArray.length > 1) {
-      return textArray[0][0].toUpperCase() + textArray[1][0].toUpperCase()
+  const { setSelectedProjectState, sortProjects } = useProjectContext()
+  const [projecctName, setProjectName] = useState("")
+
+  const getShortHandProjectName = (text: string) => {
+    let test = ""
+    const splitName = text.split(" ")
+    if (splitName.length > 1) {
+      test = splitName[0][0].toUpperCase() + splitName[1][0].toUpperCase()
     } else {
-      return textArray[0][0].toUpperCase() + textArray[0][1].toUpperCase()
+      test = splitName[0][0].toUpperCase() + splitName[0][1].toUpperCase()
+    }
+    setProjectName(test)
+  }
+
+  const onClickProjectCard = () => {
+    setSelectedProjectState(props.project)
+    if (props.projectIndex >= 6) {
+      sortProjects(props.project)
     }
   }
 
-  const splitName = props.project.name.split(" ")
-  const projectName = getShortHandProjectName(splitName)
+  useEffect(() => {
+    if (props.project.name) {
+      getShortHandProjectName(props.project.name)
+    }
+  }, [])
 
   return (
-    <div css={projectCardContainerStyle} onClick={() => props.onClickProject(props.project)}>
+    <div css={projectCardContainerStyle} onClick={onClickProjectCard}>
       <div
         css={
           props.isSelected
@@ -70,7 +87,7 @@ const ProjectCard: FC<Props> = (props) => {
             : projectCardStyle(props.project.color)
         }
       >
-        <p>{projectName}</p>
+        <p>{projecctName}</p>
       </div>
       <BaseText
         text={props.project.name}

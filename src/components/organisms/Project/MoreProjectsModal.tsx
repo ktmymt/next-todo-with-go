@@ -5,12 +5,7 @@ import ProjectCard from "./ProjectCard"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { IProject } from "../../../types/Project"
-
-interface Props {
-  num: number
-  projects: IProject[]
-  onClickProject: (project: IProject) => void
-}
+import { useProjectContext } from "../../../contexts/ProjectContext"
 
 // for modal
 const customStyles = {
@@ -62,29 +57,32 @@ const projectCardContainerStyle = css`
   margin: 40px;
 `
 
-const MoreProjectsModal: FC<Props> = (props) => {
+const MoreProjectsModal: FC = () => {
+  const { projects, selectedProject } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
-
-  // when click project, modal is closed
-  const onClick = (project: IProject) => {
-    props.onClickProject(project)
-    setModalIsOpen(false)
-  }
 
   return (
     <div css={moreProjectsStyle}>
       <BaseButton
-        text={props.num.toString() + "+"}
+        text={projects.length.toString() + "+"}
         textColor={Colors.white}
         bgColor={Colors.lightGray}
         onClickButton={() => setModalIsOpen(true)}
       />
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
         <div css={projectCardListStyle}>
-          {props.projects.map((project: IProject) => {
+          {projects.map((project: IProject, index: number) => {
             return (
-              <div key={project.id} css={projectCardContainerStyle}>
-                <ProjectCard project={project} onClickProject={onClick} isSelected={false} />
+              <div
+                key={project.id}
+                css={projectCardContainerStyle}
+                onClick={() => setModalIsOpen(false)}
+              >
+                <ProjectCard
+                  project={project}
+                  isSelected={project == selectedProject}
+                  projectIndex={index}
+                />
               </div>
             )
           })}

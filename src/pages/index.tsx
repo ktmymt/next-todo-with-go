@@ -7,18 +7,19 @@ import { ProjectCardList, ProjectInfo } from "../components/organisms/Project"
 import { TodoList } from "../components/organisms/Todo"
 import { DotSquare } from "../components/organisms/Common"
 import { BaseText, BaseInput } from "../components/atoms"
+import { getGreeting } from "../modules/greeting"
 
 // types
 import { todos } from "../types/Todo"
 import { IProject } from "../types/Project"
-import { Greeting } from "../const/greeting"
+import { useProjectContext } from "../contexts/ProjectContext"
 interface Props {
-  projects: IProject[]
+  initialProjects: IProject[]
 }
 
 // styles
 import { Colors } from "../styles/colors"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 const appStyle = css`
   display: flex;
@@ -57,54 +58,33 @@ const todoSideStyle = css`
 const todoSideContainerStyle = css`
   padding: 100px;
 `
-
+// determine modal range
 Modal.setAppElement("#__next")
 
-const Home: NextPage<Props> = ({ projects }) => {
-  const [allProjects, setAllProjects] = useState(projects)
-  const [projectSelected, setProjectSelected] = useState(projects[0])
-  const [greeting, setGreeting] = useState("")
+const Home: NextPage<Props> = ({ initialProjects }) => {
+  const { setProjectsState, setSelectedProjectState } = useProjectContext()
 
   // get text from input box, and filter projects
   const onChangeSearchProject = (text: string) => {
-    const projectsAfterSearch = projects.filter((project) => {
+    const projectsAfterSearch = initialProjects.filter((project) => {
       if (project.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
         return project
       }
     })
-    setAllProjects(projectsAfterSearch)
-  }
-
-  // set greeting to show on top
-  const getGreeting = () => {
-    const date = new Date()
-    const hour = date.getHours()
-    switch (true) {
-      case hour >= 5 && hour <= 10:
-        setGreeting(Greeting.MORNING)
-        break
-      case hour >= 11 && hour <= 16:
-        setGreeting(Greeting.HELLO)
-        break
-      case hour >= 17 && hour <= 20:
-        setGreeting(Greeting.EVENING)
-        break
-      case hour >= 21 || hour <= 4:
-        setGreeting(Greeting.NIGHT)
-        break
-    }
+    setProjectsState(projectsAfterSearch)
   }
 
   useEffect(() => {
-    getGreeting()
-  })
+    setProjectsState(initialProjects)
+    setSelectedProjectState(initialProjects[0])
+  }, [])
 
   return (
     <div css={appStyle}>
       <div css={projectSideStyle}>
         <div css={projectSideContainerStyle}>
           <div css={greetingAreaStyle}>
-            <BaseText text={greeting} color={Colors.white} optionStyles="sizeL white bold" />
+            <BaseText text={getGreeting()} color={Colors.white} optionStyles="sizeL white bold" />
             <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />
             <BaseInput
               type="text"
@@ -112,16 +92,12 @@ const Home: NextPage<Props> = ({ projects }) => {
               onChangeText={onChangeSearchProject}
             />
           </div>
-          <ProjectCardList
-            projects={allProjects}
-            projectSelected={projectSelected}
-            onClickProject={setProjectSelected}
-          />
+          <ProjectCardList />
         </div>
       </div>
       <div css={todoSideStyle}>
         <div css={todoSideContainerStyle}>
-          <ProjectInfo project={projectSelected} />
+          <ProjectInfo />
           <div>
             <TodoList title="Today" todos={todos} />
             <TodoList title="Upcoming" todos={todos} />
@@ -135,7 +111,7 @@ const Home: NextPage<Props> = ({ projects }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch("http://localhost:8000/api/projects")
   const projects = await res.json()
-  return { props: { projects: projects.data } }
+  return { props: { initialProjects: projects.data } }
 }
 
 export default Home

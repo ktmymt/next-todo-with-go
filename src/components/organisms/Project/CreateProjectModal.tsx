@@ -3,7 +3,8 @@ import Modal from "react-modal"
 import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
-import { getRequestInstance } from "../../../modules/request"
+import { useProjectContext } from "../../../contexts/ProjectContext"
+import { getAxiosInstance } from "../../../modules/request"
 
 // for modal
 const customStyles = {
@@ -73,27 +74,15 @@ const buttonStyle = css`
 `
 
 const CreateProjectModal: FC = () => {
+  const { createProject, refreshProjects } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [projectTitle, setProjectTitle] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
   const [projectColor, setProjectColor] = useState("")
 
   const onClickButton = async () => {
-    console.log(projectTitle)
-    console.log(projectDescription)
-    console.log(projectColor)
-
-    const request = getRequestInstance()
-
-    const res = await request.post("/project", {
-      name: projectTitle,
-      description: projectDescription,
-      todo: [],
-      color: projectColor,
-      // updatedAt: Date.now(),
-    })
-
-    console.log(res)
+    createProject(projectTitle, projectDescription, projectColor)
+    setModalIsOpen(false)
   }
 
   return (
