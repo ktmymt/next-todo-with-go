@@ -59,7 +59,7 @@ export const ProjectProvider = ({ children }: Props) => {
     setProjects(projects)
   }
 
-  //
+  // move selected project to top
   const sortProjects = (targetProject: IProject) => {
     const tempProjects = projects.filter((project) => project.id != targetProject.id)
     tempProjects.unshift(targetProject)
