@@ -10,9 +10,9 @@ import { BaseText, BaseInput } from "../components/atoms"
 import { getGreeting } from "../modules/greeting"
 
 // types
-import { todos } from "../types/Todo"
 import { IProject } from "../types/Project"
 import { useProjectContext } from "../contexts/ProjectContext"
+
 interface Props {
   initialProjects: IProject[]
 }
@@ -99,8 +99,8 @@ const Home: NextPage<Props> = ({ initialProjects }) => {
         <div css={todoSideContainerStyle}>
           <ProjectInfo />
           <div>
-            <TodoList title="Today" todos={todos} />
-            <TodoList title="Upcoming" todos={todos} />
+            <TodoList title="Today" />
+            <TodoList title="Upcoming" />
           </div>
         </div>
       </div>

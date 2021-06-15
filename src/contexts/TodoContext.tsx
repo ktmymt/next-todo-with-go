@@ -4,10 +4,14 @@ import { ITodo } from "../types/Todo"
 
 type TodoContextType = {
   todos: ITodo[]
+  setTodosState: (todos: ITodo[]) => void
+  createTodo: (title: string) => void
 }
 
 const todoContextDefaultValues: TodoContextType = {
   todos: null,
+  setTodosState: () => [],
+  createTodo: () => [],
 }
 
 const TodoContext = createContext<TodoContextType>(todoContextDefaultValues)
@@ -28,10 +32,24 @@ export const TodoProvider = ({ children }: Props) => {
   // set projects state that is used in some components
   const setTodosState = (todos: ITodo[]) => {
     setTodos(todos)
+    console.log(todos)
+  }
+
+  const createTodo = (title: string) => {
+    console.log("create", title)
+    // const res = await axios.post("/api/todo", {
+    //   name: name,
+    //   description: description,
+    //   todo: [],
+    //   color: color,
+    //   // updatedAt: Date.now(),
+    // })
   }
 
   const value = {
     todos,
+    setTodosState,
+    createTodo,
   }
 
   return (

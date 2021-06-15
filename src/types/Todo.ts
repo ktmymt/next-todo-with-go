@@ -3,6 +3,7 @@ export interface ITodo {
   title: string
   status: TODO_STATUS
   isDone: boolean
+  schedule: number
 }
 
 export enum TODO_STATUS {
@@ -18,17 +19,20 @@ export const todos: ITodo[] = [
     title: "todo 1",
     status: TODO_STATUS.WAITING,
     isDone: false,
+    schedule: 1,
   },
   {
     id: 2,
     title: "todo 2",
     status: TODO_STATUS.WAITING,
     isDone: false,
+    schedule: 0,
   },
   {
     id: 3,
     title: "todo 3",
     status: TODO_STATUS.WAITING,
     isDone: false,
+    schedule: 1,
   },
 ]
