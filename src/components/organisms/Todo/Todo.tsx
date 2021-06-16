@@ -6,7 +6,7 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons"
 import { Colors } from "../../../styles/colors"
 
 // components
-import { BaseText } from "../../atoms"
+import { BaseButton, BaseText } from "../../atoms"
 
 // types
 import { ITodo } from "../../../types/Todo"
@@ -18,6 +18,11 @@ interface Props {
 const todoContainer = css`
   display: flex;
   line-height: 2.2;
+`
+
+const todoConfStyle = css`
+  display: flex;
+  margin: 0 auto;
 `
 
 const iconStyle = (isDone: boolean) => css`
@@ -42,6 +47,14 @@ const Todo: FC<Props> = (props) => {
         onClick={onClickToggleCheck}
       />
       <BaseText text={props.todo.title} size="1.2rem" color={Colors.veryDarkGray} />
+      <div css={todoConfStyle}>
+        <BaseText text={props.todo.status} />
+        <BaseButton
+          text="ゴミ"
+          bgColor={Colors.lightGray}
+          onClickButton={() => console.log("click")}
+        />
+      </div>
     </div>
   )
 }

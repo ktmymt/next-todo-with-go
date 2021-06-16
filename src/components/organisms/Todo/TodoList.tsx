@@ -1,13 +1,13 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { BaseText, BaseInput } from "../../atoms"
 import { css } from "@emotion/react"
 import Todo from "./Todo"
 import { ITodo } from "../../../types/Todo"
-import axios from "axios"
+import { useTodoContext } from "../../../contexts/TodoContext"
+import { useProjectContext } from "../../../contexts/ProjectContext"
 
 interface Props {
   title: string
-  todos: ITodo[]
 }
 
 const todoListContainerStyle = css`
@@ -20,27 +20,34 @@ const todoListStyle = css`
 `
 
 const TodoList: FC<Props> = (props) => {
+  const { selectedProject } = useProjectContext()
+  const { createTodo } = useTodoContext()
   const [todoTitle, setTodoTitle] = useState("")
+
   const onChangeText = (text: string) => {
     setTodoTitle(text)
   }
 
   const onPressEnter = (key: string) => {
     if (key == "Enter") {
-      axios
-        .post("/api/todo", {
-          title: "三郎",
-          lastName: "田中",
-        })
-        .then(function (response) {
-          console.log(response.data)
-        })
+      createTodo(todoTitle)
     }
   }
 
   return (
     <div css={todoListContainerStyle}>
       <BaseText text={props.title} size="1.4rem" optionStyles="underbar" />
+      <ul css={todoListStyle}>
+        {selectedProject &&
+          selectedProject.todos &&
+          Object.values(selectedProject.todos).map((todo: ITodo, index) => {
+            return (
+              <li key={index}>
+                <Todo todo={todo} />
+              </li>
+            )
+          })}
+      </ul>
       <BaseInput
         type="text"
         placeholder="What comes to your mind?"
@@ -48,15 +55,6 @@ const TodoList: FC<Props> = (props) => {
         onChangeText={onChangeText}
         onPressEnter={onPressEnter}
       />
-      <ul css={todoListStyle}>
-        {Object.values(props.todos).map((todo: ITodo, index) => {
-          return (
-            <li key={index}>
-              <Todo todo={todo} />
-            </li>
-          )
-        })}
-      </ul>
     </div>
   )
 }

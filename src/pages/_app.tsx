@@ -4,13 +4,16 @@ import { CacheProvider } from "@emotion/react"
 import { cache } from "@emotion/css"
 import "../styles/global.css"
 import { ProjectProvider } from "../contexts/ProjectContext"
+import { TodoProvider } from "../contexts/TodoContext"
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <ProjectProvider>
-      <CacheProvider value={cache}>
-        <Component {...pageProps} />
-      </CacheProvider>
+      <TodoProvider>
+        <CacheProvider value={cache}>
+          <Component {...pageProps} />
+        </CacheProvider>
+      </TodoProvider>
     </ProjectProvider>
   )
 }
