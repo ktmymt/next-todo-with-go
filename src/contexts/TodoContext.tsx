@@ -7,6 +7,7 @@ type TodoContextType = {
   setTodosState: (todos: ITodo[]) => void
   changeTodoActive: (id: number) => void
   createTodo: (title: string) => void
+  updateTodo: (todo: ITodo) => void
 }
 
 const todoContextDefaultValues: TodoContextType = {
@@ -14,6 +15,7 @@ const todoContextDefaultValues: TodoContextType = {
   setTodosState: () => [],
   changeTodoActive: () => [],
   createTodo: () => [],
+  updateTodo: () => [],
 }
 
 const TodoContext = createContext<TodoContextType>(todoContextDefaultValues)
@@ -39,11 +41,14 @@ export const TodoProvider = ({ children }: Props) => {
     setTodos(activeTodos)
   }
 
+  // update target todo active
   const changeTodoActive = (id: number) => {
     const targetTodo = todos.find((todo) => todo.id == id)
     targetTodo.isDone = true
+    updateTodo(targetTodo)
   }
 
+  // create todo data
   const createTodo = (title: string) => {
     console.log("create", title)
     // const res = await axios.post("/api/todo", {
@@ -55,11 +60,30 @@ export const TodoProvider = ({ children }: Props) => {
     // })
   }
 
+  const updateTodo = async (todo: ITodo) => {
+    console.log(todo)
+    try {
+      const res = await axios.put(`/api/updTodo/${todo.id}`, {
+        id: todo.id,
+        title: todo.title,
+        isDone: todo.isDone,
+        status: todo.status,
+        schedule: todo.schedule,
+      })
+      if (res.status == 200) {
+        console.log("ok")
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const value = {
     todos,
     setTodosState,
     changeTodoActive,
     createTodo,
+    updateTodo,
   }
 
   return (
