@@ -18,4 +18,19 @@ export const Colors = {
     blue: "#488EF1",
     orange: "#F18567",
   },
+
+  todoStatus: {
+    approved: {
+      background: "#E0F4F4",
+      text: "#60C8C7",
+    },
+    inProgress: {
+      background: "#E3F0FD",
+      text: "#8BBAF6",
+    },
+    waiting: {
+      background: "#EBEEF0",
+      text: "#939FAB",
+    },
+  },
 }

@@ -38,7 +38,7 @@ const labelInputStyle = css`
     letter-spacing: 1px;
     color: #aaaaaa;
     border: none;
-    border-bottom: 2px solid #1b2538;
+    border-bottom: 2px solid ${Colors.veryLightGray};
     background: transparent;
   }
   input:focus {
