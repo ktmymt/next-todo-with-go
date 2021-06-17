@@ -12,6 +12,7 @@ import { getGreeting } from "../modules/greeting"
 // types
 import { IProject } from "../types/Project"
 import { useProjectContext } from "../contexts/ProjectContext"
+import { useTodoContext } from "../contexts/TodoContext"
 
 interface Props {
   initialProjects: IProject[]
@@ -63,6 +64,7 @@ Modal.setAppElement("#__next")
 
 const Home: NextPage<Props> = ({ initialProjects }) => {
   const { setProjectsState, setSelectedProjectState } = useProjectContext()
+  const { setTodosState } = useTodoContext()
 
   // get text from input box, and filter projects
   const onChangeSearchProject = (text: string) => {
@@ -77,6 +79,7 @@ const Home: NextPage<Props> = ({ initialProjects }) => {
   useEffect(() => {
     setProjectsState(initialProjects)
     setSelectedProjectState(initialProjects[0])
+    setTodosState(initialProjects[0].todos)
   }, [])
 
   return (

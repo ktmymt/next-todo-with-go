@@ -4,7 +4,6 @@ import { css } from "@emotion/react"
 import Todo from "./Todo"
 import { ITodo } from "../../../types/Todo"
 import { useTodoContext } from "../../../contexts/TodoContext"
-import { useProjectContext } from "../../../contexts/ProjectContext"
 
 interface Props {
   title: string
@@ -20,8 +19,7 @@ const todoListStyle = css`
 `
 
 const TodoList: FC<Props> = (props) => {
-  const { selectedProject } = useProjectContext()
-  const { createTodo } = useTodoContext()
+  const { createTodo, todos } = useTodoContext()
   const [todoTitle, setTodoTitle] = useState("")
 
   const onChangeText = (text: string) => {
@@ -38,9 +36,8 @@ const TodoList: FC<Props> = (props) => {
     <div css={todoListContainerStyle}>
       <BaseText text={props.title} size="1.4rem" optionStyles="underbar" />
       <ul css={todoListStyle}>
-        {selectedProject &&
-          selectedProject.todos &&
-          Object.values(selectedProject.todos).map((todo: ITodo, index) => {
+        {todos &&
+          Object.values(todos).map((todo: ITodo, index) => {
             return (
               <li key={index}>
                 <Todo todo={todo} />

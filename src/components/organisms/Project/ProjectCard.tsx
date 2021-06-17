@@ -6,6 +6,7 @@ import BaseText from "../../atoms/BaseText"
 
 import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
+import { useTodoContext } from "../../../contexts/TodoContext"
 
 interface Props {
   project: IProject
@@ -52,6 +53,7 @@ const selectedProjectStyle = (color: string) => css`
 
 const ProjectCard: FC<Props> = (props) => {
   const { setSelectedProjectState, sortProjects } = useProjectContext()
+  const { setTodosState } = useTodoContext()
   const [projecctName, setProjectName] = useState("")
 
   const getShortHandProjectName = (text: string) => {
@@ -67,6 +69,7 @@ const ProjectCard: FC<Props> = (props) => {
 
   const onClickProjectCard = () => {
     setSelectedProjectState(props.project)
+    setTodosState(props.project.todos)
     if (props.projectIndex >= 6) {
       sortProjects(props.project)
     }

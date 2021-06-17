@@ -10,6 +10,7 @@ import { BaseButton, BaseText } from "../../atoms"
 
 // types
 import { ITodo } from "../../../types/Todo"
+import { useTodoContext } from "../../../contexts/TodoContext"
 interface Props {
   todo: ITodo
 }
@@ -33,10 +34,12 @@ const iconStyle = (isDone: boolean) => css`
 `
 
 const Todo: FC<Props> = (props) => {
+  const { createTodo, todos, changeTodoActive } = useTodoContext()
   const [isDone, setIsDone] = useState(false)
 
   const onClickToggleCheck = () => {
     setIsDone(!isDone)
+    changeTodoActive(props.todo.id)
   }
 
   return (
