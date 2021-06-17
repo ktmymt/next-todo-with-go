@@ -5,12 +5,14 @@ import { ITodo } from "../types/Todo"
 type TodoContextType = {
   todos: ITodo[]
   setTodosState: (todos: ITodo[]) => void
+  changeTodoActive: (id: number) => void
   createTodo: (title: string) => void
 }
 
 const todoContextDefaultValues: TodoContextType = {
   todos: null,
   setTodosState: () => [],
+  changeTodoActive: () => [],
   createTodo: () => [],
 }
 
@@ -31,8 +33,15 @@ export const TodoProvider = ({ children }: Props) => {
 
   // set projects state that is used in some components
   const setTodosState = (todos: ITodo[]) => {
-    setTodos(todos)
-    console.log(todos)
+    const activeTodos = todos.filter((todo) => {
+      return todo.isDone == false
+    })
+    setTodos(activeTodos)
+  }
+
+  const changeTodoActive = (id: number) => {
+    const targetTodo = todos.find((todo) => todo.id == id)
+    targetTodo.isDone = true
   }
 
   const createTodo = (title: string) => {
@@ -49,6 +58,7 @@ export const TodoProvider = ({ children }: Props) => {
   const value = {
     todos,
     setTodosState,
+    changeTodoActive,
     createTodo,
   }
 
