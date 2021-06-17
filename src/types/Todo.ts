@@ -1,7 +1,7 @@
 export interface ITodo {
   id: number
   title: string
-  status: TODO_STATUS
+  status: string
   isDone: boolean
   schedule: number
 }
