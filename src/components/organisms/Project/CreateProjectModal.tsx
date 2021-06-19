@@ -4,7 +4,8 @@ import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { useProjectContext } from "../../../contexts/ProjectContext"
-import { getAxiosInstance } from "../../../modules/request"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCheck } from "@fortawesome/free-solid-svg-icons"
 
 // for modal
 const customStyles = {
@@ -51,7 +52,7 @@ const colorButtonContainerStyle = css`
   justify-content: space-between;
   width: 90%;
   line-height: 2;
-  margin-top: 30px;
+  margin-top: 40px;
 `
 
 const colorButtonStyle = (color: string) => css`
@@ -59,36 +60,64 @@ const colorButtonStyle = (color: string) => css`
   height: 40px;
   border-radius: 20px;
   background-color: ${color};
+  text-align: center;
+  position: relative;
+`
+
+const selectedColorButtonStyle = (color: string) => css`
+  ${colorButtonStyle(color)}
+  ::after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    border: 4px solid ${color};
+    border-radius: 30px;
+    position: absolute;
+    top: -9px;
+    left: -9px;
+  }
+`
+
+const checkIconStyle = css`
+  font-size: 1.2rem;
+  color: ${Colors.black};
+  margin-top: 10px;
 `
 
 const buttonStyle = css`
   display: flex;
   justify-content: space-around;
-  margin-top: 40px;
+  margin-top: 30px;
 
   button {
     width: 35%;
-    height: 50px;
+    height: 60px;
     border-radius: 20px;
+    font-size: 1.1rem;
   }
 `
 
 const CreateProjectModal: FC = () => {
-  const { createProject, refreshProjects } = useProjectContext()
+  const { createProject } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [projectTitle, setProjectTitle] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
   const [projectColor, setProjectColor] = useState("")
 
-  const onClickButton = async () => {
+  const onClickCreate = async () => {
     createProject(projectTitle, projectDescription, projectColor)
     setModalIsOpen(false)
+  }
+
+  const onClickModalClose = () => {
+    setModalIsOpen(false)
+    setProjectColor("")
   }
 
   return (
     <>
       <BaseButton text="+" bgColor={Colors.purple} onClickButton={() => setModalIsOpen(true)} />
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
+      <Modal isOpen={modalIsOpen} onRequestClose={onClickModalClose} style={customStyles}>
         <div css={inputAreaStyle}>
           <h2>Create a Workspace</h2>
           <BaseInput
@@ -98,14 +127,24 @@ const CreateProjectModal: FC = () => {
             onChangeText={setProjectTitle}
           />
           <div css={colorButtonContainerStyle}>
-            <BaseText text="Color" size="1.0rem" color={Colors.lightGray} />
+            <BaseText text="Color" size="1rem" color={Colors.lightGray} />
             {Object.entries(Colors.projectCards).map((color, index) => {
               return (
                 <span
                   key={index}
-                  css={colorButtonStyle(color[1])}
+                  css={
+                    projectColor == color[0]
+                      ? selectedColorButtonStyle(color[1])
+                      : colorButtonStyle(color[1])
+                  }
                   onClick={() => setProjectColor(color[0])}
-                ></span>
+                >
+                  {projectColor == color[0] ? (
+                    <FontAwesomeIcon icon={faCheck} css={checkIconStyle} />
+                  ) : (
+                    ""
+                  )}
+                </span>
               )
             })}
           </div>
@@ -115,16 +154,12 @@ const CreateProjectModal: FC = () => {
           />
         </div>
         <div css={buttonStyle}>
-          <BaseButton
-            text="Close"
-            bgColor={Colors.white}
-            onClickButton={() => setModalIsOpen(false)}
-          />
+          <BaseButton text="Close" bgColor={Colors.offWhite} onClickButton={onClickModalClose} />
           <BaseButton
             text="Create"
             bgColor={Colors.purple}
             textColor={Colors.white}
-            onClickButton={onClickButton}
+            onClickButton={onClickCreate}
           />
         </div>
       </Modal>

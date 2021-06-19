@@ -6,12 +6,12 @@ type ProjectContextType = {
   projects: IProject[]
   selectedProject: IProject
   setProjectsState: (projects: IProject[]) => void
-  setSelectedProjectState: (project: IProject) => void
+  setSelectedProjectState: (project: IProject | null) => void
   refreshProjects: () => void
   sortProjects: (project: IProject) => void
   createProject: (name: string, description: string, color: string) => void
   updateProject: (project: IProject) => void
-  deleteProject: (project: IProject) => void
+  deleteProject: (id: number) => void
 }
 
 const projectContextDefaultValues: ProjectContextType = {
@@ -48,15 +48,23 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // set selected project state for current project
-  const setSelectedProjectState = (project: IProject) => {
+  const setSelectedProjectState = (project: IProject | null) => {
     setSelectedProject(project)
   }
 
   // refreshing project data
   const refreshProjects = async () => {
-    const res = await axios.get("/api/projects")
-    const projects = await res.data
-    setProjects(projects)
+    try {
+      const res = await axios.get("/api/projects")
+      const projects = await res.data
+      setProjects(projects.data)
+
+      if (!projects.data) {
+        setSelectedProject(null)
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   // move selected project to top
@@ -68,19 +76,22 @@ export const ProjectProvider = ({ children }: Props) => {
 
   // create project, and update projects state, and selected project state
   const createProject = async (name: string, description: string, color: string) => {
-    const res = await axios.post("/api/project", {
-      name: name,
-      description: description,
-      todo: [],
-      color: color,
-      // updatedAt: Date.now(),
-    })
-    const newProject = await res.data.data
-    setProjects((prevProjects) => {
-      const updatedProjects = [newProject, ...prevProjects]
-      return updatedProjects
-    })
-    setSelectedProjectState(newProject)
+    try {
+      const res = await axios.post("/api/project", {
+        name: name,
+        description: description,
+        todos: [],
+        color: color,
+      })
+      const newProject = await res.data.data
+      setProjects((prevProjects) => {
+        const updatedProjects = [newProject, ...prevProjects]
+        return updatedProjects
+      })
+      setSelectedProject(newProject)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   // update target project
@@ -89,8 +100,16 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // delete target project
-  const deleteProject = () => {
-    axios.post("test")
+  const deleteProject = async (id: number) => {
+    try {
+      const res = await axios.delete(`/api/delProject/${id}`, { data: { id: id } })
+      const status = await res.status
+      if (status == 200) {
+        refreshProjects()
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const value = {

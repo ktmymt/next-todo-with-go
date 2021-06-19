@@ -77,9 +77,11 @@ const Home: NextPage<Props> = ({ initialProjects }) => {
   }
 
   useEffect(() => {
-    setProjectsState(initialProjects)
-    setSelectedProjectState(initialProjects[0])
-    setTodosState(initialProjects[0].todos)
+    if (initialProjects) {
+      setProjectsState(initialProjects)
+      setSelectedProjectState(initialProjects[0])
+      setTodosState(initialProjects[0].todos)
+    }
   }, [])
 
   return (

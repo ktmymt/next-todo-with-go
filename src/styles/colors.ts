@@ -10,6 +10,7 @@ export const Colors = {
   veryLightGray: "#d1d4d8",
   lightGreen: "#36D9D8",
   purple: "#6463FC",
+  red: "#F25F5E",
 
   projectCards: {
     pink: "#fa36aa",

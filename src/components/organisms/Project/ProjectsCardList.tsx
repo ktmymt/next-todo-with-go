@@ -51,14 +51,14 @@ const ProjectCardList: FC = () => {
 
   return (
     <div css={projectCardListContainerStyle}>
-      {projects.length > 0 && (
-        <>
-          <div css={projectCardListHeaderStyle}>
-            <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
-            <span>({projects.length})</span>
-            <CreateProjectModal />
-          </div>
+      <>
+        <div css={projectCardListHeaderStyle}>
+          <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
+          <span>({projects.length})</span>
+          <CreateProjectModal />
+        </div>
 
+        {projects.length > 0 && (
           <div css={projectCardListStyle}>
             {projects.slice(0, 5).map((project: IProject) => {
               return (
@@ -69,8 +69,8 @@ const ProjectCardList: FC = () => {
             })}
             {projects.length >= 5 && <MoreProjectsModal />}
           </div>
-        </>
-      )}
+        )}
+      </>
     </div>
   )
 }
