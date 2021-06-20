@@ -1,29 +1,38 @@
 import { ReactNode, createContext, useContext, useState } from "react"
 import { getAxiosInstance } from "../modules/request"
 import { IProject } from "../types/Project"
+import { IError } from "../types/Error"
 
 type ProjectContextType = {
   projects: IProject[]
   selectedProject: IProject
+  projectNameError: string
+  projectDescriptionError: string
+  projectColorError: string
   setProjectsState: (projects: IProject[]) => void
   setSelectedProjectState: (project: IProject | null) => void
   refreshProjects: () => void
   sortProjects: (project: IProject) => void
-  createProject: (name: string, description: string, color: string) => void
+  createProject: (name: string, description: string, color: string) => Promise<number>
   updateProject: (project: IProject) => void
   deleteProject: (id: number) => void
+  resetErrorsState: () => void
 }
 
 const projectContextDefaultValues: ProjectContextType = {
   projects: null,
   selectedProject: null,
+  projectNameError: null,
+  projectDescriptionError: null,
+  projectColorError: null,
   setProjectsState: () => [],
   setSelectedProjectState: () => [],
   refreshProjects: () => [],
   sortProjects: () => [],
-  createProject: () => [],
+  createProject: async () => await 0,
   updateProject: () => [],
   deleteProject: () => [],
+  resetErrorsState: () => [],
 }
 
 const ProjectContext = createContext<ProjectContextType>(projectContextDefaultValues)
@@ -41,15 +50,23 @@ export const ProjectProvider = ({ children }: Props) => {
 
   const [projects, setProjects] = useState<IProject[]>([])
   const [selectedProject, setSelectedProject] = useState<IProject>()
+  const [projectNameError, setProjectNameError] = useState("")
+  const [projectDescriptionError, setProjectDescriptionError] = useState("")
+  const [projectColorError, setProjectColorError] = useState("")
 
   // set projects state that is used in some components
-  const setProjectsState = (projects: IProject[]) => {
+  const setProjectsState = (projects: IProject[]): void => {
     setProjects(projects)
   }
 
   // set selected project state for current project
-  const setSelectedProjectState = (project: IProject | null) => {
+  const setSelectedProjectState = (project: IProject | null): void => {
     setSelectedProject(project)
+  }
+
+  const resetErrorsState = (): void => {
+    setProjectNameError("")
+    setProjectColorError("")
   }
 
   // refreshing project data
@@ -59,8 +76,8 @@ export const ProjectProvider = ({ children }: Props) => {
       const projects = await res.data
       setProjects(projects.data)
 
-      if (!projects.data) {
-        setSelectedProject(null)
+      if (projects.data.length > 0) {
+        setSelectedProject(projects.data[0])
       }
     } catch (e) {
       console.error(e)
@@ -75,7 +92,11 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // create project, and update projects state, and selected project state
-  const createProject = async (name: string, description: string, color: string) => {
+  const createProject = async (
+    name: string,
+    description: string,
+    color: string,
+  ): Promise<number> => {
     try {
       const res = await axios.post("/api/project", {
         name: name,
@@ -83,14 +104,30 @@ export const ProjectProvider = ({ children }: Props) => {
         todos: [],
         color: color,
       })
-      const newProject = await res.data.data
+      const newProject = await res.data
       setProjects((prevProjects) => {
-        const updatedProjects = [newProject, ...prevProjects]
+        const updatedProjects = [newProject.data, ...prevProjects]
         return updatedProjects
       })
-      setSelectedProject(newProject)
-    } catch (e) {
-      console.error(e)
+      setSelectedProject(newProject.data)
+      return newProject.code
+    } catch (err) {
+      const errorRes = err.response.data
+      resetErrorsState()
+      if (errorRes.code == 400) {
+        errorRes.data.map((error: IError) => {
+          if (error.name == "projectName") {
+            setProjectNameError(error.message)
+          }
+          if (error.name == "projectDescription") {
+            setProjectDescriptionError(error.message)
+          }
+          if (error.name == "projectColor") {
+            setProjectColorError(error.message)
+          }
+        })
+      }
+      return errorRes.code
     }
   }
 
@@ -115,6 +152,9 @@ export const ProjectProvider = ({ children }: Props) => {
   const value = {
     projects,
     selectedProject,
+    projectNameError,
+    projectDescriptionError,
+    projectColorError,
     setProjectsState,
     setSelectedProjectState,
     refreshProjects,
@@ -122,6 +162,7 @@ export const ProjectProvider = ({ children }: Props) => {
     createProject,
     updateProject,
     deleteProject,
+    resetErrorsState,
   }
 
   return (

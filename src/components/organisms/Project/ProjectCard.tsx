@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useEffect } from "react"
 import { css } from "@emotion/react"
 
 import { IProject } from "../../../types/Project"
@@ -54,17 +54,16 @@ const selectedProjectStyle = (color: string) => css`
 const ProjectCard: FC<Props> = (props) => {
   const { setSelectedProjectState, sortProjects } = useProjectContext()
   const { setTodosState } = useTodoContext()
-  const [projecctName, setProjectName] = useState("")
 
-  const getShortHandProjectName = (text: string) => {
-    let test = ""
+  const getShortHandProjectName = (text: string): string => {
+    let name = ""
     const splitName = text.split(" ")
     if (splitName.length > 1) {
-      test = splitName[0][0].toUpperCase() + splitName[1][0].toUpperCase()
+      name = splitName[0][0].toUpperCase() + splitName[1][0].toUpperCase()
     } else {
-      test = splitName[0][0].toUpperCase() + splitName[0][1].toUpperCase()
+      name = splitName[0][0].toUpperCase() + splitName[0][1].toUpperCase()
     }
-    setProjectName(test)
+    return name
   }
 
   const onClickProjectCard = () => {
@@ -90,7 +89,7 @@ const ProjectCard: FC<Props> = (props) => {
             : projectCardStyle(props.project.color)
         }
       >
-        <p>{projecctName}</p>
+        <p>{getShortHandProjectName(props.project.name)}</p>
       </div>
       <BaseText
         text={props.project.name}

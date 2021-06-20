@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import Modal from "react-modal"
 import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
@@ -23,7 +23,7 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     width: "400px",
-    height: "500px",
+    height: "600px",
     backgroundColor: "#3D3D40",
     borderStyle: "none",
     borderRadius: "20px",
@@ -41,6 +41,7 @@ const inputAreaStyle = css`
 
   input {
     margin-top: 30px;
+    width: 140px;
   }
   textarea {
     margin-top: 45px;
@@ -98,15 +99,27 @@ const buttonStyle = css`
 `
 
 const CreateProjectModal: FC = () => {
-  const { createProject } = useProjectContext()
+  const {
+    createProject,
+    projectNameError,
+    projectDescriptionError,
+    projectColorError,
+    resetErrorsState,
+  } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [projectTitle, setProjectTitle] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
   const [projectColor, setProjectColor] = useState("")
 
+  const onClickModalOpen = () => {
+    setModalIsOpen(true)
+    resetErrorsState()
+  }
+
   const onClickCreate = async () => {
-    createProject(projectTitle, projectDescription, projectColor)
-    setModalIsOpen(false)
+    const statusCode = await createProject(projectTitle, projectDescription, projectColor)
+    if (statusCode != 400) setModalIsOpen(false)
+    setProjectColor("")
   }
 
   const onClickModalClose = () => {
@@ -116,16 +129,17 @@ const CreateProjectModal: FC = () => {
 
   return (
     <>
-      <BaseButton text="+" bgColor={Colors.purple} onClickButton={() => setModalIsOpen(true)} />
+      <BaseButton text="+" bgColor={Colors.purple} onClickButton={onClickModalOpen} />
       <Modal isOpen={modalIsOpen} onRequestClose={onClickModalClose} style={customStyles}>
         <div css={inputAreaStyle}>
           <h2>Create a Workspace</h2>
           <BaseInput
             type="text"
-            placeholder="Workspace Name"
+            placeholder="Project Name"
             hasLabel={true}
             onChangeText={setProjectTitle}
           />
+          <span>{projectNameError}</span>
           <div css={colorButtonContainerStyle}>
             <BaseText text="Color" size="1rem" color={Colors.lightGray} />
             {Object.entries(Colors.projectCards).map((color, index) => {
@@ -148,11 +162,13 @@ const CreateProjectModal: FC = () => {
               )
             })}
           </div>
+          <span>{projectColorError}</span>
           <BaseTextArea
             placeholder="Write some description for your workspace"
             onChangeText={setProjectDescription}
           />
         </div>
+        <span>{projectDescriptionError}</span>
         <div css={buttonStyle}>
           <BaseButton text="Close" bgColor={Colors.offWhite} onClickButton={onClickModalClose} />
           <BaseButton
