@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import Modal from "react-modal"
 import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
