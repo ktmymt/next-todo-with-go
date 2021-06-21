@@ -54,6 +54,7 @@ const todoSideStyle = css`
   height: 96vh;
   margin: 22px;
   border-radius: 20px;
+  overflow: auto;
 `
 
 const todoSideContainerStyle = css`
