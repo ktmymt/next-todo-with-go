@@ -3,6 +3,7 @@ import { css } from "@emotion/react"
 import { Colors } from "../../styles/colors"
 
 type Props = {
+  value?: string
   placeholder?: string
   onChangeText: (text: string) => void
 }
@@ -27,7 +28,9 @@ const BaseTextArea: FC<Props> = (props) => {
       css={inputStyle}
       placeholder={props.placeholder}
       onChange={(e) => props.onChangeText(e.target.value)}
-    />
+    >
+      {props.value}
+    </textarea>
   )
 }
 

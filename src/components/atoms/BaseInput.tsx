@@ -4,6 +4,7 @@ import { Colors } from "../../styles/colors"
 
 interface Props {
   type: string
+  value?: string
   placeholder?: string
   hasLabel?: boolean
   onChangeText?: (text: string) => void
@@ -26,7 +27,7 @@ const inputStyle = css`
 
 const labelInputStyle = css`
   position: relative;
-  width: 90%;
+  width: 77%;
   margin: 20px 0;
 
   input {
@@ -55,6 +56,7 @@ const BaseInput: FC<Props> = (props) => {
           <label>
             <input
               type="text"
+              value={props.value}
               placeholder={props.placeholder}
               onChange={(e) => props.onChangeText && props.onChangeText(e.target.value)}
               onKeyPress={(e) => props.onPressEnter && props.onPressEnter(e.key)}
@@ -67,6 +69,7 @@ const BaseInput: FC<Props> = (props) => {
         <input
           type={props.type}
           css={inputStyle}
+          value={props.value}
           placeholder={props.placeholder}
           onChange={(e) => props.onChangeText(e.target.value)}
         />
