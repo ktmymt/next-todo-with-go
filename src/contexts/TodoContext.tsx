@@ -1,13 +1,14 @@
 import { ReactNode, createContext, useContext, useState } from "react"
 import { getAxiosInstance } from "../modules/request"
-import { ITodo } from "../types/Todo"
+import { ITodo, TODO_STATUS } from "../types/Todo"
 
 type TodoContextType = {
   todos: ITodo[]
   setTodosState: (todos: ITodo[]) => void
   changeTodoActive: (id: number) => void
-  createTodo: (title: string) => void
+  createTodo: (title: string, projectId: number, scheduleId: number) => void
   updateTodo: (todo: ITodo) => void
+  deleteTodo: (id: number) => void
 }
 
 const todoContextDefaultValues: TodoContextType = {
@@ -16,6 +17,7 @@ const todoContextDefaultValues: TodoContextType = {
   changeTodoActive: () => [],
   createTodo: () => [],
   updateTodo: () => [],
+  deleteTodo: () => [],
 }
 
 const TodoContext = createContext<TodoContextType>(todoContextDefaultValues)
@@ -49,19 +51,23 @@ export const TodoProvider = ({ children }: Props) => {
   }
 
   // create todo data
-  const createTodo = (title: string) => {
-    console.log("create", title)
-    // const res = await axios.post("/api/todo", {
-    //   name: name,
-    //   description: description,
-    //   todo: [],
-    //   color: color,
-    //   // updatedAt: Date.now(),
-    // })
+  const createTodo = async (title: string, projectId: number, scheduleId: number) => {
+    const status = scheduleId == 0 ? TODO_STATUS.PENDING : TODO_STATUS.WAITING
+    const res = await axios.post("/api/todo", {
+      projectId: projectId,
+      title: title,
+      isDone: false,
+      status: status,
+      schedule: scheduleId,
+    })
+    const newTodo = await res.data
+    setTodos((prevTodos) => {
+      const updatedTodos = [...prevTodos, newTodo.data]
+      return updatedTodos
+    })
   }
 
   const updateTodo = async (todo: ITodo) => {
-    console.log(todo)
     try {
       const res = await axios.put(`/api/updTodo/${todo.id}`, {
         id: todo.id,
@@ -76,6 +82,13 @@ export const TodoProvider = ({ children }: Props) => {
     } catch (e) {
       console.error(e)
     }
+  }
+
+  const deleteTodo = async (id: number) => {
+    console.log(id)
+    // try {
+    //   const res = await axios.delete(`/api/del`)
+    // }
   }
 
   const value = {

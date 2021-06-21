@@ -9,7 +9,7 @@ export interface ITodo {
 export enum TODO_STATUS {
   APPROVED = "Approved",
   IN_PROGRESS = "In Progress",
-  IN_REVIEW = "In Reveiw",
+  PENDING = "Pending",
   WAITING = "Waiting",
 }
 

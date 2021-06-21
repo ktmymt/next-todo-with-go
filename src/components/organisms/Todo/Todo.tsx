@@ -52,7 +52,7 @@ const statusLabelStyle = (colors) => css`
 `
 
 const Todo: FC<Props> = (props) => {
-  const { todos, setTodosState, changeTodoActive } = useTodoContext()
+  const { todos, setTodosState, changeTodoActive, deleteTodo } = useTodoContext()
   const [isDone, setIsDone] = useState(false)
 
   const onClickToggleCheck = () => {
@@ -65,12 +65,19 @@ const Todo: FC<Props> = (props) => {
     if (status == TODO_STATUS.APPROVED) {
       return Colors.todoStatus.approved
     }
+    if (status == TODO_STATUS.PENDING) {
+      return Colors.todoStatus.pending
+    }
     if (status == TODO_STATUS.IN_PROGRESS) {
       return Colors.todoStatus.inProgress
     }
     if (status == TODO_STATUS.WAITING) {
       return Colors.todoStatus.waiting
     }
+  }
+
+  const onClickDelete = () => {
+    deleteTodo(props.todo.id)
   }
 
   return (
@@ -85,7 +92,7 @@ const Todo: FC<Props> = (props) => {
         <span css={statusLabelStyle(getTodoStatusColor(props.todo.status))}>
           {props.todo.status}
         </span>
-        <FontAwesomeIcon icon={faTrash} css={trashIconStyle} />
+        <FontAwesomeIcon icon={faTrash} css={trashIconStyle} onClick={onClickDelete} />
       </div>
     </div>
   )

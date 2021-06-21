@@ -29,6 +29,10 @@ export const Colors = {
       background: "#E3F0FD",
       text: "#8BBAF6",
     },
+    pending: {
+      background: "#FCEFE8",
+      text: "#F29C7F",
+    },
     waiting: {
       background: "#EBEEF0",
       text: "#939FAB",

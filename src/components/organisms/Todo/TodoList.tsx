@@ -5,6 +5,7 @@ import Todo from "./Todo"
 import { ITodo } from "../../../types/Todo"
 import { useTodoContext } from "../../../contexts/TodoContext"
 import { Colors } from "../../../styles/colors"
+import { useProjectContext } from "../../../contexts/ProjectContext"
 
 interface Props {
   title: string
@@ -21,6 +22,7 @@ const todoListStyle = css`
 
 const TodoList: FC<Props> = (props) => {
   const { createTodo, todos } = useTodoContext()
+  const { selectedProject } = useProjectContext()
   const [todoTitle, setTodoTitle] = useState("")
 
   const onChangeText = (text: string) => {
@@ -29,7 +31,8 @@ const TodoList: FC<Props> = (props) => {
 
   const onPressEnter = (key: string) => {
     if (key == "Enter") {
-      createTodo(todoTitle)
+      const schedule = props.title == "Today" ? 0 : 1
+      createTodo(todoTitle, selectedProject.id, schedule)
     }
   }
 
