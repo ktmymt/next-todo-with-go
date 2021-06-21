@@ -33,6 +33,7 @@ const TodoList: FC<Props> = (props) => {
     if (key == "Enter") {
       const schedule = props.title == "Today" ? 0 : 1
       createTodo(todoTitle, selectedProject.id, schedule)
+      setTodoTitle("")
     }
   }
 
@@ -62,6 +63,7 @@ const TodoList: FC<Props> = (props) => {
       <BaseInput
         type="text"
         placeholder={props.title == "Today" ? "Write something" : "What comes to your mind?"}
+        value={todoTitle}
         hasLabel={true}
         onChangeText={onChangeText}
         onPressEnter={onPressEnter}

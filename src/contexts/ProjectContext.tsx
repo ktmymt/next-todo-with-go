@@ -14,7 +14,7 @@ type ProjectContextType = {
   refreshProjects: () => void
   sortProjects: (project: IProject) => void
   createProject: (name: string, description: string, color: string) => Promise<number>
-  updateProject: (project: IProject) => void
+  updateProject: (id: number, name: string, description: string, color: string) => Promise<number>
   deleteProject: (id: number) => void
   resetErrorsState: () => void
 }
@@ -30,7 +30,7 @@ const projectContextDefaultValues: ProjectContextType = {
   refreshProjects: () => [],
   sortProjects: () => [],
   createProject: async () => await 0,
-  updateProject: () => [],
+  updateProject: async () => await null,
   deleteProject: () => [],
   resetErrorsState: () => [],
 }
@@ -132,8 +132,21 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // update target project
-  const updateProject = () => {
-    axios.post("test")
+  const updateProject = async (
+    id: number,
+    name: string,
+    description: string,
+    color: string,
+  ): Promise<number> => {
+    const params = {
+      name: name,
+      description: description,
+      todos: [],
+      color: color,
+    }
+    const res = await axios.put(`/api/updProject/${id}`, params)
+    const result = await res.data
+    return result.code
   }
 
   // delete target project
