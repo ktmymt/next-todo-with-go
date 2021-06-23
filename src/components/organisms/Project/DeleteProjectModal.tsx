@@ -70,7 +70,7 @@ const DeleteProjectModal: FC = () => {
     <>
       <BaseButton
         text="Delete Project"
-        bgColor={Colors.purple}
+        bgColor={Colors.white}
         onClickButton={() => setModalIsOpen(true)}
       />
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>

@@ -71,7 +71,7 @@ const ProjectCard: FC<Props> = (props) => {
     setTodosState(props.project.todos)
 
     // if the project card is in all area
-    if (props.projectIndex >= 6) {
+    if (props.projectIndex >= 5) {
       sortProjects(props.project)
     }
   }

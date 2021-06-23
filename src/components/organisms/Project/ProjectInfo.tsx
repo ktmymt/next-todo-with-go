@@ -30,6 +30,20 @@ const projectInfoStyle = css`
   }
 `
 
+const inEditProjectButtonStyle = css`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+
+  button {
+    width: 40%;
+  }
+
+  button:nth-child(2) {
+    color: ${Colors.white};
+  }
+`
+
 const projectMenuContainerStyle = css`
   svg {
     margin-left: auto;
@@ -41,9 +55,18 @@ const projectMenuContainerStyle = css`
   flex-direction: column;
 `
 
-const projectMenuButtonStyle = (isActive) => css`
+const projectMenuButtonStyle = (isActive: boolean) => css`
   display: ${isActive ? "flex" : "none"};
   flex-direction: column;
+
+  button {
+    font-size: 1rem;
+    padding: 10px 20px 10px 20px;
+  }
+
+  button:hover {
+    color: ${Colors.blue};
+  }
 `
 
 const ProjectInfo: FC = () => {
@@ -92,12 +115,14 @@ const ProjectInfo: FC = () => {
                   onChange={(e) => setProjectDescription(e.target.value)}
                   defaultValue={selectedProject.description}
                 ></textarea>
-                <BaseButton
-                  text="Cancel"
-                  bgColor={Colors.veryLightGray}
-                  onClickButton={() => setEditMode(false)}
-                />
-                <BaseButton text="Save" bgColor={Colors.purple} onClickButton={onClickSave} />
+                <div css={inEditProjectButtonStyle}>
+                  <BaseButton
+                    text="Cancel"
+                    bgColor={Colors.veryLightGray}
+                    onClickButton={() => setEditMode(false)}
+                  />
+                  <BaseButton text="Save" bgColor={Colors.purple} onClickButton={onClickSave} />
+                </div>
               </>
             ) : (
               <>
@@ -115,7 +140,7 @@ const ProjectInfo: FC = () => {
             <div css={projectMenuButtonStyle(isMenuActive)}>
               <BaseButton
                 text="Update Project"
-                bgColor={Colors.purple}
+                bgColor={Colors.white}
                 onClickButton={() => setEditMode(true)}
               />
               <DeleteProjectModal />

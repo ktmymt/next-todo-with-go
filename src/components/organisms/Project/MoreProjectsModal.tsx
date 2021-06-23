@@ -64,7 +64,7 @@ const MoreProjectsModal: FC = () => {
   return (
     <div css={moreProjectsStyle}>
       <BaseButton
-        text={projects.length.toString() + "+"}
+        text={projects.length - 5 + "+"}
         textColor={Colors.white}
         bgColor={Colors.lightGray}
         onClickButton={() => setModalIsOpen(true)}

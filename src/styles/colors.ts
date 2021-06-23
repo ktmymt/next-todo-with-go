@@ -11,6 +11,7 @@ export const Colors = {
   lightGreen: "#36D9D8",
   purple: "#6463FC",
   red: "#F25F5E",
+  blue: "#4692E7",
 
   projectCards: {
     pink: "#fa36aa",
