@@ -69,6 +69,8 @@ const ProjectCard: FC<Props> = (props) => {
   const onClickProjectCard = () => {
     setSelectedProjectState(props.project)
     setTodosState(props.project.todos)
+
+    // if the project card is in all area
     if (props.projectIndex >= 6) {
       sortProjects(props.project)
     }

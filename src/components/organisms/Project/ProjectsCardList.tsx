@@ -51,26 +51,24 @@ const ProjectCardList: FC = () => {
 
   return (
     <div css={projectCardListContainerStyle}>
-      <>
-        <div css={projectCardListHeaderStyle}>
-          <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
-          <span>({projects.length})</span>
-          <CreateProjectModal />
-        </div>
+      <div css={projectCardListHeaderStyle}>
+        <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
+        <span>({projects.length})</span>
+        <CreateProjectModal />
+      </div>
 
-        {projects.length > 0 && (
-          <div css={projectCardListStyle}>
-            {projects.slice(0, 5).map((project: IProject) => {
-              return (
-                <div css={projectCardContainerStyle} key={project.id}>
-                  <ProjectCard project={project} isSelected={project == selectedProject} />
-                </div>
-              )
-            })}
-            {projects.length >= 5 && <MoreProjectsModal />}
-          </div>
-        )}
-      </>
+      {projects.length > 0 && (
+        <div css={projectCardListStyle}>
+          {projects.slice(0, 5).map((project: IProject) => {
+            return (
+              <div css={projectCardContainerStyle} key={project.id}>
+                <ProjectCard project={project} isSelected={project == selectedProject} />
+              </div>
+            )
+          })}
+          {projects.length >= 5 && <MoreProjectsModal />}
+        </div>
+      )}
     </div>
   )
 }
