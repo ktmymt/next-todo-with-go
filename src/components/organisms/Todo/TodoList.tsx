@@ -62,7 +62,7 @@ const TodoList: FC<Props> = (props) => {
       </ul>
       <BaseInput
         type="text"
-        placeholder={props.title == "Today" ? "Write something" : "What comes to your mind?"}
+        placeholder={props.title == "Today" ? "What comes to your mind?" : "Write something"}
         value={todoTitle}
         hasLabel={true}
         onChangeText={onChangeText}

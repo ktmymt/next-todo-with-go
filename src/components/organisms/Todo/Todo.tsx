@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useState, useRef, useEffect } from "react"
 import { css } from "@emotion/css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-regular-svg-icons"
@@ -41,26 +41,99 @@ const trashIconStyle = css`
 const statusLabelStyle = (colors) => css`
   background-color: ${colors.background};
   color: ${colors.text};
-  padding: 1px 20px 1px 20px;
+  padding: 1px 25px 1px 25px;
   margin-top: 10px;
-  width: 100%;
   height: 0;
   border-radius: 20px;
   display: inline-table;
   text-align: center;
   font-size: 0.9rem;
+  position: relative;
+`
+
+const statusSelectionStyle = css`
+  position: absolute;
+  width: 90px;
+  z-index: 2;
+  left: -7px;
+  transform: scaleY(0);
+  transform-origin: top;
+  box-shadow: 1px 1px 8px ${Colors.offWhite};
+
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  transition: transform 0.2s;
+`
+
+const statusSelectionScaleStyle = css`
+  ${statusSelectionStyle}
+  transform: scaleY(1);
+`
+
+const statusSelectButtonStyle = (colors) => css`
+  background-color: ${Colors.white};
+  color: ${colors.text};
+  border: none;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0;
+  margin-top: 10px;
+
+  :hover {
+    border-bottom: ${Colors.offWhite} 1px solid;
+  }
 `
 
 const Todo: FC<Props> = (props) => {
-  const { todos, setTodosState, changeTodoActive, deleteTodo } = useTodoContext()
+  const { todos, setTodosState, changeTodoActive, updateTodo, deleteTodo } = useTodoContext()
   const [isDone, setIsDone] = useState(false)
+  const [isChangeStatus, setIsChangeStatus] = useState(false)
+  const popupRef = useRef<any>()
+  const documentClickHandler = useRef<any>()
 
+  useEffect(() => {
+    documentClickHandler.current = (e) => {
+      if (popupRef.current.contains(e.target)) return
+
+      setIsChangeStatus(false)
+      removeDocumentClickHandler()
+    }
+  }, [])
+
+  const removeDocumentClickHandler = () => {
+    document.removeEventListener("click", documentClickHandler.current)
+  }
+
+  const handleToggleButtonClick = () => {
+    if (isChangeStatus) return
+
+    setIsChangeStatus(true)
+    document.addEventListener("click", documentClickHandler.current)
+  }
+
+  const handleCloseButtonClick = (status: string) => {
+    updateTodo({
+      id: props.todo.id,
+      projectId: props.todo.projectId,
+      title: props.todo.title,
+      isDone: props.todo.isDone,
+      status: status,
+      schedule: props.todo.schedule,
+    })
+    setIsChangeStatus(false)
+    removeDocumentClickHandler()
+  }
+
+  // check mark click event
   const onClickToggleCheck = () => {
     setIsDone(!isDone)
     changeTodoActive(props.todo.id)
     setTodosState(todos)
   }
 
+  // status colors are stored in todo.ts
   const getTodoStatusColor = (status: string): { background: string; text: string } => {
     if (status == TODO_STATUS.APPROVED) {
       return Colors.todoStatus.approved
@@ -89,8 +162,29 @@ const Todo: FC<Props> = (props) => {
       />
       <BaseText text={props.todo.title} size="1.2rem" color={Colors.veryDarkGray} />
       <div css={todoConfStyle}>
-        <span css={statusLabelStyle(getTodoStatusColor(props.todo.status))}>
+        <span
+          css={statusLabelStyle(getTodoStatusColor(props.todo.status))}
+          onClick={handleToggleButtonClick}
+        >
           {props.todo.status}
+          <div
+            css={isChangeStatus ? statusSelectionScaleStyle : statusSelectionStyle}
+            ref={popupRef}
+          >
+            {Object.entries(TODO_STATUS).map((status) => {
+              if (status[1] != props.todo.status) {
+                return (
+                  <button
+                    key={status[0]}
+                    css={statusSelectButtonStyle(getTodoStatusColor(status[1]))}
+                    onClick={() => handleCloseButtonClick(status[1])}
+                  >
+                    {status[1]}
+                  </button>
+                )
+              }
+            })}
+          </div>
         </span>
         <FontAwesomeIcon icon={faTrash} css={trashIconStyle} onClick={onClickDelete} />
       </div>

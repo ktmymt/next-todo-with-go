@@ -38,7 +38,7 @@ const projectCardListHeaderStyle = css`
 
 const projectCardListStyle = css`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
   flex-wrap: wrap;
 `
 

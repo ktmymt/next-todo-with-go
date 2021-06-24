@@ -71,6 +71,7 @@ export const TodoProvider = ({ children }: Props) => {
     try {
       const res = await axios.put(`/api/updTodo/${todo.id}`, {
         id: todo.id,
+        projectId: todo.projectId,
         title: todo.title,
         isDone: todo.isDone,
         status: todo.status,
@@ -97,6 +98,7 @@ export const TodoProvider = ({ children }: Props) => {
     changeTodoActive,
     createTodo,
     updateTodo,
+    deleteTodo,
   }
 
   return (

@@ -25,15 +25,15 @@ const projectCardStyle = (color: string) => css`
   height: 120px;
   background-color: ${Colors.projectCards[color]};
   border-radius: 23px;
-  text-align: center;
   position: relative;
 
   p {
     font-size: 1.7rem;
     position: absolute;
-    left: 45px;
     top: 15px;
     color: ${Colors.white};
+    width: 100%;
+    text-align: center;
   }
 `
 
