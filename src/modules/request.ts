@@ -1,4 +1,5 @@
 import axios from "axios"
+
 const serverSideBaseURL = process.env.BASE_URL
 
 const requestInstance = axios.create({
