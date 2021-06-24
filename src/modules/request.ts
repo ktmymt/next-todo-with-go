@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const serverSideBaseURL = process.env.BASE_URL
+const serverSideBaseURL = process.env.NEXT_PUBLIC_BASE_URL
 
 const requestInstance = axios.create({
   baseURL: serverSideBaseURL,
