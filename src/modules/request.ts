@@ -1,5 +1,5 @@
 import axios from "axios"
-const serverSideBaseURL = "http://localhost:8000"
+const serverSideBaseURL = process.env.BASE_URL
 
 const requestInstance = axios.create({
   baseURL: serverSideBaseURL,

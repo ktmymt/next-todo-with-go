@@ -115,7 +115,7 @@ const Home: NextPage<Props> = ({ initialProjects }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch("http://localhost:8000/api/projects")
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/projects`)
   const projects = await res.json()
   return { props: { initialProjects: projects.data } }
 }
