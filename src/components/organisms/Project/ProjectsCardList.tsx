@@ -8,9 +8,10 @@ import { IProject } from "../../../types/Project"
 import { css } from "@emotion/react"
 import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
+import { useWindowDimensions } from "../../../hooks/windowSize"
 
 const projectCardListContainerStyle = css`
-  margin-top: 100px;
+  margin-top: 70px;
 `
 
 const projectCardListHeaderStyle = css`
@@ -38,16 +39,38 @@ const projectCardListHeaderStyle = css`
 
 const projectCardListStyle = css`
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
 `
 
-const projectCardContainerStyle = css`
-  margin: 10px 21px;
+const projectCardContainerStyle = (leftAndRight: string) => css`
+  margin: 10px ${leftAndRight};
 `
 
 const ProjectCardList: FC = () => {
   const { projects, selectedProject } = useProjectContext()
+  const { width } = useWindowDimensions()
+
+  // responsible対応
+  const makeProjectCardResponsible = (index: number) => {
+    if (width <= 1585 && width >= 1462) {
+      return "60px"
+    }
+    if (width <= 1461) {
+      return "40px"
+    }
+    if (projects.length == 2 && index == 0) {
+      return "30px"
+    }
+    if (projects.length == 2 && index == 1) {
+      return "30px"
+    }
+    if (projects.length >= 3 && index == 1) {
+      return "auto"
+    }
+    if (projects.length >= 5 && index == 4) {
+      return "auto"
+    }
+  }
 
   return (
     <div css={projectCardListContainerStyle}>
@@ -59,9 +82,12 @@ const ProjectCardList: FC = () => {
 
       {projects.length > 0 && (
         <div css={projectCardListStyle}>
-          {projects.slice(0, 5).map((project: IProject) => {
+          {projects.slice(0, 5).map((project: IProject, index: number) => {
             return (
-              <div css={projectCardContainerStyle} key={project.id}>
+              <div
+                css={projectCardContainerStyle(makeProjectCardResponsible(index))}
+                key={project.id}
+              >
                 <ProjectCard project={project} isSelected={project == selectedProject} />
               </div>
             )

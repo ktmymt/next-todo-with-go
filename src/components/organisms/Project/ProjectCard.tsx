@@ -15,20 +15,20 @@ interface Props {
 }
 
 const projectCardContainerStyle = css`
-  p:last-child {
-    margin-top: 30px;
+  p:nth-child(2) {
+    margin-top: 20px;
   }
 `
 
 const projectCardStyle = (color: string) => css`
-  width: 120px;
-  height: 120px;
+  width: 128px;
+  height: 128px;
   background-color: ${Colors.projectCards[color]};
   border-radius: 23px;
   position: relative;
 
   p {
-    font-size: 1.7rem;
+    font-size: 2rem;
     position: absolute;
     top: 15px;
     color: ${Colors.white};
@@ -41,10 +41,10 @@ const selectedProjectStyle = (color: string) => css`
   ${projectCardStyle(color)}
   ::after {
     content: "";
-    width: 135px;
-    height: 135px;
+    width: 143px;
+    height: 143px;
     border: 5px solid ${Colors.projectCards[color]};
-    border-radius: 23px;
+    border-radius: 35px;
     position: absolute;
     top: -13px;
     left: -13px;
