@@ -4,8 +4,8 @@ import { css } from "@emotion/react"
 import Modal from "react-modal"
 
 import { DotSquare } from "../components/organisms/Common"
-import ProjectSide from "../components/layouts/projectSide"
-import TodoSide from "../components/layouts/todoSide"
+import ProjectSide from "../components/layouts/ProjectSide"
+import TodoSide from "../components/layouts/TodoSide"
 
 import { useProjectContext } from "../contexts/ProjectContext"
 import { useTodoContext } from "../contexts/TodoContext"
