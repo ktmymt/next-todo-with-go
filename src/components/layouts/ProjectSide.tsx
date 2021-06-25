@@ -72,7 +72,7 @@ const ProjectSide: FC<Props> = (props) => {
             <BaseText
               text={getGreeting()}
               color={Colors.white}
-              size="3.6rem"
+              size="3.4rem"
               optionStyles="white bold"
             />
             <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />

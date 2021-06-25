@@ -1,28 +1,34 @@
 import { FC } from "react"
 import { css } from "@emotion/react"
+import { Colors } from "../../../styles/colors"
 
 const dotStyle = css`
-  padding-top: 0.4em;
-  background-position: top left -2px;
-  background-repeat: repeat-x;
-  background-size: 1.3em 0.3em;
-  background-image: radial-gradient(
-    0.15em 0.15em at center center,
-    orange,
-    orange 100%,
-    transparent
-  );
+  color: ${Colors.lightGray};
+  list-style: none;
+  margin-top: 15px;
+  border-radius: 10px;
+`
+
+const test = css`
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  display: flex;
 `
 
 const DotSquare: FC = () => {
   const dotNum = 10
 
   return (
-    <div>
+    <ul css={test}>
       {[...Array(dotNum)].map((e, i) => {
-        return <span key={i} css={dotStyle}></span>
+        return (
+          <li key={i} css={dotStyle}>
+            ・
+          </li>
+        )
       })}
-    </div>
+    </ul>
   )
 }
 
