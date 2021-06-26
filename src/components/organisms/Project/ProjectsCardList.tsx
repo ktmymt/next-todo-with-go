@@ -11,7 +11,7 @@ import { useProjectContext } from "../../../contexts/ProjectContext"
 import { useWindowDimensions } from "../../../hooks/windowSize"
 
 const projectCardListContainerStyle = css`
-  margin-top: 70px;
+  margin-top: 90px;
 `
 
 const projectCardListHeaderStyle = css`
@@ -76,7 +76,7 @@ const ProjectCardList: FC = () => {
     <div css={projectCardListContainerStyle}>
       <div css={projectCardListHeaderStyle}>
         <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
-        <span>({projects.length})</span>
+        <span>({projects && projects.length})</span>
         <CreateProjectModal />
       </div>
 

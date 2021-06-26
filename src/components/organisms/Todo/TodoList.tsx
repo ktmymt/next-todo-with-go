@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 import { BaseText, BaseInput } from "../../atoms"
 import { css } from "@emotion/react"
 import Todo from "./Todo"
-import { ITodo } from "../../../types/Todo"
+import { ITodo, TODO_STATUS } from "../../../types/Todo"
 import { useTodoContext } from "../../../contexts/TodoContext"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 
@@ -37,12 +37,23 @@ const TodoList: FC<Props> = (props) => {
     }
   }
 
+  const test = (): Array<ITodo> => {
+    if (props.title == "Today") {
+      return todos.filter((todo) => {
+        return todo.status != TODO_STATUS.WAITING
+      })
+    }
+    return todos.filter((todo) => {
+      return todo.status == TODO_STATUS.WAITING
+    })
+  }
+
   return (
     <div css={todoListContainerStyle}>
       <BaseText text={props.title} size="1.4rem" optionStyles="underbar" />
       <ul css={todoListStyle}>
         {todos &&
-          Object.values(todos).map((todo: ITodo, index) => {
+          Object.values(test()).map((todo: ITodo, index) => {
             if (props.title == "Today" && todo.schedule == 0) {
               return (
                 <li key={index}>

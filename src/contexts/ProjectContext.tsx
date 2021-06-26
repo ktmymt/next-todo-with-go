@@ -114,6 +114,7 @@ export const ProjectProvider = ({ children }: Props) => {
     } catch (err) {
       const errorRes = err.response.data
       resetErrorsState()
+
       if (errorRes.code == 400) {
         errorRes.data.map((error: IError) => {
           if (error.name == "projectName") {

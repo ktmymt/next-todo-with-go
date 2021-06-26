@@ -5,10 +5,10 @@ import { ITodo, TODO_STATUS } from "../types/Todo"
 type TodoContextType = {
   todos: ITodo[]
   setTodosState: (todos: ITodo[]) => void
-  changeTodoActive: (id: number) => void
+  changeTodoActive: (id: string) => void
   createTodo: (title: string, projectId: number, scheduleId: number) => void
   updateTodo: (todo: ITodo) => void
-  deleteTodo: (id: number) => void
+  deleteTodo: (id: string) => void
 }
 
 const todoContextDefaultValues: TodoContextType = {
@@ -32,7 +32,6 @@ type Props = {
 
 export const TodoProvider = ({ children }: Props) => {
   const axios = getAxiosInstance()
-
   const [todos, setTodos] = useState<ITodo[]>([])
 
   // set projects state that is used in some components
@@ -44,7 +43,7 @@ export const TodoProvider = ({ children }: Props) => {
   }
 
   // update target todo active
-  const changeTodoActive = (id: number) => {
+  const changeTodoActive = (id: string) => {
     const targetTodo = todos.find((todo) => todo.id == id)
     targetTodo.isDone = true
     updateTodo(targetTodo)
@@ -85,11 +84,13 @@ export const TodoProvider = ({ children }: Props) => {
     }
   }
 
-  const deleteTodo = async (id: number) => {
-    console.log(id)
-    // try {
-    //   const res = await axios.delete(`/api/del`)
-    // }
+  const deleteTodo = async (id: string) => {
+    try {
+      const res = await axios.delete(`/api/delTodo/${id}`)
+      console.log(res)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const value = {

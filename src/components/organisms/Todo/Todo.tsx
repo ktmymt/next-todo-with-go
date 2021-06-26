@@ -114,14 +114,16 @@ const Todo: FC<Props> = (props) => {
   }
 
   const handleCloseButtonClick = (status: string) => {
+    const schedule = status == TODO_STATUS.WAITING ? 1 : 0
     updateTodo({
       id: props.todo.id,
       projectId: props.todo.projectId,
       title: props.todo.title,
       isDone: props.todo.isDone,
       status: status,
-      schedule: props.todo.schedule,
+      schedule: schedule,
     })
+    // refresh todo
     setIsChangeStatus(false)
     removeDocumentClickHandler()
   }
