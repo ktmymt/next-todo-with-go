@@ -6,6 +6,7 @@ import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { IProject } from "../../../types/Project"
 import { useProjectContext } from "../../../contexts/ProjectContext"
+import { useWindowDimensions } from "../../../hooks/windowSize"
 
 // for modal
 const customStyles = {
@@ -35,11 +36,11 @@ const customStyles = {
   },
 }
 
-const moreProjectsStyle = css`
+const moreProjectsStyle = (leftAndRight: string) => css`
   button {
-    width: 120px;
-    height: 120px;
-    margin: 10px 21px;
+    width: 128px;
+    height: 128px;
+    margin: 10px ${leftAndRight};
     border-radius: 23px;
     text-align: center;
     font-size: 1.8rem;
@@ -60,9 +61,19 @@ const projectCardContainerStyle = css`
 const MoreProjectsModal: FC = () => {
   const { projects, selectedProject } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const { width } = useWindowDimensions()
+
+  const responseModalButton = () => {
+    if (width <= 1585 && width >= 1462) {
+      return "60px"
+    }
+    if (width <= 1461) {
+      return "40px"
+    }
+  }
 
   return (
-    <div css={moreProjectsStyle}>
+    <div css={moreProjectsStyle(responseModalButton())}>
       <BaseButton
         text={projects.length - 5 + "+"}
         textColor={Colors.white}
