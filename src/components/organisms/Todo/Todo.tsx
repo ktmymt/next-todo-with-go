@@ -87,7 +87,8 @@ const statusSelectButtonStyle = (colors) => css`
 `
 
 const Todo: FC<Props> = (props) => {
-  const { todos, setTodosState, changeTodoActive, updateTodo, deleteTodo } = useTodoContext()
+  const { todos, setTodosState, refreshTodos, changeTodoActive, changeTodoStatus, deleteTodo } =
+    useTodoContext()
   const [isDone, setIsDone] = useState(false)
   const [isChangeStatus, setIsChangeStatus] = useState(false)
   const popupRef = useRef<any>()
@@ -113,17 +114,9 @@ const Todo: FC<Props> = (props) => {
     document.addEventListener("click", documentClickHandler.current)
   }
 
-  const handleCloseButtonClick = (status: string) => {
-    const schedule = status == TODO_STATUS.WAITING ? 1 : 0
-    updateTodo({
-      id: props.todo.id,
-      projectId: props.todo.projectId,
-      title: props.todo.title,
-      isDone: props.todo.isDone,
-      status: status,
-      schedule: schedule,
-    })
-    // refresh todo
+  // change todo status
+  const onClickNewStatus = (status: string) => {
+    changeTodoStatus(props.todo.id, status)
     setIsChangeStatus(false)
     removeDocumentClickHandler()
   }
@@ -152,7 +145,7 @@ const Todo: FC<Props> = (props) => {
   }
 
   const onClickDelete = () => {
-    deleteTodo(props.todo.id)
+    deleteTodo(props.todo.id, props.todo.projectId)
   }
 
   return (
@@ -179,7 +172,7 @@ const Todo: FC<Props> = (props) => {
                   <button
                     key={status[0]}
                     css={statusSelectButtonStyle(getTodoStatusColor(status[1]))}
-                    onClick={() => handleCloseButtonClick(status[1])}
+                    onClick={() => onClickNewStatus(status[1])}
                   >
                     {status[1]}
                   </button>

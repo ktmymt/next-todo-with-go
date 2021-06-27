@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, Fragment, useState } from "react"
 import Modal from "react-modal"
 import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
@@ -128,7 +128,7 @@ const CreateProjectModal: FC = () => {
   }
 
   return (
-    <>
+    <Fragment>
       <BaseButton text="+" bgColor={Colors.purple} onClickButton={onClickModalOpen} />
       <Modal isOpen={modalIsOpen} onRequestClose={onClickModalClose} style={customStyles}>
         <div css={inputAreaStyle}>
@@ -179,7 +179,7 @@ const CreateProjectModal: FC = () => {
           />
         </div>
       </Modal>
-    </>
+    </Fragment>
   )
 }
 

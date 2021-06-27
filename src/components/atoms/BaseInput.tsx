@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, Fragment } from "react"
 import { css } from "@emotion/react"
 import { Colors } from "../../styles/colors"
 
@@ -50,7 +50,7 @@ const labelInputStyle = css`
 
 const BaseInput: FC<Props> = (props) => {
   return (
-    <>
+    <Fragment>
       {props.hasLabel && (
         <div css={labelInputStyle}>
           <label>
@@ -74,7 +74,7 @@ const BaseInput: FC<Props> = (props) => {
           onChange={(e) => props.onChangeText(e.target.value)}
         />
       )}
-    </>
+    </Fragment>
   )
 }
 

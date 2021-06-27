@@ -80,7 +80,7 @@ const ProjectCardList: FC = () => {
         <CreateProjectModal />
       </div>
 
-      {projects.length > 0 && (
+      {projects && projects.length > 0 && (
         <div css={projectCardListStyle}>
           {projects.slice(0, 5).map((project: IProject, index: number) => {
             return (

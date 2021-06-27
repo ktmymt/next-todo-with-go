@@ -5,18 +5,22 @@ import { ITodo, TODO_STATUS } from "../types/Todo"
 type TodoContextType = {
   todos: ITodo[]
   setTodosState: (todos: ITodo[]) => void
-  changeTodoActive: (id: string) => void
+  refreshTodos: (projectId: string) => void
   createTodo: (title: string, projectId: number, scheduleId: number) => void
   updateTodo: (todo: ITodo) => void
-  deleteTodo: (id: string) => void
+  changeTodoActive: (id: string) => void
+  changeTodoStatus: (id: string, newStatus: string) => void
+  deleteTodo: (id: string, projectId: string) => void
 }
 
 const todoContextDefaultValues: TodoContextType = {
   todos: null,
   setTodosState: () => [],
-  changeTodoActive: () => [],
+  refreshTodos: () => [],
   createTodo: () => [],
   updateTodo: () => [],
+  changeTodoActive: () => [],
+  changeTodoStatus: () => [],
   deleteTodo: () => [],
 }
 
@@ -36,17 +40,26 @@ export const TodoProvider = ({ children }: Props) => {
 
   // set projects state that is used in some components
   const setTodosState = (todos: ITodo[]) => {
-    const activeTodos = todos.filter((todo) => {
-      return todo.isDone == false
-    })
-    setTodos(activeTodos)
+    if (!todos) {
+      setTodos([])
+    } else {
+      const activeTodos = todos.filter((todo) => {
+        return todo.isDone == false
+      })
+      setTodos(activeTodos)
+    }
   }
 
-  // update target todo active
-  const changeTodoActive = (id: string) => {
-    const targetTodo = todos.find((todo) => todo.id == id)
-    targetTodo.isDone = true
-    updateTodo(targetTodo)
+  // get todos belonging to project
+  const refreshTodos = async (projectId: string) => {
+    try {
+      const res = await axios.get(`/api/todos/${projectId}`)
+      if (res.status == 200) {
+        setTodosState(res.data.data)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   // create todo data
@@ -66,28 +79,41 @@ export const TodoProvider = ({ children }: Props) => {
     })
   }
 
+  // pass todo data, and update
   const updateTodo = async (todo: ITodo) => {
     try {
-      const res = await axios.put(`/api/updTodo/${todo.id}`, {
-        id: todo.id,
-        projectId: todo.projectId,
-        title: todo.title,
-        isDone: todo.isDone,
-        status: todo.status,
-        schedule: todo.schedule,
-      })
+      const res = await axios.put(`/api/updTodo/${todo.id}`, todo)
       if (res.status == 200) {
-        console.log("ok")
+        refreshTodos(todo.projectId)
       }
     } catch (e) {
       console.error(e)
     }
   }
 
-  const deleteTodo = async (id: string) => {
+  // update target todo active
+  const changeTodoActive = (id: string) => {
+    const targetTodo = todos.find((todo) => todo.id == id)
+    targetTodo.isDone = true
+    updateTodo(targetTodo)
+  }
+
+  // update target todo status
+  const changeTodoStatus = (id: string, newStatus: string) => {
+    const targetTodo = todos.find((todo) => todo.id == id)
+    targetTodo.status = newStatus
+    const newSchedule = newStatus == TODO_STATUS.WAITING ? 1 : 0
+    targetTodo.schedule = newSchedule
+    updateTodo(targetTodo)
+  }
+
+  // pass todo id, and delete
+  const deleteTodo = async (id: string, projectId: string) => {
     try {
-      const res = await axios.delete(`/api/delTodo/${id}`)
-      console.log(res)
+      const res = await axios.delete(`/api/delTodo/${id}`, { data: { id: id } })
+      if (res.status == 200) {
+        refreshTodos(projectId)
+      }
     } catch (err) {
       console.error(err)
     }
@@ -96,9 +122,11 @@ export const TodoProvider = ({ children }: Props) => {
   const value = {
     todos,
     setTodosState,
-    changeTodoActive,
+    refreshTodos,
     createTodo,
     updateTodo,
+    changeTodoActive,
+    changeTodoStatus,
     deleteTodo,
   }
 
