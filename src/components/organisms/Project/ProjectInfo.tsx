@@ -1,10 +1,11 @@
-import { FC, useState } from "react"
+import { FC, Fragment, useState } from "react"
 import { css } from "@emotion/react"
-import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
+import { signOut } from "next-auth/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons"
 import DeleteProjectModal from "./DeleteProjectModal"
+import { Colors } from "../../../styles/colors"
 
 // components
 import { BaseButton, BaseText } from "../../atoms"
@@ -100,12 +101,12 @@ const ProjectInfo: FC = () => {
   }
 
   return (
-    <>
+    <Fragment>
       {selectedProject && (
         <div css={projectInfoContainerStyle}>
           <div css={projectInfoStyle}>
             {editMode ? (
-              <>
+              <Fragment>
                 <input
                   type="text"
                   value={projectName}
@@ -123,16 +124,16 @@ const ProjectInfo: FC = () => {
                   />
                   <BaseButton text="Save" bgColor={Colors.purple} onClickButton={onClickSave} />
                 </div>
-              </>
+              </Fragment>
             ) : (
-              <>
+              <Fragment>
                 <BaseText text={selectedProject.name} size="2.1rem" optionStyles="bold" />
                 <BaseText
                   text={selectedProject.description}
                   color={Colors.lightGray}
                   optionStyles="sizeS"
                 />
-              </>
+              </Fragment>
             )}
           </div>
           <div css={projectMenuContainerStyle} onMouseLeave={onMouseLeave}>
@@ -144,11 +145,12 @@ const ProjectInfo: FC = () => {
                 onClickButton={() => setEditMode(true)}
               />
               <DeleteProjectModal />
+              <BaseButton text="Sign out" bgColor={Colors.white} onClickButton={() => signOut()} />
             </div>
           </div>
         </div>
       )}
-    </>
+    </Fragment>
   )
 }
 

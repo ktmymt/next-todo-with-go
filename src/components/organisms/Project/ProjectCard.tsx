@@ -59,6 +59,9 @@ const ProjectCard: FC<Props> = (props) => {
     let name = ""
     const splitName = text.split(" ")
     if (splitName.length > 1) {
+      if (splitName[1] == "") {
+        return splitName[0][0].toUpperCase() + splitName[0][1].toUpperCase()
+      }
       name = splitName[0][0].toUpperCase() + splitName[1][0].toUpperCase()
     } else {
       name = splitName[0][0].toUpperCase() + splitName[0][1].toUpperCase()

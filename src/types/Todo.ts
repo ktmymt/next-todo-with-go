@@ -1,6 +1,6 @@
 export interface ITodo {
-  id: number
-  projectId: number
+  id: string
+  projectId: string
   title: string
   status: string
   isDone: boolean

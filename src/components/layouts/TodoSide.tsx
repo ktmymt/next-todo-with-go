@@ -4,6 +4,8 @@ import { css } from "@emotion/react"
 import { ProjectInfo } from "../organisms/Project"
 import { TodoList } from "../organisms/Todo"
 
+import { useTodoContext } from "../../contexts/TodoContext"
+
 import { Colors } from "../../styles/colors"
 
 const todoSideStyle = css`
@@ -20,15 +22,19 @@ const todoSideContainerStyle = css`
 `
 
 const TodoSide: FC = () => {
+  const { todos } = useTodoContext()
+
   return (
     <div css={todoSideStyle}>
-      <div css={todoSideContainerStyle}>
-        <ProjectInfo />
-        <div>
-          <TodoList title="Today" />
-          <TodoList title="Upcoming" />
+      {todos && (
+        <div css={todoSideContainerStyle}>
+          <ProjectInfo />
+          <div>
+            <TodoList title="Today" />
+            <TodoList title="Upcoming" />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

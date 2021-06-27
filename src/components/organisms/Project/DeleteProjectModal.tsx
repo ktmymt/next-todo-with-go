@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, Fragment, useState } from "react"
 import Modal from "react-modal"
 import { BaseButton, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
@@ -67,7 +67,7 @@ const DeleteProjectModal: FC = () => {
   }
 
   return (
-    <>
+    <Fragment>
       <BaseButton
         text="Delete Project"
         bgColor={Colors.white}
@@ -94,7 +94,7 @@ const DeleteProjectModal: FC = () => {
           </div>
         </div>
       </Modal>
-    </>
+    </Fragment>
   )
 }
 

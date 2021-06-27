@@ -1,9 +1,10 @@
 import { NextPage, GetServerSideProps } from "next"
-import { useEffect } from "react"
+import { Fragment, useEffect } from "react"
+import { useSession, getSession } from "next-auth/client"
 import { css } from "@emotion/react"
 import Modal from "react-modal"
 
-import { DotSquare } from "../components/organisms/Common"
+import { DotSquare, Loading } from "../components/organisms/Common"
 import ProjectSide from "../components/layouts/ProjectSide"
 import TodoSide from "../components/layouts/TodoSide"
 
@@ -26,6 +27,7 @@ const appStyle = css`
 Modal.setAppElement("#__next")
 
 const Home: NextPage<Props> = ({ initialProjects }) => {
+  const [session, loading] = useSession()
   const { setProjectsState, setSelectedProjectState } = useProjectContext()
   const { setTodosState } = useTodoContext()
 
@@ -39,13 +41,28 @@ const Home: NextPage<Props> = ({ initialProjects }) => {
 
   return (
     <div css={appStyle}>
-      <ProjectSide projects={initialProjects} />
-      <TodoSide />
+      {loading && <Loading />}
+      {session && (
+        <Fragment>
+          <ProjectSide projects={initialProjects} />
+          <TodoSide />
+        </Fragment>
+      )}
     </div>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context)
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/login",
+      },
+    }
+  }
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/projects`)
   const projects = await res.json()
   return { props: { initialProjects: projects.data } }
