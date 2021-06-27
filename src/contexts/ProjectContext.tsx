@@ -179,9 +179,5 @@ export const ProjectProvider = ({ children }: Props) => {
     resetErrorsState,
   }
 
-  return (
-    <>
-      <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
-    </>
-  )
+  return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
 }

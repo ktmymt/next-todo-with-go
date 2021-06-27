@@ -130,9 +130,5 @@ export const TodoProvider = ({ children }: Props) => {
     deleteTodo,
   }
 
-  return (
-    <>
-      <TodoContext.Provider value={value}>{children}</TodoContext.Provider>
-    </>
-  )
+  return <TodoContext.Provider value={value}>{children}</TodoContext.Provider>
 }

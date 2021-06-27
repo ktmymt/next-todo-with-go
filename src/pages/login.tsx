@@ -1,6 +1,5 @@
-import React from "react"
 import { GetServerSideProps, NextPage } from "next"
-import { signIn, useSession, getSession } from "next-auth/client"
+import { signIn, getSession } from "next-auth/client"
 import { css } from "@emotion/css"
 import { Colors } from "../styles/colors"
 
@@ -44,19 +43,14 @@ const containerStyle = css`
 `
 
 const Login: NextPage = () => {
-  const [session, loading] = useSession()
-
   return (
     <div css={loginPageStyle}>
-      {loading && <p>Loading..</p>}
-      {!session && (
-        <div css={containerStyle}>
-          <h1>Login</h1>
-          <button onClick={() => signIn("google", { callbackUrl: process.env.CALLBACK_URL })}>
-            Sign in with Google
-          </button>
-        </div>
-      )}
+      <div css={containerStyle}>
+        <h1>Login</h1>
+        <button onClick={() => signIn("google", { callbackUrl: process.env.CALLBACK_URL })}>
+          Sign in with Google
+        </button>
+      </div>
     </div>
   )
 }
