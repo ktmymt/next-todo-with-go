@@ -70,6 +70,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   }
+  return {
+    notFound: true,
+  }
 }
 
 export default Login
