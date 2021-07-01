@@ -76,6 +76,7 @@ const ProjectInfo: FC = () => {
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [projectName, setProjectName] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
+  const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const onClickProjectMenu = () => {
     setProjectName(selectedProject.name)
@@ -143,6 +144,11 @@ const ProjectInfo: FC = () => {
                 text="Update Project"
                 bgColor={Colors.white}
                 onClickButton={() => setEditMode(true)}
+              />
+              <BaseButton
+                text="Delete Project"
+                bgColor={Colors.white}
+                onClickButton={() => setModalIsOpen(true)}
               />
               <DeleteProjectModal />
               <BaseButton text="Sign out" bgColor={Colors.white} onClickButton={() => signOut()} />

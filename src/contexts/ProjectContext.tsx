@@ -13,9 +13,14 @@ type ProjectContextType = {
   setSelectedProjectState: (project: IProject | null) => void
   refreshProjects: () => void
   sortProjects: (project: IProject) => void
-  createProject: (name: string, description: string, color: string) => Promise<number>
-  updateProject: (id: number, name: string, description: string, color: string) => Promise<number>
-  deleteProject: (id: number) => void
+  createProject: (
+    email: string,
+    name: string,
+    description: string,
+    color: string,
+  ) => Promise<number>
+  updateProject: (id: string, name: string, description: string, color: string) => Promise<number>
+  deleteProject: (id: string) => void
   resetErrorsState: () => void
 }
 
@@ -93,6 +98,7 @@ export const ProjectProvider = ({ children }: Props) => {
 
   // create project, and update projects state, and selected project state
   const createProject = async (
+    email: string,
     name: string,
     description: string,
     color: string,
@@ -134,7 +140,7 @@ export const ProjectProvider = ({ children }: Props) => {
 
   // update target project
   const updateProject = async (
-    id: number,
+    id: string,
     name: string,
     description: string,
     color: string,
@@ -151,7 +157,7 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // delete target project
-  const deleteProject = async (id: number) => {
+  const deleteProject = async (id: string) => {
     try {
       const res = await axios.delete(`/api/delProject/${id}`, { data: { id: id } })
       const status = await res.status

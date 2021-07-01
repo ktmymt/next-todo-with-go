@@ -4,6 +4,7 @@ import { BaseButton, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { useProjectContext } from "../../../contexts/ProjectContext"
+import { useTodoContext } from "../../../contexts/TodoContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons"
 
@@ -59,20 +60,17 @@ const buttonStyle = css`
 
 const DeleteProjectModal: FC = () => {
   const { selectedProject, deleteProject } = useProjectContext()
+  const { refreshTodos } = useTodoContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const onClickDelete = async () => {
     deleteProject(selectedProject.id)
+    refreshTodos(selectedProject.id)
     setModalIsOpen(false)
   }
 
   return (
     <Fragment>
-      <BaseButton
-        text="Delete Project"
-        bgColor={Colors.white}
-        onClickButton={() => setModalIsOpen(true)}
-      />
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
         <div css={modalAreaStyle}>
           <FontAwesomeIcon icon={faExclamationTriangle} css={iconStyle} />
