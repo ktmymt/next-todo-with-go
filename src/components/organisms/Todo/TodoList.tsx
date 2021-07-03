@@ -1,4 +1,5 @@
 import { FC, useState } from "react"
+import { useSession } from "next-auth/client"
 import { BaseText, BaseInput } from "../../atoms"
 import { css } from "@emotion/react"
 import Todo from "./Todo"
@@ -20,6 +21,7 @@ const todoListStyle = css`
 `
 
 const TodoList: FC<Props> = (props) => {
+  const [session] = useSession()
   const { createTodo, todos } = useTodoContext()
   const { selectedProject, refreshProjects } = useProjectContext()
   const [todoTitle, setTodoTitle] = useState("")
@@ -32,7 +34,7 @@ const TodoList: FC<Props> = (props) => {
     if (key == "Enter") {
       const schedule = props.title == "Today" ? 0 : 1
       createTodo(todoTitle, selectedProject.id, schedule)
-      refreshProjects()
+      refreshProjects(session.user.email)
       setTodoTitle("")
     }
   }
