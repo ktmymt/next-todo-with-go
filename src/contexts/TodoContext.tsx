@@ -6,7 +6,7 @@ type TodoContextType = {
   todos: ITodo[]
   setTodosState: (todos: ITodo[]) => void
   refreshTodos: (projectId: string) => void
-  createTodo: (title: string, projectId: number, scheduleId: number) => void
+  createTodo: (title: string, projectId: string, scheduleId: number) => void
   updateTodo: (todo: ITodo) => void
   changeTodoActive: (id: string) => void
   changeTodoStatus: (id: string, newStatus: string) => void
@@ -63,7 +63,7 @@ export const TodoProvider = ({ children }: Props) => {
   }
 
   // create todo data
-  const createTodo = async (title: string, projectId: number, scheduleId: number) => {
+  const createTodo = async (title: string, projectId: string, scheduleId: number) => {
     const status = scheduleId == 0 ? TODO_STATUS.PENDING : TODO_STATUS.WAITING
     const res = await axios.post("/api/todo", {
       projectId: projectId,

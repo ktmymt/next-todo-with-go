@@ -87,8 +87,7 @@ const statusSelectButtonStyle = (colors) => css`
 `
 
 const Todo: FC<Props> = (props) => {
-  const { todos, setTodosState, refreshTodos, changeTodoActive, changeTodoStatus, deleteTodo } =
-    useTodoContext()
+  const { todos, setTodosState, changeTodoActive, changeTodoStatus, deleteTodo } = useTodoContext()
   const [isDone, setIsDone] = useState(false)
   const [isChangeStatus, setIsChangeStatus] = useState(false)
   const popupRef = useRef<any>()
