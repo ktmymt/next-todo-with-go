@@ -44,6 +44,9 @@ const ProjectSide: FC<Props> = (props) => {
 
   // get text from input box, and filter projects
   const onChangeSearchProject = (text: string) => {
+    if (!props.projects) {
+      return
+    }
     const projectsAfterSearch = props.projects.filter((project) => {
       if (project.name.toLowerCase().indexOf(text.toLowerCase()) > -1) {
         return project

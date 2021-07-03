@@ -1,5 +1,6 @@
 import { FC, Fragment, useState } from "react"
 import Modal from "react-modal"
+import { useSession } from "next-auth/client"
 import { BaseButton, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
@@ -7,6 +8,10 @@ import { useProjectContext } from "../../../contexts/ProjectContext"
 import { useTodoContext } from "../../../contexts/TodoContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons"
+
+interface Props {
+  test: boolean
+}
 
 // for modal
 const customStyles = {
@@ -58,20 +63,30 @@ const buttonStyle = css`
   }
 `
 
-const DeleteProjectModal: FC = () => {
-  const { selectedProject, deleteProject } = useProjectContext()
+const DeleteProjectModal: FC<Props> = (props) => {
+  const [session] = useSession()
+  const { selectedProject, deleteProject, refreshProjects } = useProjectContext()
   const { refreshTodos } = useTodoContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [isDeleteClicked, setIsDeleteClicked] = useState(false)
 
   const onClickDelete = async () => {
-    deleteProject(selectedProject.id)
+    const code = await deleteProject(selectedProject.id)
+    if (code == 200) {
+      refreshProjects(session.user.email)
+    }
     refreshTodos(selectedProject.id)
     setModalIsOpen(false)
+    setIsDeleteClicked(true)
   }
 
   return (
     <Fragment>
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
+      <Modal
+        isOpen={isDeleteClicked ? modalIsOpen : props.test}
+        onRequestClose={() => setModalIsOpen(false)}
+        style={customStyles}
+      >
         <div css={modalAreaStyle}>
           <FontAwesomeIcon icon={faExclamationTriangle} css={iconStyle} />
           <h2>Warning</h2>

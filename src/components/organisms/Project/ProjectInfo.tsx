@@ -1,5 +1,6 @@
 import { FC, Fragment, useState } from "react"
 import { css } from "@emotion/react"
+import { useSession } from "next-auth/client"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 import { signOut } from "next-auth/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -71,6 +72,7 @@ const projectMenuButtonStyle = (isActive: boolean) => css`
 `
 
 const ProjectInfo: FC = () => {
+  const [session] = useSession()
   const { selectedProject, refreshProjects, updateProject } = useProjectContext()
   const [editMode, setEditMode] = useState(false)
   const [isMenuActive, setIsMenuActive] = useState(false)
@@ -97,8 +99,13 @@ const ProjectInfo: FC = () => {
     )
     if (code == 200) {
       setEditMode(false)
-      refreshProjects()
+      refreshProjects(session.user.email)
     }
+  }
+
+  const onClickDelete = () => {
+    setModalIsOpen(true)
+    setIsMenuActive(false)
   }
 
   return (
@@ -148,9 +155,9 @@ const ProjectInfo: FC = () => {
               <BaseButton
                 text="Delete Project"
                 bgColor={Colors.white}
-                onClickButton={() => setModalIsOpen(true)}
+                onClickButton={onClickDelete}
               />
-              <DeleteProjectModal />
+              <DeleteProjectModal test={modalIsOpen} />
               <BaseButton text="Sign out" bgColor={Colors.white} onClickButton={() => signOut()} />
             </div>
           </div>

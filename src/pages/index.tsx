@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/userProjects?username=${session?.user?.name}&email=${session?.user?.email}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/userProjects?email=${session?.user?.email}`,
   )
   const projects = await res.json()
   return { props: { initialProjects: projects.data } }

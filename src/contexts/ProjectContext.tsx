@@ -11,7 +11,7 @@ type ProjectContextType = {
   projectColorError: string
   setProjectsState: (projects: IProject[]) => void
   setSelectedProjectState: (project: IProject | null) => void
-  refreshProjects: () => void
+  refreshProjects: (email: string) => void
   sortProjects: (project: IProject) => void
   createProject: (
     email: string,
@@ -20,7 +20,7 @@ type ProjectContextType = {
     color: string,
   ) => Promise<number>
   updateProject: (id: string, name: string, description: string, color: string) => Promise<number>
-  deleteProject: (id: string) => void
+  deleteProject: (id: string) => Promise<number>
   resetErrorsState: () => void
 }
 
@@ -36,7 +36,7 @@ const projectContextDefaultValues: ProjectContextType = {
   sortProjects: () => [],
   createProject: async () => await 0,
   updateProject: async () => await null,
-  deleteProject: () => [],
+  deleteProject: async () => await null,
   resetErrorsState: () => [],
 }
 
@@ -75,13 +75,17 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // refreshing project data
-  const refreshProjects = async () => {
+  const refreshProjects = async (email: string) => {
     try {
-      const res = await axios.get("/api/projects")
+      const res = await axios.get(`/api/userProjects?email=${email}`)
       const projects = await res.data
       setProjects(projects.data)
 
-      if (projects.data.length > 0) {
+      if (projects.data == null) {
+        setSelectedProjectState(null)
+      }
+
+      if (projects.data && projects.data.length > 0) {
         setSelectedProject(projects.data[0])
       }
     } catch (e) {
@@ -158,13 +162,11 @@ export const ProjectProvider = ({ children }: Props) => {
   }
 
   // delete target project
-  const deleteProject = async (id: string) => {
+  const deleteProject = async (id: string): Promise<number> => {
     try {
       const res = await axios.delete(`/api/delProject/${id}`, { data: { id: id } })
-      const status = await res.status
-      if (status == 200) {
-        refreshProjects()
-      }
+      const result = await res.data
+      return result.code
     } catch (e) {
       console.error(e)
     }
