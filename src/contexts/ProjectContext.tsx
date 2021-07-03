@@ -105,6 +105,7 @@ export const ProjectProvider = ({ children }: Props) => {
   ): Promise<number> => {
     try {
       const res = await axios.post("/api/project", {
+        userEmail: email,
         name: name,
         description: description,
         todos: [],
