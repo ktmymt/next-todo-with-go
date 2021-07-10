@@ -7,6 +7,7 @@ import BaseText from "../../atoms/BaseText"
 import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 import { useTodoContext } from "../../../contexts/TodoContext"
+import { useWindowDimensions } from "../../../hooks/windowSize"
 
 interface Props {
   project: IProject
@@ -20,9 +21,22 @@ const projectCardContainerStyle = css`
   }
 `
 
-const projectCardStyle = (color: string) => css`
-  width: 128px;
-  height: 128px;
+const projectCardStyle = (color: string, width: number) => css`
+  @media screen and (min-width: 500px) {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media screen and (min-width: 800px) {
+    width: 120px;
+    height: 120px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    width: 120px;
+    height: 120px;
+  }
+
   background-color: ${Colors.projectCards[color]};
   border-radius: 23px;
   position: relative;
@@ -37,23 +51,37 @@ const projectCardStyle = (color: string) => css`
   }
 `
 
-const selectedProjectStyle = (color: string) => css`
-  ${projectCardStyle(color)}
+const selectedProjectStyle = (color: string, width: number) => css`
+  ${projectCardStyle(color, width)}
   ::after {
     content: "";
-    width: 143px;
-    height: 143px;
     border: 5px solid ${Colors.projectCards[color]};
     border-radius: 35px;
     position: absolute;
     top: -13px;
     left: -13px;
+
+    @media screen and (min-width: 500px) {
+      width: 135px;
+      height: 135px;
+    }
+
+    @media screen and (min-width: 800px) {
+      width: 135px;
+      height: 135px;
+    }
+
+    @media screen and (min-width: 1440px) {
+      width: 135px;
+      height: 135px;
+    }
   }
 `
 
 const ProjectCard: FC<Props> = (props) => {
   const { setSelectedProjectState, sortProjects } = useProjectContext()
   const { setTodosState } = useTodoContext()
+  const { width } = useWindowDimensions()
 
   const getShortHandProjectName = (text: string): string => {
     let name = ""
@@ -90,8 +118,8 @@ const ProjectCard: FC<Props> = (props) => {
       <div
         css={
           props.isSelected
-            ? selectedProjectStyle(props.project.color)
-            : projectCardStyle(props.project.color)
+            ? selectedProjectStyle(props.project.color, width)
+            : projectCardStyle(props.project.color, width)
         }
       >
         <p>{getShortHandProjectName(props.project.name)}</p>

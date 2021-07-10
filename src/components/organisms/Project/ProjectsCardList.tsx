@@ -12,6 +12,7 @@ import { useWindowDimensions } from "../../../hooks/windowSize"
 
 const projectCardListContainerStyle = css`
   margin-top: 90px;
+  width: 75%;
 `
 
 const projectCardListHeaderStyle = css`
@@ -27,7 +28,6 @@ const projectCardListHeaderStyle = css`
   }
 
   button {
-    margin-right: auto;
     color: ${Colors.white};
     height: 50px;
     width: 50px;
@@ -43,7 +43,19 @@ const projectCardListStyle = css`
 `
 
 const projectCardContainerStyle = (leftAndRight: string) => css`
-  margin: 10px ${leftAndRight};
+  /* margin: 10px ${leftAndRight}; */
+
+  @media screen and (min-width: 500px) {
+    margin: 10px 20%;
+  }
+
+  @media screen and (min-width: 800px) {
+    margin: 10px 30%;
+  }
+
+  @media screen and (min-width: 1440px) {
+    margin: 10px 20px;
+  }
 `
 
 const ProjectCardList: FC = () => {
@@ -52,11 +64,12 @@ const ProjectCardList: FC = () => {
 
   // responsible対応
   const makeProjectCardResponsible = (index: number) => {
+    console.log(width)
     if (width <= 1585 && width >= 1462) {
-      return "60px"
+      return "20px"
     }
     if (width <= 1461) {
-      return "40px"
+      return "17px"
     }
     if (projects.length == 2 && index == 0) {
       return "30px"

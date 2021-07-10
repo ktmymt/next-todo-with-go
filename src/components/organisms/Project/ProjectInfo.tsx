@@ -7,8 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons"
 import DeleteProjectModal from "./DeleteProjectModal"
 import { Colors } from "../../../styles/colors"
-
-// components
 import { BaseButton, BaseText } from "../../atoms"
 
 const projectInfoContainerStyle = css`
@@ -73,7 +71,7 @@ const projectMenuButtonStyle = (isActive: boolean) => css`
 
 const ProjectInfo: FC = () => {
   const [session] = useSession()
-  const { selectedProject, refreshProjects, updateProject } = useProjectContext()
+  const { selectedProject, refreshProjects, updateProject, setUsersState } = useProjectContext()
   const [editMode, setEditMode] = useState(false)
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [projectName, setProjectName] = useState("")

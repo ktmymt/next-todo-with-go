@@ -65,10 +65,10 @@ const MoreProjectsModal: FC = () => {
 
   const responseModalButton = () => {
     if (width <= 1585 && width >= 1462) {
-      return "60px"
+      return "20px"
     }
     if (width <= 1461) {
-      return "40px"
+      return "17px"
     }
   }
 
