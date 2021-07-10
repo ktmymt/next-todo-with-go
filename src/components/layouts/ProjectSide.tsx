@@ -21,29 +21,39 @@ const projectSideStyle = css`
   position: relative;
 `
 
-const projectSideContainerStyle = (width: number) => css`
+const projectSideContainerStyle = css`
   @media screen and (min-width: 500px) {
     padding: 0 140px;
     width: 70%;
   }
 
   @media screen and (min-width: 800px) {
-    padding: 0 140px;
-    width: 70%;
+    padding: 0 90px;
+    width: 90%;
   }
 
-  @media screen and (min-width: 1440px) {
-    padding: 0 200px;
-    width: 70%;
+  @media screen and (min-width: 1200px) {
+    padding: 0 140px;
+    width: 77%;
+  }
+
+  @media screen and (min-width: 1441px) {
+    padding: 0 170px;
+    width: 80%;
+  }
+
+  @media screen and (min-width: 1600px) {
+    padding: 0 180px;
+    width: 80%;
   }
 
   p:nth-of-type(2) {
     margin: 15px 0 40px 0;
   }
 `
-const greetingAreaStyle = (width: number) => css`
+const greetingAreaStyle = css`
   @media screen and (min-width: 500px) {
-    padding-top: 150px;
+    padding-top: 130px;
 
     input {
       width: 70%;
@@ -51,7 +61,7 @@ const greetingAreaStyle = (width: number) => css`
   }
 
   @media screen and (min-width: 800px) {
-    padding-top: 180px;
+    padding-top: 130px;
 
     input {
       width: 70%;
@@ -59,7 +69,7 @@ const greetingAreaStyle = (width: number) => css`
   }
 
   @media screen and (min-width: 1440px) {
-    padding-top: 180px;
+    padding-top: 130px;
 
     input {
       width: 70%;
@@ -89,27 +99,15 @@ const ProjectSide: FC<Props> = (props) => {
     setProjectsState(projectsAfterSearch)
   }
 
-  const makeProjectSideResponsible = (): { padding: string; width: string } => {
-    if (width && width >= 1586) {
-      return { padding: "200px", width: "55%" }
-    }
-    if (width && width <= 1585) {
-      return { padding: "140px", width: "70%" }
-    }
-    if (width && width <= 1270) {
-      return { padding: "80px", width: "80%" }
-    }
-  }
-
   return (
     <div css={projectSideStyle}>
       {isClient && (
-        <div css={projectSideContainerStyle(width)}>
-          <div css={greetingAreaStyle(width)}>
+        <div css={projectSideContainerStyle}>
+          <div css={greetingAreaStyle}>
             <BaseText
               text={getGreeting()}
               color={Colors.white}
-              size={width <= 1440 ? "2.6rem" : "3rem"}
+              size={width <= 1440 ? "2rem" : "2.4rem"}
               optionStyles="white bold"
             />
             <BaseText text="Welcome back to the workspace" color={Colors.lightGray} />

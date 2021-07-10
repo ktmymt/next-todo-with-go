@@ -28,13 +28,39 @@ const projectCardStyle = (color: string, width: number) => css`
   }
 
   @media screen and (min-width: 800px) {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
+    p {
+      font-size: 1.4rem;
+      top: 8px;
+    }
   }
 
-  @media screen and (min-width: 1440px) {
-    width: 120px;
-    height: 120px;
+  @media screen and (min-width: 1326px) {
+    width: 110px;
+    height: 110px;
+    p {
+      font-size: 1.5rem;
+      top: 17px;
+    }
+  }
+
+  @media screen and (min-width: 1441px) {
+    width: 125px;
+    height: 125px;
+    p {
+      font-size: 1.6rem;
+      top: 18px;
+    }
+  }
+
+  @media screen and (min-width: 1600px) {
+    width: 135px;
+    height: 135px;
+    p {
+      font-size: 1.8rem;
+      top: 20px;
+    }
   }
 
   background-color: ${Colors.projectCards[color]};
@@ -42,9 +68,7 @@ const projectCardStyle = (color: string, width: number) => css`
   position: relative;
 
   p {
-    font-size: 1.8rem;
     position: absolute;
-    top: 15px;
     color: ${Colors.white};
     width: 100%;
     text-align: center;
@@ -67,13 +91,23 @@ const selectedProjectStyle = (color: string, width: number) => css`
     }
 
     @media screen and (min-width: 800px) {
-      width: 135px;
-      height: 135px;
+      width: 105px;
+      height: 105px;
     }
 
-    @media screen and (min-width: 1440px) {
-      width: 135px;
-      height: 135px;
+    @media screen and (min-width: 1326px) {
+      width: 125px;
+      height: 125px;
+    }
+
+    @media screen and (min-width: 1441px) {
+      width: 142px;
+      height: 142px;
+    }
+
+    @media screen and (min-width: 1600px) {
+      width: 152px;
+      height: 152px;
     }
   }
 `

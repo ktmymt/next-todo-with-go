@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, Fragment, useState } from "react"
 import Modal from "react-modal"
 import { BaseButton } from "../../atoms"
 import ProjectCard from "./ProjectCard"
@@ -6,7 +6,6 @@ import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { IProject } from "../../../types/Project"
 import { useProjectContext } from "../../../contexts/ProjectContext"
-import { useWindowDimensions } from "../../../hooks/windowSize"
 
 // for modal
 const customStyles = {
@@ -36,14 +35,46 @@ const customStyles = {
   },
 }
 
-const moreProjectsStyle = (leftAndRight: string) => css`
+const moreProjectsStyle = css`
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+
   button {
-    width: 128px;
-    height: 128px;
-    margin: 10px ${leftAndRight};
+    @media screen and (min-width: 500px) {
+      width: 120px;
+      height: 120px;
+    }
+
+    @media screen and (min-width: 800px) {
+      width: 90px;
+      height: 90px;
+      font-size: 1.4rem;
+      top: 10px;
+    }
+
+    @media screen and (min-width: 1326px) {
+      width: 110px;
+      height: 110px;
+      font-size: 1.5rem;
+      top: 17px;
+    }
+
+    @media screen and (min-width: 1441px) {
+      width: 125px;
+      height: 125px;
+      font-size: 1.6rem;
+      top: 15px;
+    }
+
+    @media screen and (min-width: 1600px) {
+      width: 135px;
+      height: 135px;
+      font-size: 1.8rem;
+      top: 20px;
+    }
     border-radius: 23px;
     text-align: center;
-    font-size: 1.8rem;
   }
 `
 
@@ -61,25 +92,17 @@ const projectCardContainerStyle = css`
 const MoreProjectsModal: FC = () => {
   const { projects, selectedProject } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const { width } = useWindowDimensions()
-
-  const responseModalButton = () => {
-    if (width <= 1585 && width >= 1462) {
-      return "20px"
-    }
-    if (width <= 1461) {
-      return "17px"
-    }
-  }
 
   return (
-    <div css={moreProjectsStyle(responseModalButton())}>
-      <BaseButton
-        text={projects.length - 5 + "+"}
-        textColor={Colors.white}
-        bgColor={Colors.lightGray}
-        onClickButton={() => setModalIsOpen(true)}
-      />
+    <Fragment>
+      <div css={moreProjectsStyle}>
+        <BaseButton
+          text={projects.length - 5 + "+"}
+          textColor={Colors.white}
+          bgColor={Colors.lightGray}
+          onClickButton={() => setModalIsOpen(true)}
+        />
+      </div>
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
         <div css={projectCardListStyle}>
           {projects.map((project: IProject, index: number) => {
@@ -99,7 +122,7 @@ const MoreProjectsModal: FC = () => {
           })}
         </div>
       </Modal>
-    </div>
+    </Fragment>
   )
 }
 
