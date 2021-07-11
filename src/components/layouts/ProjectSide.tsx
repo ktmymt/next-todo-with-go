@@ -14,6 +14,7 @@ import { IProject } from "../../types/Project"
 
 interface Props {
   projects: IProject[]
+  username: string
 }
 
 const projectSideStyle = css`
@@ -43,7 +44,7 @@ const projectSideContainerStyle = css`
   }
 
   @media screen and (min-width: 1600px) {
-    padding: 0 180px;
+    padding: 0 160px;
     width: 80%;
   }
 
@@ -61,7 +62,7 @@ const greetingAreaStyle = css`
   }
 
   @media screen and (min-width: 800px) {
-    padding-top: 130px;
+    padding-top: 180px;
 
     input {
       width: 70%;
@@ -69,7 +70,7 @@ const greetingAreaStyle = css`
   }
 
   @media screen and (min-width: 1440px) {
-    padding-top: 130px;
+    padding-top: 200px;
 
     input {
       width: 70%;
@@ -105,7 +106,7 @@ const ProjectSide: FC<Props> = (props) => {
         <div css={projectSideContainerStyle}>
           <div css={greetingAreaStyle}>
             <BaseText
-              text={getGreeting()}
+              text={getGreeting() + props.username.split(" ")[0]}
               color={Colors.white}
               size={width <= 1440 ? "2rem" : "2.4rem"}
               optionStyles="white bold"

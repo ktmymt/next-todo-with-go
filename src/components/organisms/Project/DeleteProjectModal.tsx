@@ -1,16 +1,16 @@
 import { FC, Fragment, useState } from "react"
 import Modal from "react-modal"
-import { useSession } from "next-auth/client"
 import { BaseButton, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 import { useTodoContext } from "../../../contexts/TodoContext"
+import { useUserContext } from "../../../contexts/UserContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons"
 
 interface Props {
-  test: boolean
+  closeMenu: () => void
 }
 
 // for modal
@@ -64,29 +64,33 @@ const buttonStyle = css`
 `
 
 const DeleteProjectModal: FC<Props> = (props) => {
-  const [session] = useSession()
   const { selectedProject, deleteProject, refreshProjects } = useProjectContext()
+  const { user } = useUserContext()
   const { refreshTodos } = useTodoContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const [isDeleteClicked, setIsDeleteClicked] = useState(false)
 
   const onClickDelete = async () => {
     const code = await deleteProject(selectedProject.id)
     if (code == 200) {
-      refreshProjects(session.user.email)
+      refreshProjects(user.id)
     }
     refreshTodos(selectedProject.id)
     setModalIsOpen(false)
-    setIsDeleteClicked(true)
+  }
+
+  const onClickDelteProject = () => {
+    props.closeMenu()
+    setModalIsOpen(true)
   }
 
   return (
     <Fragment>
-      <Modal
-        isOpen={isDeleteClicked ? modalIsOpen : props.test}
-        onRequestClose={() => setModalIsOpen(false)}
-        style={customStyles}
-      >
+      <BaseButton
+        text="Delete Project"
+        bgColor={Colors.white}
+        onClickButton={onClickDelteProject}
+      />
+      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
         <div css={modalAreaStyle}>
           <FontAwesomeIcon icon={faExclamationTriangle} css={iconStyle} />
           <h2>Warning</h2>
