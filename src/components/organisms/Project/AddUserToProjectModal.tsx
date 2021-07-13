@@ -3,7 +3,8 @@ import Modal from "react-modal"
 import { BaseButton, BaseInput, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
-
+import { useProjectContext } from "../../../contexts/ProjectContext"
+import { useUserContext } from "../../../contexts/UserContext"
 interface Props {
   closeMenu: () => void
 }
@@ -72,6 +73,8 @@ const modalAreaStyle = (validated: boolean) => css`
 `
 
 const AddUserToProjectModal: FC<Props> = (props) => {
+  const { addUserToProject, selectedProject } = useProjectContext()
+  const { user } = useUserContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [inputEmail, setInputEmail] = useState("")
   const [validated, setValidated] = useState(true)
@@ -84,8 +87,7 @@ const AddUserToProjectModal: FC<Props> = (props) => {
   const onClickAdd = () => {
     if (inputEmail.includes("@")) {
       setValidated(true)
-      // add project to email
-
+      addUserToProject(selectedProject.id, user.id)
       setModalIsOpen(false)
     } else {
       setValidated(false)

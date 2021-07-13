@@ -89,6 +89,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     image: session.user.image,
   })
 
+  console.log(userRes)
+
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/userProjects/${userRes.data.data.id}`,
   )
