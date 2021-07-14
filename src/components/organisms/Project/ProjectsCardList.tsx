@@ -8,7 +8,6 @@ import { IProject } from "../../../types/Project"
 import { css } from "@emotion/react"
 import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
-import { useWindowDimensions } from "../../../hooks/windowSize"
 
 const projectCardListContainerStyle = css`
   margin-top: 60px;
@@ -48,11 +47,9 @@ const projectCardContainerStyle = (leftAndRight) => css`
 
 const ProjectCardList: FC = () => {
   const { projects, selectedProject } = useProjectContext()
-  const { width } = useWindowDimensions()
 
   // responsible対応
   const makeProjectCardResponsible = (index: number) => {
-    console.log(width)
     if (index == 0) {
       return css`
         margin-top: 10px;

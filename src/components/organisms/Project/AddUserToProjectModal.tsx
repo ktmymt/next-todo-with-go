@@ -4,7 +4,7 @@ import { BaseButton, BaseInput, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { useProjectContext } from "../../../contexts/ProjectContext"
-import { useUserContext } from "../../../contexts/UserContext"
+
 interface Props {
   closeMenu: () => void
 }
@@ -73,8 +73,7 @@ const modalAreaStyle = (validated: boolean) => css`
 `
 
 const AddUserToProjectModal: FC<Props> = (props) => {
-  const { addUserToProject, selectedProject } = useProjectContext()
-  const { user } = useUserContext()
+  const { addUserToProject, selectedProject, addUserError } = useProjectContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [inputEmail, setInputEmail] = useState("")
   const [validated, setValidated] = useState(true)
@@ -84,11 +83,13 @@ const AddUserToProjectModal: FC<Props> = (props) => {
     setModalIsOpen(true)
   }
 
-  const onClickAdd = () => {
+  const onClickAdd = async () => {
     if (inputEmail.includes("@")) {
       setValidated(true)
-      addUserToProject(selectedProject.id, user.id)
-      setModalIsOpen(false)
+      const statusCode = await addUserToProject(selectedProject.id, inputEmail)
+      if (statusCode == 200) {
+        setModalIsOpen(false)
+      }
     } else {
       setValidated(false)
     }
@@ -107,6 +108,7 @@ const AddUserToProjectModal: FC<Props> = (props) => {
           <BaseText text="Add people to your project" size="1.4rem" />
           <BaseInput type="text" placeholder="taski@email.com" onChangeText={onChangeInputEmail} />
           <BaseText text="Please enter correct email" />
+          <BaseText text={addUserError} />
           <BaseButton text="Add" bgColor={Colors.white} onClickButton={onClickAdd} />
         </div>
       </Modal>

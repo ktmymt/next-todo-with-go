@@ -50,7 +50,7 @@ const Home: NextPage<Props> = ({ initialUserProjects }) => {
     if (initialUserProjects.project) {
       setProjectsState(initialUserProjects.project)
       setSelectedProjectState(initialUserProjects.project[0])
-      setTodosState(initialUserProjects.project[0].todos)
+      initialUserProjects.project[0]?.todos && setTodosState(initialUserProjects.project[0].todos)
     }
   }, [])
 
@@ -88,8 +88,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     email: session.user.email,
     image: session.user.image,
   })
-
-  console.log(userRes)
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/userProjects/${userRes.data.data.id}`,

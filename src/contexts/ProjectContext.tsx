@@ -11,20 +11,21 @@ type ProjectContextType = {
   projectDescriptionError: string
   projectColorError: string
   users: IUser[]
+  addUserError: string
   setProjectsState: (projects: IProject[]) => void
   setSelectedProjectState: (project: IProject | null) => void
   setUsersState: (users: IUser[]) => void
   refreshProjects: (id: string) => void
   sortProjects: (project: IProject) => void
   createProject: (
-    email: string,
-    name: string,
+    userId: string,
+    title: string,
     description: string,
     color: string,
   ) => Promise<number>
   updateProject: (id: string, name: string, description: string, color: string) => Promise<number>
   deleteProject: (id: string) => Promise<number>
-  addUserToProject: (projectId: string, userId: string) => void
+  addUserToProject: (projectId: string, email: string) => Promise<number>
   resetErrorsState: () => void
 }
 
@@ -35,6 +36,7 @@ const projectContextDefaultValues: ProjectContextType = {
   projectDescriptionError: null,
   projectColorError: null,
   users: [],
+  addUserError: null,
   setProjectsState: () => [],
   setSelectedProjectState: () => [],
   setUsersState: () => [],
@@ -66,6 +68,7 @@ export const ProjectProvider = ({ children }: Props) => {
   const [projectNameError, setProjectNameError] = useState("")
   const [projectDescriptionError, setProjectDescriptionError] = useState("")
   const [projectColorError, setProjectColorError] = useState("")
+  const [addUserError, setAddUserError] = useState("")
 
   // set projects state that is used in some components
   const setProjectsState = (projects: IProject[]): void => {
@@ -90,15 +93,15 @@ export const ProjectProvider = ({ children }: Props) => {
   const refreshProjects = async (id: string) => {
     try {
       const res = await axios.get(`/api/userProjects/${id}`)
-      const projects = await res.data
-      setProjects(projects.data)
+      const result = await res.data
+      setProjects(result.data.project)
 
-      if (projects.data == null) {
+      if (result.data.project == null) {
         setSelectedProjectState(null)
       }
 
-      if (projects.data && projects.data.length > 0) {
-        setSelectedProject(projects.data[0])
+      if (result.data.project && result.data.project.length > 0) {
+        setSelectedProject(result.data.project[0])
       }
     } catch (e) {
       console.error(e)
@@ -114,24 +117,27 @@ export const ProjectProvider = ({ children }: Props) => {
 
   // create project, and update projects state, and selected project state
   const createProject = async (
-    email: string,
-    name: string,
+    userId: string,
+    title: string,
     description: string,
     color: string,
   ): Promise<number> => {
     try {
       const res = await axios.post("/api/project", {
-        userEmail: [email],
-        name: name,
+        userIds: [userId],
+        name: title,
         description: description,
         todos: [],
         color: color,
       })
+
       const newProject = await res.data
+
       setProjects((prevProjects) => {
         const updatedProjects = [newProject.data, ...prevProjects]
         return updatedProjects
       })
+
       setSelectedProject(newProject.data)
       return newProject.code
     } catch (err) {
@@ -179,17 +185,23 @@ export const ProjectProvider = ({ children }: Props) => {
       const res = await axios.delete(`/api/delProject/${id}`, { data: { id: id } })
       const result = await res.data
       return result.code
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      console.error(err)
     }
   }
 
-  const addUserToProject = async (projectId: string, userId: string) => {
+  const addUserToProject = async (projectId: string, email: string): Promise<number> => {
     try {
-      const res = await axios.put(`/api/updMembers?projectId=${projectId}&userId=${userId}`)
-      console.log(res)
+      const res = await axios.put(`/api/updMembers?projectId=${projectId}&userEmail=${email}`)
+      const result = await res.data
+      return result.code
     } catch (err) {
-      console.log(err)
+      const errorRes = err.response.data
+
+      if (errorRes.code == 400) {
+        setAddUserError(errorRes.message)
+      }
+      return errorRes.code
     }
   }
 
@@ -210,6 +222,7 @@ export const ProjectProvider = ({ children }: Props) => {
     deleteProject,
     addUserToProject,
     resetErrorsState,
+    addUserError,
   }
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
