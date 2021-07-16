@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useContext, useState } from "react"
 import { getAxiosInstance } from "../modules/request"
 import { IProject } from "../types/Project"
+import { IUser } from "../types/User"
 import { IError } from "../types/Error"
 
 type ProjectContextType = {
@@ -9,18 +10,22 @@ type ProjectContextType = {
   projectNameError: string
   projectDescriptionError: string
   projectColorError: string
+  users: IUser[]
+  addUserError: string
   setProjectsState: (projects: IProject[]) => void
   setSelectedProjectState: (project: IProject | null) => void
-  refreshProjects: (email: string) => void
+  setUsersState: (users: IUser[]) => void
+  refreshProjects: (id: string) => void
   sortProjects: (project: IProject) => void
   createProject: (
-    email: string,
-    name: string,
+    userId: string,
+    title: string,
     description: string,
     color: string,
   ) => Promise<number>
   updateProject: (id: string, name: string, description: string, color: string) => Promise<number>
   deleteProject: (id: string) => Promise<number>
+  addUserToProject: (projectId: string, email: string) => Promise<number>
   resetErrorsState: () => void
 }
 
@@ -30,13 +35,17 @@ const projectContextDefaultValues: ProjectContextType = {
   projectNameError: null,
   projectDescriptionError: null,
   projectColorError: null,
+  users: [],
+  addUserError: null,
   setProjectsState: () => [],
   setSelectedProjectState: () => [],
+  setUsersState: () => [],
   refreshProjects: () => [],
   sortProjects: () => [],
   createProject: async () => await 0,
   updateProject: async () => await null,
   deleteProject: async () => await null,
+  addUserToProject: async () => null,
   resetErrorsState: () => [],
 }
 
@@ -54,10 +63,12 @@ export const ProjectProvider = ({ children }: Props) => {
   const axios = getAxiosInstance()
 
   const [projects, setProjects] = useState<IProject[]>([])
+  const [users, setUsers] = useState([])
   const [selectedProject, setSelectedProject] = useState<IProject>()
   const [projectNameError, setProjectNameError] = useState("")
   const [projectDescriptionError, setProjectDescriptionError] = useState("")
   const [projectColorError, setProjectColorError] = useState("")
+  const [addUserError, setAddUserError] = useState("")
 
   // set projects state that is used in some components
   const setProjectsState = (projects: IProject[]): void => {
@@ -69,24 +80,28 @@ export const ProjectProvider = ({ children }: Props) => {
     setSelectedProject(project)
   }
 
+  const setUsersState = (users: IUser[]) => {
+    setUsers(users)
+  }
+
   const resetErrorsState = (): void => {
     setProjectNameError("")
     setProjectColorError("")
   }
 
   // refreshing project data
-  const refreshProjects = async (email: string) => {
+  const refreshProjects = async (id: string) => {
     try {
-      const res = await axios.get(`/api/userProjects?email=${email}`)
-      const projects = await res.data
-      setProjects(projects.data)
+      const res = await axios.get(`/api/userProjects/${id}`)
+      const result = await res.data
+      setProjects(result.data.project)
 
-      if (projects.data == null) {
+      if (result.data.project == null) {
         setSelectedProjectState(null)
       }
 
-      if (projects.data && projects.data.length > 0) {
-        setSelectedProject(projects.data[0])
+      if (result.data.project && result.data.project.length > 0) {
+        setSelectedProject(result.data.project[0])
       }
     } catch (e) {
       console.error(e)
@@ -102,24 +117,27 @@ export const ProjectProvider = ({ children }: Props) => {
 
   // create project, and update projects state, and selected project state
   const createProject = async (
-    email: string,
-    name: string,
+    userId: string,
+    title: string,
     description: string,
     color: string,
   ): Promise<number> => {
     try {
       const res = await axios.post("/api/project", {
-        userEmail: [email],
-        name: name,
+        userIds: [userId],
+        name: title,
         description: description,
         todos: [],
         color: color,
       })
+
       const newProject = await res.data
+
       setProjects((prevProjects) => {
         const updatedProjects = [newProject.data, ...prevProjects]
         return updatedProjects
       })
+
       setSelectedProject(newProject.data)
       return newProject.code
     } catch (err) {
@@ -167,8 +185,23 @@ export const ProjectProvider = ({ children }: Props) => {
       const res = await axios.delete(`/api/delProject/${id}`, { data: { id: id } })
       const result = await res.data
       return result.code
-    } catch (e) {
-      console.error(e)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const addUserToProject = async (projectId: string, email: string): Promise<number> => {
+    try {
+      const res = await axios.put(`/api/updMembers?projectId=${projectId}&userEmail=${email}`)
+      const result = await res.data
+      return result.code
+    } catch (err) {
+      const errorRes = err.response.data
+
+      if (errorRes.code == 400) {
+        setAddUserError(errorRes.message)
+      }
+      return errorRes.code
     }
   }
 
@@ -178,14 +211,18 @@ export const ProjectProvider = ({ children }: Props) => {
     projectNameError,
     projectDescriptionError,
     projectColorError,
+    users,
     setProjectsState,
     setSelectedProjectState,
+    setUsersState,
     refreshProjects,
     sortProjects,
     createProject,
     updateProject,
     deleteProject,
+    addUserToProject,
     resetErrorsState,
+    addUserError,
   }
 
   return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>

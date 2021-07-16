@@ -6,9 +6,8 @@ import { signOut } from "next-auth/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons"
 import DeleteProjectModal from "./DeleteProjectModal"
+import AddUserToProjectModal from "./AddUserToProjectModal"
 import { Colors } from "../../../styles/colors"
-
-// components
 import { BaseButton, BaseText } from "../../atoms"
 
 const projectInfoContainerStyle = css`
@@ -78,7 +77,6 @@ const ProjectInfo: FC = () => {
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [projectName, setProjectName] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
-  const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const onClickProjectMenu = () => {
     setProjectName(selectedProject.name)
@@ -103,8 +101,8 @@ const ProjectInfo: FC = () => {
     }
   }
 
-  const onClickDelete = () => {
-    setModalIsOpen(true)
+  const onClickUpdateProject = () => {
+    setEditMode(true)
     setIsMenuActive(false)
   }
 
@@ -150,14 +148,10 @@ const ProjectInfo: FC = () => {
               <BaseButton
                 text="Update Project"
                 bgColor={Colors.white}
-                onClickButton={() => setEditMode(true)}
+                onClickButton={onClickUpdateProject}
               />
-              <BaseButton
-                text="Delete Project"
-                bgColor={Colors.white}
-                onClickButton={onClickDelete}
-              />
-              <DeleteProjectModal test={modalIsOpen} />
+              <DeleteProjectModal closeMenu={() => setIsMenuActive(false)} />
+              <AddUserToProjectModal closeMenu={() => setIsMenuActive(false)} />
               <BaseButton text="Sign out" bgColor={Colors.white} onClickButton={() => signOut()} />
             </div>
           </div>

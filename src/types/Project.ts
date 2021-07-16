@@ -5,5 +5,6 @@ export interface IProject {
   description: string
   todos: ITodo[]
   color: string
+  users: { username: string; email: string; image: string }[]
   updatedAt: Date
 }

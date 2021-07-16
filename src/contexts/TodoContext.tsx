@@ -58,7 +58,7 @@ export const TodoProvider = ({ children }: Props) => {
         setTodosState(res.data.data)
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 

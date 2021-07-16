@@ -4,9 +4,9 @@ import { BaseButton, BaseInput, BaseTextArea, BaseText } from "../../atoms"
 import { Colors } from "../../../styles/colors"
 import { css } from "@emotion/react"
 import { useProjectContext } from "../../../contexts/ProjectContext"
-import { useSession } from "next-auth/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/free-solid-svg-icons"
+import { useUserContext } from "../../../contexts/UserContext"
 
 // for modal
 const customStyles = {
@@ -107,7 +107,7 @@ const CreateProjectModal: FC = () => {
     projectColorError,
     resetErrorsState,
   } = useProjectContext()
-  const [session] = useSession()
+  const { user } = useUserContext()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [projectTitle, setProjectTitle] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
@@ -119,12 +119,7 @@ const CreateProjectModal: FC = () => {
   }
 
   const onClickCreate = async () => {
-    const statusCode = await createProject(
-      session?.user?.email,
-      projectTitle,
-      projectDescription,
-      projectColor,
-    )
+    const statusCode = await createProject(user.id, projectTitle, projectDescription, projectColor)
     if (statusCode != 400) setModalIsOpen(false)
     setProjectColor("")
   }

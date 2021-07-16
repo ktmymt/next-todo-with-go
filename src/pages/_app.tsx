@@ -6,17 +6,20 @@ import { cache } from "@emotion/css"
 import "../styles/global.css"
 import { ProjectProvider } from "../contexts/ProjectContext"
 import { TodoProvider } from "../contexts/TodoContext"
+import { UserProvider } from "../contexts/UserContext"
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <Provider session={pageProps.session}>
-      <ProjectProvider>
-        <TodoProvider>
-          <CacheProvider value={cache}>
-            <Component {...pageProps} />
-          </CacheProvider>
-        </TodoProvider>
-      </ProjectProvider>
+      <UserProvider>
+        <ProjectProvider>
+          <TodoProvider>
+            <CacheProvider value={cache}>
+              <Component {...pageProps} />
+            </CacheProvider>
+          </TodoProvider>
+        </ProjectProvider>
+      </UserProvider>
     </Provider>
   )
 }

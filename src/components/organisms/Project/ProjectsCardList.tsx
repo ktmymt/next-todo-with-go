@@ -8,10 +8,10 @@ import { IProject } from "../../../types/Project"
 import { css } from "@emotion/react"
 import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
-import { useWindowDimensions } from "../../../hooks/windowSize"
 
 const projectCardListContainerStyle = css`
-  margin-top: 90px;
+  margin-top: 60px;
+  width: 75%;
 `
 
 const projectCardListHeaderStyle = css`
@@ -27,7 +27,6 @@ const projectCardListHeaderStyle = css`
   }
 
   button {
-    margin-right: auto;
     color: ${Colors.white};
     height: 50px;
     width: 50px;
@@ -42,33 +41,51 @@ const projectCardListStyle = css`
   flex-wrap: wrap;
 `
 
-const projectCardContainerStyle = (leftAndRight: string) => css`
-  margin: 10px ${leftAndRight};
+const projectCardContainerStyle = (leftAndRight) => css`
+  ${leftAndRight};
 `
 
 const ProjectCardList: FC = () => {
   const { projects, selectedProject } = useProjectContext()
-  const { width } = useWindowDimensions()
 
   // responsible対応
   const makeProjectCardResponsible = (index: number) => {
-    if (width <= 1585 && width >= 1462) {
-      return "60px"
+    if (index == 0) {
+      return css`
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: auto;
+      `
     }
-    if (width <= 1461) {
-      return "40px"
+    if (index == 1) {
+      return css`
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+      `
     }
-    if (projects.length == 2 && index == 0) {
-      return "30px"
+    if (index == 2) {
+      return css`
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: auto;
+      `
     }
-    if (projects.length == 2 && index == 1) {
-      return "30px"
+    if (index == 3) {
+      return css`
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: auto;
+      `
     }
-    if (projects.length >= 3 && index == 1) {
-      return "auto"
-    }
-    if (projects.length >= 5 && index == 4) {
-      return "auto"
+    if (index == 4) {
+      return css`
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
+      `
     }
   }
 
