@@ -82,7 +82,7 @@ export const TodoProvider = ({ children }: Props) => {
   // pass todo data, and update
   const updateTodo = async (todo: ITodo) => {
     try {
-      const res = await axios.put(`/api/updTodo/${todo.id}`, todo)
+      const res = await axios.put(`/api/updTodo/`, todo)
       if (res.status == 200) {
         refreshTodos(todo.projectId)
       }
@@ -110,7 +110,7 @@ export const TodoProvider = ({ children }: Props) => {
   // pass todo id, and delete
   const deleteTodo = async (id: string, projectId: string) => {
     try {
-      const res = await axios.delete(`/api/delTodo/${id}`, { data: { id: id } })
+      const res = await axios.delete(`/api/delTodo/`, { data: { id: id } })
       if (res.status == 200) {
         refreshTodos(projectId)
       }
