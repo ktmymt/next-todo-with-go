@@ -33,6 +33,7 @@ const TodoList: FC<Props> = (props) => {
 
   const onPressEnter = (key: string) => {
     if (key == "Enter") {
+      if (todoTitle == "") return
       const schedule = props.title == "Today" ? 0 : 1
       createTodo(todoTitle, selectedProject.id, schedule)
       refreshProjects(user.id)
