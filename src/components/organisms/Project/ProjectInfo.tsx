@@ -1,6 +1,6 @@
 import { FC, Fragment, useState } from "react"
+import Image from "next/image"
 import { css } from "@emotion/react"
-import { useSession } from "next-auth/client"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 import { signOut } from "next-auth/client"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -9,6 +9,7 @@ import DeleteProjectModal from "./DeleteProjectModal"
 import AddUserToProjectModal from "./AddUserToProjectModal"
 import { Colors } from "../../../styles/colors"
 import { BaseButton, BaseText } from "../../atoms"
+import { useUserContext } from "../../../contexts/UserContext"
 
 const projectInfoContainerStyle = css`
   p:nth-child(2) {
@@ -70,13 +71,25 @@ const projectMenuButtonStyle = (isActive: boolean) => css`
   }
 `
 
+const userIconContainerStyle = css`
+  margin-left: auto;
+`
+
+const userIconStyle = css`
+  border-radius: 30px;
+`
+
 const ProjectInfo: FC = () => {
-  const [session] = useSession()
+  const { user } = useUserContext()
   const { selectedProject, refreshProjects, updateProject } = useProjectContext()
   const [editMode, setEditMode] = useState(false)
   const [isMenuActive, setIsMenuActive] = useState(false)
   const [projectName, setProjectName] = useState("")
   const [projectDescription, setProjectDescription] = useState("")
+
+  const myLoader = ({ src }) => {
+    return src
+  }
 
   const onClickProjectMenu = () => {
     setProjectName(selectedProject.name)
@@ -97,7 +110,7 @@ const ProjectInfo: FC = () => {
     )
     if (code == 200) {
       setEditMode(false)
-      refreshProjects(session.user.email)
+      refreshProjects(user.id)
     }
   }
 
@@ -141,6 +154,29 @@ const ProjectInfo: FC = () => {
                 />
               </Fragment>
             )}
+          </div>
+          <div css={userIconContainerStyle}>
+            <Image
+              loader={myLoader}
+              src={user.image}
+              alt="Picture of the author"
+              width={55}
+              height={55}
+              css={userIconStyle}
+            />
+            {selectedProject.users.map((user) => {
+              return (
+                <Image
+                  key={user.email}
+                  loader={myLoader}
+                  src={user.image}
+                  alt="Picture of the author"
+                  width={55}
+                  height={55}
+                  css={userIconStyle}
+                />
+              )
+            })}
           </div>
           <div css={projectMenuContainerStyle} onMouseLeave={onMouseLeave}>
             <FontAwesomeIcon icon={faEllipsisH} onMouseEnter={onClickProjectMenu} />

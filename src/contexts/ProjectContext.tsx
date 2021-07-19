@@ -127,7 +127,6 @@ export const ProjectProvider = ({ children }: Props) => {
         userIds: [userId],
         name: title,
         description: description,
-        todos: [],
         color: color,
       })
 
