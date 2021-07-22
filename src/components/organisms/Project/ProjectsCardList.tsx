@@ -49,7 +49,15 @@ const ProjectCardList: FC = () => {
   const { projects, selectedProject } = useProjectContext()
 
   // responsible対応
-  const makeProjectCardResponsible = (index: number) => {
+  const makeProjectCardResponsible = (index: number, numOfProjects: number) => {
+    if (numOfProjects == 2 && index == 1) {
+      return css`
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: auto;
+        margin-left: -100px;
+      `
+    }
     if (index == 0) {
       return css`
         margin-top: 10px;
@@ -57,7 +65,7 @@ const ProjectCardList: FC = () => {
         margin-right: auto;
       `
     }
-    if (index == 1) {
+    if (index == 1 || index == 4) {
       return css`
         margin-top: 10px;
         margin-bottom: 10px;
@@ -79,20 +87,12 @@ const ProjectCardList: FC = () => {
         margin-right: auto;
       `
     }
-    if (index == 4) {
-      return css`
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 20px;
-        margin-right: 20px;
-      `
-    }
   }
 
   return (
     <div css={projectCardListContainerStyle}>
       <div css={projectCardListHeaderStyle}>
-        <BaseText text="Projects" color={Colors.white} optionStyles="sizeM" />
+        <BaseText text="Projects" color={Colors.white} size="1.2rem" />
         <span>({projects && projects.length})</span>
         <CreateProjectModal />
       </div>
@@ -102,7 +102,7 @@ const ProjectCardList: FC = () => {
           {projects.slice(0, 5).map((project: IProject, index: number) => {
             return (
               <div
-                css={projectCardContainerStyle(makeProjectCardResponsible(index))}
+                css={projectCardContainerStyle(makeProjectCardResponsible(index, projects.length))}
                 key={project.id}
               >
                 <ProjectCard project={project} isSelected={project == selectedProject} />

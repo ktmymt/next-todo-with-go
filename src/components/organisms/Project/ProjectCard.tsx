@@ -37,11 +37,11 @@ const projectCardStyle = (color: string, width: number) => css`
   }
 
   @media screen and (min-width: 1326px) {
-    width: 110px;
-    height: 110px;
+    width: 100px;
+    height: 100px;
     p {
       font-size: 1.5rem;
-      top: 17px;
+      top: 12px;
     }
   }
 
@@ -96,8 +96,8 @@ const selectedProjectStyle = (color: string, width: number) => css`
     }
 
     @media screen and (min-width: 1326px) {
-      width: 125px;
-      height: 125px;
+      width: 115px;
+      height: 115px;
     }
 
     @media screen and (min-width: 1441px) {

@@ -1,5 +1,4 @@
 import { FC, useState } from "react"
-import { useSession } from "next-auth/client"
 import { BaseText, BaseInput } from "../../atoms"
 import { css } from "@emotion/react"
 import Todo from "./Todo"

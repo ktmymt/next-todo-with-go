@@ -62,7 +62,7 @@ const greetingAreaStyle = css`
   }
 
   @media screen and (min-width: 800px) {
-    padding-top: 180px;
+    padding-top: 170px;
 
     input {
       width: 70%;
@@ -70,9 +70,10 @@ const greetingAreaStyle = css`
   }
 
   @media screen and (min-width: 1440px) {
-    padding-top: 200px;
+    padding-top: 170px;
 
     input {
+      height: 8px;
       width: 70%;
     }
   }

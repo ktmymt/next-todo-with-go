@@ -3,42 +3,13 @@ import Modal from "react-modal"
 import { BaseButton } from "../../atoms"
 import ProjectCard from "./ProjectCard"
 import { Colors } from "../../../styles/colors"
-import { css } from "@emotion/react"
+import { css, ClassNames } from "@emotion/react"
 import { IProject } from "../../../types/Project"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 
-// for modal
-const customStyles = {
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    backgroundColor: "rgba(0,0,0,0.3)",
-  },
-
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    width: "1000px",
-    height: "800px",
-    backgroundColor: "#3D3D40",
-    borderStyle: "none",
-    borderRadius: "20px",
-    color: "#fff",
-    transform: "translate(-50%, -50%)",
-    transitionProperty: "background-color, width, height",
-    transitionDuration: "500ms",
-    transitionTimingFunction: "ease-in-out",
-  },
-}
-
 const moreProjectsStyle = css`
-  margin-top: 10px;
-  margin-bottom: 10px;
   margin-left: auto;
+  margin-top: 10px;
 
   button {
     @media screen and (min-width: 500px) {
@@ -82,10 +53,25 @@ const projectCardListStyle = css`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+
+  @media screen and (min-width: 1024px) {
+    padding: 10px 50px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    padding: 10px 60px;
+  }
+
+  @media screen and (min-width: 1680px) {
+    padding: 10px 70px;
+  }
+
+  @media screen and (min-width: 1920px) {
+    padding: 10px 30px;
+  }
 `
 
 const projectCardContainerStyle = css`
-  width: 120px;
   margin: 40px;
 `
 
@@ -103,25 +89,85 @@ const MoreProjectsModal: FC = () => {
           onClickButton={() => setModalIsOpen(true)}
         />
       </div>
-      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} style={customStyles}>
-        <div css={projectCardListStyle}>
-          {projects.map((project: IProject, index: number) => {
-            return (
-              <div
-                key={project.id}
-                css={projectCardContainerStyle}
-                onClick={() => setModalIsOpen(false)}
-              >
-                <ProjectCard
-                  project={project}
-                  isSelected={project == selectedProject}
-                  projectIndex={index}
-                />
-              </div>
-            )
-          })}
-        </div>
-      </Modal>
+      <ClassNames>
+        {({ css, cx }) => (
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setModalIsOpen(false)}
+            overlayClassName={{
+              base: "overlay-base",
+              afterOpen: "overlay-after",
+              beforeClose: "overlay-before",
+            }}
+            className={{
+              base: "content-base",
+              afterOpen: "content-after",
+              beforeClose: "content-before",
+            }}
+            closeTimeoutMS={500}
+            portalClassName={css`
+              .overlay-base {
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                background-color: "rgba(0,0,0,0.3)";
+                opacity: 0;
+                transition-duration: 200ms;
+                transition-timing-function: ease-in-out;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+
+              .overlay-after {
+                background-color: rgba(0, 0, 0, 0.8);
+                opacity: 1;
+              }
+
+              .overlay-before {
+                opacity: 0;
+              }
+
+              .content-base {
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                bottom: auto;
+                overflow: auto;
+                transition-duration: 200ms;
+                transition-timing-function: ease-in;
+              }
+
+              .content-after {
+                width: 60%;
+                height: 70%;
+                background-color: #3d3d40;
+              }
+            `}
+          >
+            <div css={projectCardListStyle}>
+              {projects.map((project: IProject, index: number) => {
+                return (
+                  <div
+                    key={project.id}
+                    css={projectCardContainerStyle}
+                    onClick={() => setModalIsOpen(false)}
+                  >
+                    <ProjectCard
+                      project={project}
+                      isSelected={project == selectedProject}
+                      projectIndex={index}
+                    />
+                  </div>
+                )
+              })}
+            </div>
+          </Modal>
+        )}
+      </ClassNames>
     </Fragment>
   )
 }
