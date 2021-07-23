@@ -30,22 +30,27 @@ const projectSideContainerStyle = css`
 
   @media screen and (min-width: 800px) {
     padding: 0 90px;
-    width: 90%;
+    width: 75%;
   }
 
   @media screen and (min-width: 1200px) {
-    padding: 0 140px;
-    width: 77%;
+    padding: 0 160px;
+    width: 75%;
+  }
+
+  @media screen and (min-width: 1326px) {
+    padding: 0 165px;
+    width: 75%;
   }
 
   @media screen and (min-width: 1441px) {
     padding: 0 170px;
-    width: 80%;
+    width: 75%;
   }
 
   @media screen and (min-width: 1600px) {
-    padding: 0 160px;
-    width: 80%;
+    padding: 0 170px;
+    width: 75%;
   }
 
   p:nth-of-type(2) {

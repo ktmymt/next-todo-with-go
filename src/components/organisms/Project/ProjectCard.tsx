@@ -7,7 +7,6 @@ import BaseText from "../../atoms/BaseText"
 import { Colors } from "../../../styles/colors"
 import { useProjectContext } from "../../../contexts/ProjectContext"
 import { useTodoContext } from "../../../contexts/TodoContext"
-import { useWindowDimensions } from "../../../hooks/windowSize"
 
 interface Props {
   project: IProject
@@ -21,33 +20,42 @@ const projectCardContainerStyle = css`
   }
 `
 
-const projectCardStyle = (color: string, width: number) => css`
+const projectCardStyle = (color: string) => css`
   @media screen and (min-width: 500px) {
     width: 120px;
     height: 120px;
   }
 
   @media screen and (min-width: 800px) {
-    width: 90px;
-    height: 90px;
+    width: 70px;
+    height: 70px;
     p {
-      font-size: 1.4rem;
-      top: 8px;
+      font-size: 1.1rem;
+      top: 7px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 80px;
+    height: 80px;
+    p {
+      font-size: 1.1rem;
+      top: 11px;
     }
   }
 
   @media screen and (min-width: 1326px) {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     p {
-      font-size: 1.5rem;
-      top: 12px;
+      font-size: 1.2rem;
+      top: 15px;
     }
   }
 
   @media screen and (min-width: 1441px) {
-    width: 125px;
-    height: 125px;
+    width: 115px;
+    height: 115px;
     p {
       font-size: 1.6rem;
       top: 18px;
@@ -55,11 +63,11 @@ const projectCardStyle = (color: string, width: number) => css`
   }
 
   @media screen and (min-width: 1600px) {
-    width: 135px;
-    height: 135px;
+    width: 125px;
+    height: 125px;
     p {
       font-size: 1.8rem;
-      top: 20px;
+      top: 16px;
     }
   }
 
@@ -75,8 +83,8 @@ const projectCardStyle = (color: string, width: number) => css`
   }
 `
 
-const selectedProjectStyle = (color: string, width: number) => css`
-  ${projectCardStyle(color, width)}
+const selectedProjectStyle = (color: string) => css`
+  ${projectCardStyle(color)}
   ::after {
     content: "";
     border: 5px solid ${Colors.projectCards[color]};
@@ -91,23 +99,28 @@ const selectedProjectStyle = (color: string, width: number) => css`
     }
 
     @media screen and (min-width: 800px) {
+      width: 85px;
+      height: 85px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      width: 95px;
+      height: 95px;
+    }
+
+    @media screen and (min-width: 1326px) {
       width: 105px;
       height: 105px;
     }
 
-    @media screen and (min-width: 1326px) {
-      width: 115px;
-      height: 115px;
-    }
-
     @media screen and (min-width: 1441px) {
-      width: 142px;
-      height: 142px;
+      width: 130px;
+      height: 130px;
     }
 
     @media screen and (min-width: 1600px) {
-      width: 152px;
-      height: 152px;
+      width: 140px;
+      height: 140px;
     }
   }
 `
@@ -115,7 +128,6 @@ const selectedProjectStyle = (color: string, width: number) => css`
 const ProjectCard: FC<Props> = (props) => {
   const { setSelectedProjectState, sortProjects } = useProjectContext()
   const { setTodosState } = useTodoContext()
-  const { width } = useWindowDimensions()
 
   const getShortHandProjectName = (text: string): string => {
     let name = ""
@@ -152,8 +164,8 @@ const ProjectCard: FC<Props> = (props) => {
       <div
         css={
           props.isSelected
-            ? selectedProjectStyle(props.project.color, width)
-            : projectCardStyle(props.project.color, width)
+            ? selectedProjectStyle(props.project.color)
+            : projectCardStyle(props.project.color)
         }
       >
         <p>{getShortHandProjectName(props.project.name)}</p>

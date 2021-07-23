@@ -18,29 +18,36 @@ const moreProjectsStyle = css`
     }
 
     @media screen and (min-width: 800px) {
-      width: 90px;
-      height: 90px;
-      font-size: 1.4rem;
+      width: 70px;
+      height: 70px;
+      font-size: 1.2rem;
       top: 10px;
     }
 
+    @media screen and (min-width: 1200px) {
+      width: 80px;
+      height: 80px;
+      font-size: 1.1rem;
+      top: 17px;
+    }
+
     @media screen and (min-width: 1326px) {
-      width: 110px;
-      height: 110px;
+      width: 90px;
+      height: 90px;
       font-size: 1.5rem;
       top: 17px;
     }
 
     @media screen and (min-width: 1441px) {
-      width: 125px;
-      height: 125px;
+      width: 115px;
+      height: 115px;
       font-size: 1.6rem;
       top: 15px;
     }
 
     @media screen and (min-width: 1600px) {
-      width: 135px;
-      height: 135px;
+      width: 125px;
+      height: 125px;
       font-size: 1.8rem;
       top: 20px;
     }
@@ -55,11 +62,11 @@ const projectCardListStyle = css`
   justify-content: flex-start;
 
   @media screen and (min-width: 1024px) {
-    padding: 10px 50px;
+    padding: 10px 0;
   }
 
   @media screen and (min-width: 1440px) {
-    padding: 10px 60px;
+    padding: 10px 0;
   }
 
   @media screen and (min-width: 1680px) {
@@ -143,7 +150,8 @@ const MoreProjectsModal: FC = () => {
 
               .content-after {
                 width: 60%;
-                height: 70%;
+                height: 65%;
+                border-radius: 20px;
                 background-color: #3d3d40;
               }
             `}
