@@ -159,7 +159,7 @@ const ProjectInfo: FC = () => {
             <Image
               loader={myLoader}
               src={user.image}
-              alt="Picture of the author"
+              alt="user picture"
               width={55}
               height={55}
               css={userIconStyle}
@@ -170,7 +170,7 @@ const ProjectInfo: FC = () => {
                   key={user.email}
                   loader={myLoader}
                   src={user.image}
-                  alt="Picture of the author"
+                  alt="user picture"
                   width={55}
                   height={55}
                   css={userIconStyle}
