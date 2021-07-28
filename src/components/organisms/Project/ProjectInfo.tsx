@@ -60,6 +60,9 @@ const projectMenuContainerStyle = css`
 const projectMenuButtonStyle = (isActive: boolean) => css`
   display: ${isActive ? "flex" : "none"};
   flex-direction: column;
+  position: absolute;
+  top: 100px;
+  right: 100px;
 
   button {
     font-size: 1rem;
