@@ -144,8 +144,8 @@ const MoreProjectsModal: FC = () => {
                 right: auto;
                 bottom: auto;
                 overflow: auto;
-                transition-duration: 200ms;
-                transition-timing-function: ease-in;
+                transition-duration: 100ms;
+                transition-timing-function: ease-in-out;
               }
 
               .content-after {
