@@ -79,7 +79,7 @@ const AddUserToProjectModal: FC<Props> = (props) => {
   const [validated, setValidated] = useState(true)
 
   const onClickAddUser = () => {
-    props.closeMenu
+    props.closeMenu()
     setModalIsOpen(true)
   }
 
