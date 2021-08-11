@@ -1,46 +1,35 @@
-import express, { Request, Response } from "express"
-import bodyParser from "body-parser"
-import next from "next"
-import socketio from "socket.io"
+import express, { Express, Request, Response } from "express"
+import * as http from "http"
+import next, { NextApiHandler } from "next"
+import * as socketio from "socket.io"
 
-const dev = process.env.NODE_ENV !== "production"
-const app = next({ dev })
-const handle = app.getRequestHandler()
-const port = process.env.PORT || 3000
+const port: number = parseInt(process.env.PORT || "3000", 10)
+const dev: boolean = process.env.NODE_ENV !== "production"
+const nextApp = next({ dev })
+const nextHandler: NextApiHandler = nextApp.getRequestHandler()
 
-app
-  .prepare()
-  .then(() => {
-    const server = express()
+nextApp.prepare().then(async () => {
+  const app: Express = express()
+  const server: http.Server = http.createServer(app)
+  const io: socketio.Server = new socketio.Server()
+  io.attach(server)
 
-    server.use(bodyParser())
-
-    server.post("/chat", (req: Request, res: Response) => {
-      console.log("body", req.body)
-      postIO(req.body)
-      res.status(200).json({ message: "success" })
-    })
-
-    server.all("*", async (req: Request, res: Response) => {
-      return handle(req, res)
-    })
-
-    const httpServer = server.listen(port, (err?: any) => {
-      if (err) throw err
-      console.log(`> Ready on localhost:${port} - env ${process.env.NODE_ENV}`)
-    })
-
-    const io = socketio.listen(httpServer)
-
-    io.on("connection", (socket: socketio.Socket) => {
-      console.log("id: " + socket.id + " is connected")
-    })
-
-    const postIO = (data) => {
-      io.emit("update-data", data)
-    }
+  app.get("/hello", async (_: Request, res: Response) => {
+    res.send("Hello World")
   })
-  .catch((ex) => {
-    console.error(ex.stack)
-    process.exit(1)
+
+  io.on("connect", (socket: socketio.Socket) => {
+    console.log("client connected")
+    socket.emit("status", "Hello from Socket.io")
+
+    socket.on("disconnect", () => {
+      console.log("client disconnected")
+    })
   })
+
+  app.all("*", (req: any, res: any) => nextHandler(req, res))
+
+  server.listen(port, () => {
+    console.log(`> Ready on http://localhost:${port}`)
+  })
+})
