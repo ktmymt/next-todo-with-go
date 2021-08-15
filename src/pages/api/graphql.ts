@@ -16,6 +16,7 @@ const typeDefs = gql`
     name: String
     description: String
     color: String
+    userId: Int
   }
 
   type Todo {
@@ -31,6 +32,11 @@ const typeDefs = gql`
     getProjects: [Project]
     getTodos: [Todo]
   }
+
+  type Mutation {
+    addUser(name: String, email: String, image: String): User
+    addProject(name: String, description: String, color: String, userId: Int): Project
+  }
 `
 
 const resolvers = {
@@ -40,6 +46,31 @@ const resolvers = {
     },
     getProjects: () => {
       return prisma.project.findMany()
+    },
+    getTodos: () => {
+      return prisma.todo.findMany()
+    },
+  },
+
+  Mutation: {
+    addUser: (_parent, { name, email, image }, _context) => {
+      return prisma.user.create({
+        data: {
+          name: name,
+          email: email,
+          image: image,
+        },
+      })
+    },
+    addProject: (_parent, { name, description, color, userId }, _context) => {
+      return prisma.project.create({
+        data: {
+          name: name,
+          description: description,
+          color: color,
+          userId: userId,
+        },
+      })
     },
   },
 }
