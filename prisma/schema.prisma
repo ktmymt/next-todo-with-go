@@ -34,9 +34,9 @@ model Todo {
   id        Int      @id @default(autoincrement())
   title     String
   status    String
-  isDone    Boolean
-  schedule  Boolean
-  Project   Project  @relation(fields: [projectId], references: [id])
+  isDone    Boolean  @default(false)
+  schedule  Int
+  project   Project  @relation(fields: [projectId], references: [id])
   projectId Int
   createdAt DateTime @default(now())
 }
