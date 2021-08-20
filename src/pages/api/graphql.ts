@@ -6,25 +6,34 @@ const prisma = new PrismaClient()
 const typeDefs = gql`
   type User {
     id: ID!
-    name: String
-    email: String
-    image: String
+    name: String!
+    email: String!
+    image: String!
   }
 
   type Project {
     id: ID!
-    name: String
+    name: String!
     description: String
-    color: String
-    userId: Int
+    color: String!
+    userId: Int!
   }
 
   type Todo {
     id: ID!
-    title: String
-    status: String
-    isDone: Boolean
-    schedule: Int
+    title: String!
+    status: String!
+    isDone: Boolean!
+    schedule: Int!
+    projectId: Int!
+  }
+
+  input CreateTodoInput {
+    title: String!
+    status: String!
+    isDone: Boolean!
+    schedule: Int!
+    projectId: Int!
   }
 
   type Query {
@@ -36,6 +45,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(name: String, email: String, image: String): User
     addProject(name: String, description: String, color: String, userId: Int): Project
+    addTodo(input: CreateTodoInput): Todo
   }
 `
 
@@ -70,6 +80,11 @@ const resolvers = {
           color: color,
           userId: userId,
         },
+      })
+    },
+    addTodo: (_parent, args) => {
+      return prisma.todo.create({
+        data: args.input,
       })
     },
   },
