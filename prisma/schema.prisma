@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -15,8 +12,8 @@ model User {
   name      String
   email     String
   image     String
-  projects  Project[]
   createdAt DateTime  @default(now())
+  projects  Project[]
 }
 
 model Project {
@@ -24,10 +21,12 @@ model Project {
   name        String
   description String
   color       String
-  todos       Todo[]
-  user        User     @relation(fields: [userId], references: [id])
   userId      Int
   createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  todos       Todo[]
+
+  @@index([userId], name: "userId")
 }
 
 model Todo {
@@ -36,7 +35,9 @@ model Todo {
   status    String
   isDone    Boolean  @default(false)
   schedule  Int
-  project   Project  @relation(fields: [projectId], references: [id])
   projectId Int
   createdAt DateTime @default(now())
+  project   Project  @relation(fields: [projectId], references: [id])
+
+  @@index([projectId], name: "projectId")
 }
