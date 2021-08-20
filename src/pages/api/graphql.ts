@@ -28,14 +28,6 @@ const typeDefs = gql`
     projectId: Int!
   }
 
-  input CreateTodoInput {
-    title: String!
-    status: String!
-    isDone: Boolean!
-    schedule: Int!
-    projectId: Int!
-  }
-
   type Query {
     getUsers: [User]
     getProjects: [Project]
@@ -45,7 +37,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(name: String, email: String, image: String): User
     addProject(name: String, description: String, color: String, userId: Int): Project
-    addTodo(input: CreateTodoInput): Todo
+    addTodo(title: String, status: String, isDone: Boolean, schedule: Int, projectId: Int): Todo
   }
 `
 
@@ -82,9 +74,15 @@ const resolvers = {
         },
       })
     },
-    addTodo: (_parent, args) => {
+    addTodo: (_parent, { title, status, isDone, schedule, projectId }) => {
       return prisma.todo.create({
-        data: args.input,
+        data: {
+          title: title,
+          status: status,
+          isDone: isDone,
+          schedule: schedule,
+          projectId: projectId,
+        },
       })
     },
   },
