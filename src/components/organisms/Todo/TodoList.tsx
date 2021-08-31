@@ -40,24 +40,13 @@ const TodoList: FC<Props> = (props) => {
     }
   }
 
-  const test = (): Array<ITodo> => {
-    if (props.title == "Today") {
-      return todos.filter((todo) => {
-        return todo.status != TODO_STATUS.WAITING
-      })
-    }
-    return todos.filter((todo) => {
-      return todo.status == TODO_STATUS.WAITING
-    })
-  }
-
   return (
     <div css={todoListContainerStyle}>
       <BaseText text={props.title} size="1.4rem" optionStyles="underbar" />
       <ul css={todoListStyle}>
         {todos &&
-          Object.values(test()).map((todo: ITodo, index) => {
-            if (props.title == "Today" && todo.schedule == 0) {
+          todos.map((todo: ITodo, index) => {
+            if (props.title == "Today" && todo.status != TODO_STATUS.WAITING) {
               return (
                 <li key={index}>
                   <Todo todo={todo} />
@@ -65,7 +54,7 @@ const TodoList: FC<Props> = (props) => {
               )
             }
 
-            if (props.title == "Upcoming" && todo.schedule == 1) {
+            if (props.title == "Upcoming" && todo.status == TODO_STATUS.WAITING) {
               return (
                 <li key={index}>
                   <Todo todo={todo} />
