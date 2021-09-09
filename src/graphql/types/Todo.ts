@@ -1,12 +1,22 @@
 export type Todo = {
   id: number
-  name: string
-  email: string
-  image: string
+  projectId: number
+  title: string
+  status: string
+  isDone: boolean
+  schedule: number
 }
 
 export type CreateTodoInput = {
-  name: string
-  email: string
-  image: string
+  projectId: number
+  title: string
+  status: string
+  schedule: number
+}
+
+export enum Check {
+  DONE = "Done",
+  DOING = "Doing",
+  PENDING = "Pending",
+  WAITING = "Waiting",
 }
