@@ -1,22 +1,16 @@
-export type Todo = {
-  id: number
-  projectId: number
-  title: string
-  status: string
-  isDone: boolean
-  schedule: number
-}
+import { TodoStatus } from "@prisma/client"
 
 export type CreateTodoInput = {
-  projectId: number
   title: string
-  status: string
+  status: TodoStatus
+  isDone: boolean
   schedule: number
+  projectId: number
 }
 
-export enum Check {
-  DONE = "Done",
-  DOING = "Doing",
-  PENDING = "Pending",
-  WAITING = "Waiting",
-}
+// export enum Status {
+//   DONE = "Done",
+//   DOING = "Doing",
+//   PENDING = "Pending",
+//   WAITING = "Waiting",
+// }
