@@ -15,6 +15,7 @@ model User {
   projects  Project[] @relation("user_projects")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now())
+  Todo      Todo[]
 }
 
 model Project {
@@ -28,18 +29,6 @@ model Project {
   updatedAt   DateTime @default(now())
 }
 
-// model UsersOnProjects {
-//   project   Project  @relation(fields: [projectId], references: [id])
-//   user      User     @relation(fields: [userId], references: [id])
-//   projectId Int
-//   userId    Int
-//   role      Role
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
-
-//   @@id([projectId, userId])
-// }
-
 model Todo {
   id        Int        @id @default(autoincrement())
   title     String     @db.VarChar(255)
@@ -48,15 +37,12 @@ model Todo {
   schedule  Int        @db.TinyInt
   projectId Int
   project   Project    @relation(fields: [projectId], references: [id])
+  user      User?      @relation(fields: [userId], references: [id])
   createdAt DateTime   @default(now())
   updatedAt DateTime   @default(now())
 
+  userId Int?
   @@index([projectId], name: "projectId")
-}
-
-enum Role {
-  OWNER
-  MEMBER
 }
 
 enum TodoStatus {
