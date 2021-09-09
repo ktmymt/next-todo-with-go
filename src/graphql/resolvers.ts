@@ -1,25 +1,32 @@
-import { PrismaClient, Prisma } from "@prisma/client"
-import { User, CreateUserInput } from "./types/User"
-import { Project, CreateProjectInput } from "./types/Project"
+import { PrismaClient, Prisma, User, Project } from "@prisma/client"
+import { CreateUserInput } from "./types/User"
+import { CreateProjectInput } from "./types/Project"
 import { Todo, CreateTodoInput } from "./types/Todo"
 
 const prisma = new PrismaClient()
 
 export const resolvers = {
   Query: {
-    getUsers: () => {
+    getAllUsers: () => {
       return prisma.user.findMany()
     },
-    getProjects: () => {
+    getAllProjects: () => {
       return prisma.project.findMany()
     },
-    getTodos: () => {
-      return prisma.todo.findMany()
+    getOneProject: () => {
+      return prisma.project.findUnique({
+        where: {
+          id: 1,
+        },
+      })
     },
+    // getTodos: () => {
+    //   return prisma.todo.findMany()
+    // },
   },
 
   Mutation: {
-    addUser: (args: CreateUserInput): Prisma.Prisma__UserClient<User> => {
+    addUser: (_, args: CreateUserInput): Prisma.Prisma__UserClient<User> => {
       return prisma.user.create({
         data: {
           name: args.name,
@@ -28,26 +35,33 @@ export const resolvers = {
         },
       })
     },
-    addProject: (args: CreateProjectInput): Prisma.Prisma__ProjectClient<Project> => {
+    addProject: (_, args: CreateProjectInput): Prisma.Prisma__ProjectClient<Project> => {
+      console.log(args)
       return prisma.project.create({
         data: {
           name: args.name,
           description: args.description,
           color: args.color,
-          userId: args.userId,
+          users: {
+            connect: {
+              id: args.userId,
+            },
+          },
+        },
+        include: {
+          users: true,
         },
       })
     },
-    addTodo: (args: CreateTodoInput) => {
-      return prisma.todo.create({
-        data: {
-          title: args.title,
-          status: args.status,
-          isDone: args.isDone,
-          schedule: args.schedule,
-          projectId: args.projectId,
-        },
-      })
-    },
+    // addTodo: (args: CreateTodoInput) => {
+    //   return prisma.todo.create({
+    //     data: {
+    //       title: args.title,
+    //       status: args.status,
+    //       schedule: args.schedule,
+    //       projectId: args.projectId,
+    //     },
+    //   })
+    // },
   },
 }

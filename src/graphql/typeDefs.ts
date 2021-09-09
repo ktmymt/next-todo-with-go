@@ -7,13 +7,20 @@ export const typeDefs = gql`
     email: String!
     image: String!
   }
+
   type Project {
     id: ID!
     name: String!
     description: String
     color: String!
-    userId: Int!
   }
+
+  type UserProject {
+    userId: ID!
+    projectId: ID!
+    role: Role!
+  }
+
   type Todo {
     id: ID!
     title: String!
@@ -22,14 +29,29 @@ export const typeDefs = gql`
     schedule: Int!
     projectId: Int!
   }
-  type Query {
-    getUsers: [User]
-    getProjects: [Project]
-    getTodos: [Todo]
+
+  enum Role {
+    OWNER
+    MEMBER
   }
+
+  # enum TodoStatus {
+  #   DONE
+  #   DOING
+  #   PENDING
+  #   WAITING
+  # }
+
+  type Query {
+    getAllUsers: [User]
+    getAllProjects: [Project]
+    getOneProject: Project
+    # getTodos: [Todo]
+  }
+
   type Mutation {
     addUser(name: String, email: String, image: String): User
     addProject(name: String, description: String, color: String, userId: Int): Project
-    addTodo(title: String, status: String, isDone: Boolean, schedule: Int, projectId: Int): Todo
+    # addTodo(title: String, status: TodoStatus, isDone: Boolean, schedule: Int, projectId: Int): Todo
   }
 `
