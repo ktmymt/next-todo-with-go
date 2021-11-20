@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(255)
+  email     String    @db.VarChar(255)
+  image     String
+  projects  Project[] @relation("user_projects")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  Todo      Todo[]
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  description String   @db.VarChar(255)
+  color       String   @db.VarChar(255)
+  todos       Todo[]
+  users       User[]   @relation("user_projects")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
+
+model Todo {
+  id        Int        @id @default(autoincrement())
+  title     String     @db.VarChar(255)
+  status    TodoStatus
+  isDone    Boolean    @default(false)
+  schedule  Int        @db.TinyInt
+  projectId Int
+  project   Project    @relation(fields: [projectId], references: [id])
+  user      User?      @relation(fields: [userId], references: [id])
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now())
+
+  userId Int?
+  @@index([projectId], name: "projectId")
+}
+
+enum TodoStatus {
+  DONE
+  DOING
+  PENDING
+  WAITING
+}

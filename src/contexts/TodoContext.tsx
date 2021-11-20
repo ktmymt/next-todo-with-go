@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from "react"
-import { getAxiosInstance } from "../modules/request"
+import { getAxiosInstance, getNextAxiosInstance } from "../modules/request"
 import { ITodo, TODO_STATUS } from "../types/Todo"
 
 type TodoContextType = {
@@ -36,6 +36,7 @@ type Props = {
 
 export const TodoProvider = ({ children }: Props) => {
   const axios = getAxiosInstance()
+  const nextAxios = getNextAxiosInstance()
   const [todos, setTodos] = useState<ITodo[]>([])
 
   // set projects state that is used in some components
@@ -65,6 +66,17 @@ export const TodoProvider = ({ children }: Props) => {
   // create todo data
   const createTodo = async (title: string, projectId: string, scheduleId: number) => {
     const status = scheduleId == 0 ? TODO_STATUS.PENDING : TODO_STATUS.WAITING
+
+    const test = await nextAxios.post("/todo", {
+      projectId: projectId,
+      title: title,
+      isDone: false,
+      status: status,
+      schedule: scheduleId,
+    })
+
+    console.log(test)
+
     const res = await axios.post("/api/todo", {
       projectId: projectId,
       title: title,
